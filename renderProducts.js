@@ -51,7 +51,7 @@ function addToOrder(itemsizeprice){
 
     orderList.innerHTML +=`
     <li class="ordered-items">
-        <div style="flex: 5; text-align: left;">${item} ${size}</div>                         
+        <div style="flex: 5; text-align: left;">${String(item).replaceAll('_',' ')} ${size}</div>                         
         <div style="flex: 2; text-align: left;">$ ${price}</div>
     </li>
     `
@@ -84,7 +84,7 @@ get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
             prodList.innerHTML += `
             <div class="product" id="${product.key}-card">
                 <section ondblclick="removeItem('${product.key}')" style="background-color:rgb(200,200,200); background-image: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(240, 240, 240, 1)),url('${image}'); background-size: cover;background-position: center; height:65%; margin: 6px; border-radius: 6px; display: flex; align-content: center; justify-content: center;">
-                    <div style="font-weight:800; color: Black; width: 100px; margin-top:20px">${String(product.key).replaceAll('_',' ')}<div>
+                    <div style="font-weight:800; font-size:16px; color: Black; width: 100px; margin-top:10px">${String(product.key).replaceAll('_',' ')}<div>
                 </section>
 
                 <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
