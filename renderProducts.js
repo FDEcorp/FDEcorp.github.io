@@ -29,6 +29,7 @@ function clearOrder(){
 }
 
 function undoAdd(){
+    window.latest = orderArr[orderArr.length-1]
     //check array for latest
     console.log('latest added',latest);
     //if in object qty greater than 1, decrease by 1
@@ -93,7 +94,6 @@ function addToOrder(itemsizeprice){
     }
     
     calcTotal()
-    window.latest = orderArr[orderArr.length-1]
 }
 
 function getSizes(product){
