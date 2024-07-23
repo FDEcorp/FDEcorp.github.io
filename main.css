@@ -6,6 +6,9 @@ html{
     margin: 0;
     padding: 0;
 }
+*{
+    touch-action: manipulation;
+}
 body{
     margin: 0;
     text-align: center;
@@ -13,6 +16,8 @@ body{
     max-width: 100svw;
     background-color: white;
     flex-direction: column;
+    touch-action: manipulation;
+
 }
 header{
     display: flex;
@@ -60,8 +65,13 @@ input{
     }
     
 }
+div{
+    touch-action: manipulation;
+}
+
 
 button{
+    touch-action: manipulation;
     border: 0px;
     background-color: rgb(226, 72, 72);
     border-radius: 8px;
