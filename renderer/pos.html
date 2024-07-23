@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Point of Sale</title>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="../renderProducts.js"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header id="header">
+        <h1>
+            <img src="../fdeicon.png" height="24px" alt="">
+            FDE: <span id="business"></span></h1>
+        <script>
+                document.getElementById('business').innerText = localStorage.getItem('business')
+        </script>
+        <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
+    </header> 
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+        
+        <div style="display: flex; gap: 10px; flex: 4; justify-content: right;">
+            <div class="subnav-button">
+                Corte
+            </div>
+            <div class="subnav-button">
+                Gasto
+            </div>
+            <div class="subnav-button" style="background-color: rgb(64, 64, 64); color: white; flex: 2;" onclick="location.href='newProduct.html'">
+                Añadir Producto
+            </div>
+        </div>
+        
+    
+    </section>
+    <div id="pos-cont">
+        <div id="products-window">
+            
+            
+        </div>
+
+        <div class="sidebar">
+            <div id="order-details" style="flex: 4;">
+                <div id="subtotal">Total:<span id="subtotal-qty" > $ 0</span></div>
+                <br>
+                
+                <div id="items-ordered"> 
+                    <ul id="items-ordered-ul">
+                        
+                    </ul>
+                </div>
+                
+         
+            </div>
+            <div id="payment">
+                <div class="pay-option" style="background-color: rgb(231, 75, 75); color: white;">Clear</div>
+                <div class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
+                <div class="pay-option">Card</div>
+                <div class="pay-option" style="background-color: rgb(110, 204, 98);">Cash</div>
+            </div>
+        </div>
+
+
+        
+
+       
+    </div>
+
+    
+
+</body>
+</html>

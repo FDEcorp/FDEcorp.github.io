@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">    
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="../register.js"></script>
+
+    <title>FDE - Cuenta Nueva</title>
+</head>
+<body>
+   <header>
+    <h1>            
+        <img src="../fdeicon.png" height="24px" alt="">
+        FDE</h1>
+   </header> 
+    <div class="wrapper">
+        <h2>
+            Crear cuenta:
+        </h2>
+        <br>
+
+        <div>
+            <input type="text" placeholder="Nombre(s)" id="name-input">     
+            <input type="text" placeholder="Apellido(s)" id="last-name-input">    
+        </div>
+
+        <div>
+            <input type="text" placeholder="Correo electronico" id="email-input">      
+            <input type="text" placeholder="Empresa" id="business-input">      
+        </div>
+          
+        <div>
+            <input type="password" placeholder="Contraseña" id="register-password">
+            <input type="password" placeholder="Confirmar" id="register-password-confirm">
+        </div>
+        <h6 id="error-field" style="visibility: hidden; color: red; display: block;"></h6>
+
+        <button id="submit-register">Continuar</button>
+        <br>
+        <h5>¿Ya tienes cuenta? <a href="index.html">Inicia Sesión</a></h5>
+    </div>
+</body>
+</html>

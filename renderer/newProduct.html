@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Nuevo Producto</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="newItem.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='pos.html'">Back</div>
+        <div style="flex: 9; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Producto Nuevo</h3>
+        </div>
+        <div style="flex: 1; padding: 10px; border-radius: 8px;"></div>
+    </section>
+    
+    <div style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
+        <input type="text" id="new-item-name" placeholder="Nombre de articulo" onchange="renderOptions()">
+        <input type="text" id="new-item-img" placeholder="Url de imagen" onchange="renderOptions()">
+
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+            <input type="number" id="new-item-skus" placeholder="Numero de tamaños" onchange="renderOptions()" style="width: 108px;">
+            
+            <div onclick="if(document.getElementById('new-item-skus').value > 1){document.getElementById('new-item-skus').value--}; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+                <div style="height: 10px; margin-top: 8px;">-</div>
+            </div>
+            <div onclick="document.getElementById('new-item-skus').value ++; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+                <div style="height: 10px; margin-top: 8px;">+</div>
+            </div>
+        </div>
+        <h3>Variantes</h3>
+        <div id="sku-list" style="height: 25vh; overflow: scroll;">
+           
+        </div>
+        <br>
+        <button id="add-item-button">
+            Agregar
+        </button>
+
+        <script>
+            document.getElementById('new-item-skus').value = 1
+            renderOptions()
+
+            function renderOptions(){
+                let item = document.getElementById('new-item-name').value
+                let skuList =  document.getElementById('sku-list')
+                skuList.innerHTML = ""
+                let numberOfOptions = document.getElementById('new-item-skus').value
+                for (let i = 0; i < numberOfOptions; i++) {
+                    skuList.innerHTML += `
+                    <div style="display: flex; flex-direction: row; gap: 0px;">
+                        <input type="text" id="item-size-${i}" style="width: 50px" placeholder="Tamaño">
+                        <input type="text" id="item-price-${i}" style="width: 125px" placeholder="Precio">
+                    </div>
+                    `
+                }
+            }
+            
+        </script>
+    </div>
+</body>
+</html>
