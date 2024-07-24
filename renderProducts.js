@@ -136,6 +136,7 @@ function renderOrder(){
 }
 
 function calcTotal(){
+    hideChangeCalc()
     let sum = 0
     Object.values(order).forEach((prod)=>{
         let qty = prod[0]
