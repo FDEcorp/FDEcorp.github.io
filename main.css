@@ -193,6 +193,7 @@ a{
     height: 170px;
     min-width: 150px;
     flex-grow: 1;
+    max-width: 200px;
     flex-basis: 25%;
     background-color: rgb(239, 239, 239);
     border-radius: 10px;
@@ -239,9 +240,9 @@ li{
 #subtotal{
     font-weight: 800;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     align-content: flex-start;
-    padding-left: 20px;
+    padding-left: 00px;
     text-align: right;
     font-size: 20px;
     display: flex;
@@ -283,7 +284,7 @@ li{
     z-index: 99;
     margin: 40px;
     padding: 20px;
-    height: 50vh;
+    height: 370px;
     width: 100%;
     max-width: 500px;
     border-radius: 10px;
@@ -345,13 +346,13 @@ li{
         flex-grow: 1;
     }
     #subtotal{
+        padding-left: 20px;
         flex-direction: column;
     }
 
     #change-calculator-pane{
         margin: 10px;
         width: 100%;
-        height: 50vh;
     }
 
 }

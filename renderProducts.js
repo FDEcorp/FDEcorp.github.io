@@ -126,7 +126,7 @@ function renderOrder(){
         <li class="ordered-items">
             <div style="flex: 5; text-align: left;">${String(item).replaceAll('_',' ')} ${size}</div>                         
             <div style="flex: 1; text-align: left;">x${qty}</div>
-            <div style="flex: 2; text-align: left;">$ ${price}</div>
+            <div style="flex: 2; text-align: right; padding-right: 10px">$ ${price}</div>
         </li>
         `
     })
@@ -147,6 +147,7 @@ function calcTotal(){
 }
 
 function addToOrder(itemsizeprice){
+    hideChangeCalc()
     let [item,size,price] = String(itemsizeprice).split(' ')
     
     orderArr.push(item+' '+size)
