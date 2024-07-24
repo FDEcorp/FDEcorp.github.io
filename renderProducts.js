@@ -25,6 +25,9 @@ window.orderArr = []
 window.total = 0
 
 function registerSale(paymentMethod){
+    if(total <= 0){
+        return
+    }
     let business = localStorage.getItem('business')
     let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
     let TimeStamp = String(new Date()).substring(16,24);
@@ -42,6 +45,44 @@ function registerSale(paymentMethod){
 
     alert('Success')
     clearOrder()
+}
+
+function hideChangeCalc(){
+    document.getElementById('change-calculator-pane').style.visibility = 'hidden'
+}
+
+function showChangeCalc(){
+    if(total <= 0){
+        return
+    }
+    document.getElementById('change-calculator-pane').style.visibility = 'visible'
+    let listUl = document.getElementById('confirm-order-list')
+    let totalDisp = document.getElementById('total-change-pane')
+    totalDisp.innerText = total
+    window.orderListArr = Object.entries(order)
+    console.log(orderListArr)
+
+    let Options = orderListArr.map((item)=>
+        `
+        <li style="display: flex;">
+            <div style="flex:2">${item[0]}</div>
+            <div style="flex:1; text-align: right">${item[1][0]}x</div>
+            <div style="flex:1; text-align: right">$ ${item[1][1]}</div>
+        </li>
+        `
+    )
+
+    listUl.innerHTML = String(Options).replaceAll(',','')
+}
+
+function calcChange(receivedBill){
+    
+    if(receivedBill > total){
+    document.getElementById('change-ammount').innerText = Number(receivedBill) - Number(total) }
+    else{
+    document.getElementById('change-ammount').innerText =  "not enough"
+
+    }
 }
 
 function clearOrder(){
@@ -170,3 +211,6 @@ window.removeItem = removeItem
 window.addToOrder = addToOrder
 window.clearOrder = clearOrder
 window.registerSale = registerSale
+window.hideChangeCalc = hideChangeCalc
+window.calcChange = calcChange
+window.showChangeCalc = showChangeCalc

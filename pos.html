@@ -33,9 +33,46 @@
             </div>
         </div>
         
-    
     </section>
+
+    <div id="hidden-pane-container" >
+        <div id="change-calculator-pane" style="visibility: hidden;">
+            <div style="text-align: right; height: 0px;">
+                <button class="close-button" onclick="hideChangeCalc()">X</button>
+            </div>
+            <h3 style="text-align: left; margin: 0; ">Confirmar</h3>
+            <br>
+            <ul id="confirm-order-list" style="height: 100px; border: 1px solid rgb(216, 216, 216); border-radius: 4px; background-color: rgb(248, 248, 248); overflow: scroll; text-align: left; margin: 0; padding: 20px; padding-top: 14px;">
+                
+            </ul>
+            <div style="text-align: right;">
+                Total: $ <span style="font-weight: bold;" id="total-change-pane"></span>
+            </div>
+            <br>
+            
+            <div style="padding: 0; display: flex; justify-content: center; gap: 4px;">
+                <div class="pay-bill" onclick="calcChange('50');">50</div>
+                <div class="pay-bill" onclick="calcChange('100')">100</div>
+                <div class="pay-bill" onclick="calcChange('200')">200</div>
+                <div class="pay-bill" onclick="calcChange('500')">500</div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: right;">
+                <div style="flex: 1; text-align: left;">Cambio: $ <span style="width: 100px; text-align: left;" id="change-ammount"></span></div>
+                <div style="flex: 1">
+                    <input style="flex: 10px; width: 10px; display: inline;" type="checkbox">¿Imprimir recibo?
+                </div>
+            </div>
+            <br>
+            <div style="text-align: right;">
+                <button class="confirm-purchase" onclick="registerSale('cash'); hideChangeCalc()">Cobrar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="pos-cont">
+        
+
         <div id="products-window">
             
             
@@ -58,8 +95,9 @@
                 <div onclick="clearOrder()" class="pay-option" style="background-color: rgb(231, 75, 75); color: white;">Clear</div>
                 <div onclick="undoAdd()" class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
                 <div class="pay-option" onclick="registerSale('card')">Card</div>
-                <div class="pay-option" style="background-color: rgb(110, 204, 98);" onclick="registerSale('cash')">Cash</div>
+                <div class="pay-option" style="background-color: rgb(110, 204, 98);" onclick="showChangeCalc()">Cash</div>
             </div>
+
         </div>
 
 
