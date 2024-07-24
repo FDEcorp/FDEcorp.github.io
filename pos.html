@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDE - Point of Sale</title>
-    <script type="module" src="../dbconfig.js"></script>
-    <script type="module" src="../renderProducts.js"></script>
+    <script type="module" src="dbconfig.js"></script>
+    <script type="module" src="renderProducts.js"></script>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -57,8 +57,8 @@
             <div id="payment">
                 <div onclick="clearOrder()" class="pay-option" style="background-color: rgb(231, 75, 75); color: white;">Clear</div>
                 <div onclick="undoAdd()" class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
-                <div class="pay-option">Card</div>
-                <div class="pay-option" style="background-color: rgb(110, 204, 98);">Cash</div>
+                <div class="pay-option" onclick="registerSale('card')">Card</div>
+                <div class="pay-option" style="background-color: rgb(110, 204, 98);" onclick="registerSale('cash')">Cash</div>
             </div>
         </div>
 

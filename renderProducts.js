@@ -15,10 +15,34 @@ let prodList = document.getElementById('products-window')
 let orderList = document.getElementById('items-ordered-ul')
 let orderTotalDisp = document.getElementById('subtotal-qty')
 
+let month = String(new Date().getMonth()+1).padStart(2, '0')
+let date = String(new Date()).split(" ")
+let day = String(new Date().getDate()).padStart(2,'0')
+let year = new Date().getFullYear()
 
 window.order = {}
 window.orderArr = []
 window.total = 0
+
+function registerSale(paymentMethod){
+    let business = localStorage.getItem('business')
+    let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
+    let TimeStamp = String(new Date()).substring(16,24);
+    let sale_year = new Date().getFullYear();
+    let sale_month = (new Date().getMonth()+1);
+    let sale_day = new Date().getDate()
+
+    set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ saleID),{
+        Time: TimeStamp,
+        Items: order,
+        Total: total,
+        Method: paymentMethod,
+        Seller: localStorage.getItem('username')
+    });
+
+    alert('Success')
+    clearOrder()
+}
 
 function clearOrder(){
     order = {}
@@ -145,3 +169,4 @@ window.undoAdd = undoAdd
 window.removeItem = removeItem
 window.addToOrder = addToOrder
 window.clearOrder = clearOrder
+window.registerSale = registerSale
