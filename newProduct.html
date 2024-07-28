@@ -27,14 +27,14 @@
         <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
             <input type="number" id="new-item-skus" placeholder="Numero de tamaños" onchange="renderOptions()" style="width: 108px;">
             
-            <div onclick="if(document.getElementById('new-item-skus').value > 1){document.getElementById('new-item-skus').value--}; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+            <div onclick="if((document.getElementById('new-item-skus').value > 1)){document.getElementById('new-item-skus').value--}; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
                 <div style="height: 10px; margin-top: 8px;">-</div>
             </div>
-            <div onclick="document.getElementById('new-item-skus').value ++; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+            <div onclick="if(document.getElementById('new-item-skus').value < 4){document.getElementById('new-item-skus').value ++}; renderOptions()" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
                 <div style="height: 10px; margin-top: 8px;">+</div>
             </div>
         </div>
-        <h3>Variantes</h3>
+        <h3>Variantes (4 max)</h3>
         <div id="sku-list" style="height: 25vh; overflow: scroll;">
            
         </div>
