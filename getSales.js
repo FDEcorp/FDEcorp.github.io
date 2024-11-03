@@ -6,9 +6,7 @@ let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
 
-salestotalDisp.innerText = 0 
-salestotalDispCash.innerText = 0
-salestotalDispCard.innerText = 0
+
 
 
 fromDateInput.addEventListener('change',()=>{
@@ -22,6 +20,11 @@ toDateInput.addEventListener('change',()=>{
 })
 
 function getSales(){
+    salestotalDisp.innerText = 0 
+    salestotalDispCash.innerText = 0
+    salestotalDispCard.innerText = 0
+    document.getElementById('sales-list').innerHTML = ''
+
     let business = localStorage.getItem('business')
     console.log("getting sales")
     let [year,month,day] = String(fromDateInput.value).split("-")
@@ -29,6 +32,15 @@ function getSales(){
     get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
         (Sales).forEach((Sale)=>{
             console.log(Sale.val())
+            document.getElementById('sales-list').innerHTML += `
+                <li class="sale-record" id="${Sale.key}">
+                    <div class="sale-time" style="flex: 3; text-align: left">${Sale.val().Time}</div>
+                    <div class="sale-time" style="flex: 2; text-align: right">${Sale.val().Method}</div>
+
+                    <div class="sale-total" style="flex: 1"> $ ${Sale.val().Total} </div>
+                </li>
+            `
+
             salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(Sale.val().Total)
             if(Sale.val().Method == "cash"){
                 salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(Sale.val().Total)

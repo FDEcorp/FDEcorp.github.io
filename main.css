@@ -357,4 +357,23 @@ li{
 
 }
 
+#sales-list{
+    height: 20svh;
+    border: 1px solid rgb(216, 216, 216);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 0px;
+    overflow: scroll;
+}
 
+.sale-record{
+    display: flex;
+    align-content: center;
+    align-items: right;
+    justify-content: center;
+    text-align: right;
+    background-color: rgb(240,240,240);
+    border-radius: 4px;
+    margin: 10px;
+    padding: 10px;
+}
