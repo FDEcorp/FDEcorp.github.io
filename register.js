@@ -85,17 +85,32 @@ function registerUser(email){
             return
         }
         else{
-            set(ref(db,'users/'+username),{
-                email: registerEmailField.value,
-                user: username,
-                password: registerPass.value,
-                business: registerBusinessField.value,
-                name: registerNameField.value,
-                lastName: registerLastNameField.value
-            });
+            //check if business name has valid characters
+            
+            //check if business name is available
+            let businessname = String(registerBusinessField.value).replace(/[^a-z0-9]/gi, '')
+            get(child(ref(db),`businesses/${businessname}`)).then((business)=>{
+                if(business.exists()){
+                    alert("Negocio ya existe en base de datos, elige otro nombre")
+                    return
+                }
+                else{
+                    set(ref(db,'users/'+username),{
+                        email: registerEmailField.value,
+                        user: username,
+                        password: registerPass.value,
+                        business: businessname,
+                        name: registerNameField.value,
+                        lastName: registerLastNameField.value
+                    });
+                    localStorage.setItem('business',businessname)
+                    location.href = 'menu.html'
+                }
+            })
 
-            localStorage.setItem('business',registerBusinessField.value)
-            location.href = 'menu.html'
+            
+
+            
         }
         
     })
