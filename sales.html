@@ -8,6 +8,8 @@
     <script type="module" src="getSales.js"></script>
 
     <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
 </head>
 <body>
     <header id="header">
@@ -41,6 +43,8 @@
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>
         </div>
+
+        <div id="chart_div" style="height:300px; overflow: scroll;"></div>
        
         <ul id="sales-list" class="salesList">
             
