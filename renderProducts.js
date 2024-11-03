@@ -33,7 +33,7 @@ function registerSale(paymentMethod){
     let TimeStamp = String(new Date()).substring(16,24);
     let sale_year = new Date().getFullYear();
     let sale_month = (new Date().getMonth()+1);
-    let sale_day = new Date().getDate()
+    let sale_day = String(new Date().getDate()).padStart(2,'0')
 
     set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ saleID),{
         Time: TimeStamp,
@@ -155,6 +155,7 @@ function addToOrder(itemsizeprice){
 
     if(order[item+' '+size] == null){
         order[item+' '+size] =  [1,Number(price)]
+
     }
     else{
         order[item+' '+size] =  [order[item+' '+size][0]+1,Number(price)]
@@ -167,10 +168,11 @@ function getSizes(product){
     let Size = product.val().Sizes
     
     window.test = Object.entries(Size)
+    
     let Options = test.map((size,index)=>
         `
-        <button class="size-button" id="${product.key+'-'+index}" onclick="addToOrder('${product.key} ${Object.keys(test[index][1])} ${Object.values(Object.values(test)[index][1])[0].price}')">
-            ${Object.keys(test[index][1])}
+        <button class="size-button" id="${product.key+'-'+index}" onclick="addToOrder('${product.key} ${Object.values(test[index][1])[1]} ${Object.values(test[index][1])[0]}')">
+            ${Object.values(test[index][1])[1]}
         </button>
         `
     )
@@ -181,6 +183,8 @@ get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
     Products.forEach(
         function(product){
             
+            console.log(product.key,product.val().Sizes)
+
             let image = Object.values(product.val())[1]
             prodList.innerHTML += `
             <div class="product" id="${product.key}-card">

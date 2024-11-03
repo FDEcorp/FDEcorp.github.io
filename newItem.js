@@ -20,8 +20,9 @@ function uploadItem(){
         )
 
         let itemName = String(item.value).replaceAll(' ','_')
-        update(ref(db,'businesses/'+business+'/Products/'+itemName+"/Sizes/"+i+"/"+sizeName),{
-           price: price
+        update(ref(db,'businesses/'+business+'/Products/'+itemName+"/Sizes/"+i),{
+           price: price,
+           sizeLabel: sizeName
         });
 
         update(ref(db,'businesses/'+business+'/Products/'+itemName+"/"),{
