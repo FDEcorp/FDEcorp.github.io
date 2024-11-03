@@ -34,11 +34,16 @@ function uploadItem(){
 
 submitButton.addEventListener('click',()=>{
     uploadItem()
+
     if(confirm("Registrado! Deseas agregar otro producto?")){
-        location.href = 'newProduct.html'
+        setTimeout(() => {
+            location.href = 'newProduct.html'
+        }, "1000");
     }
     else{
-        location.href = 'pos.html'
+        setTimeout(() => {
+            location.href = 'pos.html'
+        }, "1000");
     }
 })
 
