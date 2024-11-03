@@ -20,7 +20,7 @@ function uploadItem(){
         )
 
         let itemName = String(item.value).trim().replaceAll(' ','_')
-        
+
         update(ref(db,'businesses/'+business+'/Products/'+itemName+"/Sizes/"+i),{
            price: price,
            sizeLabel: sizeName
@@ -34,5 +34,11 @@ function uploadItem(){
 
 submitButton.addEventListener('click',()=>{
     uploadItem()
+    if(confirm("Registrado! Deseas agregar otro producto?")){
+        location.href = 'newProduct.html'
+    }
+    else{
+        location.href = 'pos.html'
+    }
 })
 
