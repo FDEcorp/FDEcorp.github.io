@@ -19,7 +19,8 @@ function uploadItem(){
             price
         )
 
-        let itemName = String(item.value).replaceAll(' ','_')
+        let itemName = String(item.value).trim().replaceAll(' ','_')
+        
         update(ref(db,'businesses/'+business+'/Products/'+itemName+"/Sizes/"+i),{
            price: price,
            sizeLabel: sizeName
