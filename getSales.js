@@ -110,10 +110,16 @@ function drawChart() {
     
      // Set chart options
     var options = {
-                    'height':'300',
+                    'height':'280',
                     'width':`${window.innerWidth}`,
-                    'bar': {groupWidth: "95%"},
+                    'bar': {groupWidth: "90%"},
                     'legend': { position: "none" },
+                    'vAxis': {format:"$ ",minValue: 0, maxValue: 0, gridlines: {
+                        count: 5
+                    }},
+                    'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
+                        count: 5
+                    }},
                 };
     
      // Instantiate and draw our chart, passing in some options.
