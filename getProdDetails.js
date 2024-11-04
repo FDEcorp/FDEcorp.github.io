@@ -73,6 +73,9 @@ function deleteItem(){
     let item = document.getElementById('product-select')
     if(confirm('¿Seguro que deseas eliminar '+ item.value + '?')){
         remove(child(ref(db),`businesses/${business}/Products/${item.value}`))
+        setTimeout(()=>{
+            location.href = 'ProductDetails.html'
+        },'1000')
     }
 }
 
