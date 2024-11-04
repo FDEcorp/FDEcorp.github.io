@@ -5,18 +5,30 @@ let toDateInput = document.getElementById('to-date')
 let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
-
+let business = localStorage.getItem('business')
 let datatoload = []
+let datatoload2 = []
+let productCategories = {}
+let prodCatSum = {}
 
+
+get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
+    Products.forEach(
+        function(product){
+            if(product.val().category == undefined || product.val().category == ""){
+                productCategories[product.key] = "unknown"
+            }
+            productCategories[product.key] = product.val().category
+        })
+        console.log(productCategories)
+})
 
 
 fromDateInput.addEventListener('change',()=>{
-    console.log(fromDateInput.value)
     getSales()
 })
 
 toDateInput.addEventListener('change',()=>{
-    console.log(toDateInput.value)
     getSales()
 })
 
@@ -44,14 +56,18 @@ function getSales(){
     let salesTotal = 0
     document.getElementById('sales-list').innerHTML = ''
     datatoload = []
+    datatoload2 = []
+    salesbyHour = {}
+    prodCatSum = {}
 
-    let business = localStorage.getItem('business')
+    drawChart()
+    drawChart2()
+
+
     console.log("getting sales")
     let [year,month,day] = String(fromDateInput.value).split("-")
-    console.log(year,month,day)
     get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
         (Sales).forEach((Sale)=>{
-            console.log(Sale.val())
             document.getElementById('sales-list').innerHTML += `
                 <li class="sale-record" id="${Sale.key}">
                     <div class="sale-time" style="flex: 3; text-align: left">${Sale.val().Time}</div>
@@ -69,6 +85,7 @@ function getSales(){
             let seconds = Sale.val().Time.substring(6,8)
            
             groupByHour(Sale.val().Time,Sale.val().Total)
+            getSaleItemsCat(Sale.val().Items)
             
             salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(Sale.val().Total)
             if(Sale.val().Method == "cash"){
@@ -81,9 +98,11 @@ function getSales(){
         })
         //update date to load
         datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-        console.log("data",datatoload)
+        datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+
         //datatoload.push([new Date(years, monthIndex, day, hours, minutes, seconds), amount])
         drawChart()
+ 
     })
     
     
@@ -99,35 +118,84 @@ function getSales(){
 
 
 function drawChart() {
-    console.log(datatoload)
     setTimeout(() => {
     
      // Create the data table.
     var data = new google.visualization.DataTable();
+    var data2 = new google.visualization.DataTable();
     data.addColumn('number', 'Hora');
-    data.addColumn('number', 'Sales');       
-    data.addRows(datatoload);
+    data.addColumn('number', 'Sales');     
+    data2.addColumn('string', 'category');
+    data2.addColumn('number', 'quantity');       
     
+    data.addRows(datatoload);
+    data2.addRows(datatoload2);  
+
      // Set chart options
     var options = {
-                    'height':'280',
-                    'width':`${window.innerWidth}`,
-                    'bar': {groupWidth: "90%"},
+                    'height':'260',
+                    'bar': {groupWidth: "20"},
                     'legend': { position: "none" },
-                    'vAxis': {format:"$ ",minValue: 0, maxValue: 0, gridlines: {
-                        count: 5
+                    'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
+                        count: 10
                     }},
                     'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
-                        count: 5
-                    }},
+                        count: 12
+                    }}
+                };
+
+    var options2 = {
+                    pieHole: 0.4,
                 };
     
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
 
-     
     chart.draw(data, options);
-    }, "1000");
+    chart2.draw(data2, options2);
+    }, "500");
+    
+    
+}
+
+function getSaleItemsCat(saleItems){
+    Object.entries(saleItems).forEach((item)=>{
+        let itemName = String(item[0]).split(" ")[0]
+        let qty = item[1][0]
+        let cat = productCategories[itemName]
+
+        if(prodCatSum[cat]==undefined){
+            prodCatSum[cat] = Number(qty)
+        }
+        else{
+            prodCatSum[cat] = Number(prodCatSum[cat])+Number(qty)
+        }
+    })
+    //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
+    //let qty = Object.entries(saleItems)[0][1]
+    //console.log("items in order:",item,qty)
+}
+
+function drawChart2() {
+    setTimeout(() => {
+    
+     // Create the data table.
+    var data2 = new google.visualization.DataTable();
+    data2.addColumn('string', 'category');
+    data2.addColumn('number', 'quantity');       
+    data2.addRows(datatoload2);
+
+     // Set chart options
+    var options2 = {
+        title: 'Sales by Category',
+        pieHole: 0.4,
+    };
+    
+    var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
+
+    chart2.draw(data2, options2);
+    }, "500");
     
     
 }

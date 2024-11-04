@@ -43,9 +43,14 @@
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>
         </div>
-
-        <div id="chart_div" style="height:250px; overflow: scroll;"></div>
-       
+        <h3 style="margin-bottom: 0px; margin-top: 0; padding: 0; z-index: -1;">Venta por horario</h2>
+        
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+            <div id="chart_div" style="max-width: 600px; height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
+            <div id="donutchart" style="max-width: 600px; height: 250px; overflow: hidden;"></div>
+    
+        </div>
+        
         <ul id="sales-list" class="salesList">
             
         </ul>

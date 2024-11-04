@@ -1,6 +1,7 @@
 import {set, get, update, remove, ref, child} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
 let item = document.getElementById('new-item-name')
+let itemCat = document.getElementById('new-item-cat')
 let itemImg = document.getElementById('new-item-img')
 
 let numberOfOptions = document.getElementById('new-item-skus')
@@ -27,7 +28,8 @@ function uploadItem(){
         });
 
         update(ref(db,'businesses/'+business+'/Products/'+itemName+"/"),{
-            image: itemImg.value
+            image: itemImg.value,
+            category: itemCat.value
          });
     }
 }
