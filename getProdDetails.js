@@ -65,6 +65,17 @@ ProductSave.addEventListener('click',()=>{
     updateItem()
 })
 
+document.getElementById('delete-product').addEventListener('click',()=>{
+    deleteItem()
+})
+
+function deleteItem(){
+    let item = document.getElementById('product-select')
+    if(confirm('¿Seguro que deseas eliminar '+ item.value + '?')){
+        remove(child(ref(db),`businesses/${business}/Products/${item.value}`))
+    }
+}
+
 function updateItem(){
     let business = localStorage.getItem('business')
     
