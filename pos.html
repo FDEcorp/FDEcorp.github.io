@@ -9,6 +9,11 @@
     <script type="module" src="sell.js"></script>
 
     <link rel="stylesheet" href="main.css">
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
 </head>
 <body>
     <header id="header">

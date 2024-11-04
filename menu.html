@@ -6,6 +6,11 @@
     <script type="module" src="../headerRender.js"></script>
     <link rel="stylesheet" href="main.css">
     <title>FDE - Menu</title>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
 </head>
 <body>
    <header id="header"></header> 

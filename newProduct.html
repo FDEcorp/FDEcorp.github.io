@@ -8,6 +8,11 @@
     <script type="module" src="../headerRender.js"></script>
     <script type="module" src="../dbconfig.js"></script>
     <script type="module" src="newItem.js"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
 </head>
 <body>
     <header id="header"></header>
