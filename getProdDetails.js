@@ -3,6 +3,7 @@ let business = localStorage.getItem('business')
 let ProductSelect = document.getElementById('product-select')
 let ProductSave = document.getElementById('save-button')
 let prodDetail = {}
+let skuList =  document.getElementById('sku-list')
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
@@ -41,7 +42,7 @@ function getDetails(selected){
         
         console.log(numberOfSkus.length)
 
-        let skuList =  document.getElementById('sku-list')
+        
         skuList.innerHTML = ""
 
         let Sizes = Object.entries(selected.val().Sizes)
@@ -61,6 +62,32 @@ function getDetails(selected){
     })
 }
 
+document.getElementById('inc-skus').addEventListener('click',()=>{
+    skuList.innerHTML = ''
+    let numberOfOptions = document.getElementById('prod-skus').value
+    for (let i = 0; i < numberOfOptions; i++) {
+        skuList.innerHTML += `
+        <div style="display: flex; flex-direction: row; gap: 0px;">
+            <input type="text" id="item-size-${i}" style="width: 50px" placeholder="Tamaño">
+            <input type="text" id="item-price-${i}" style="width: 125px" placeholder="Precio">
+        </div>
+        `
+    }
+})
+
+document.getElementById('dec-skus').addEventListener('click',()=>{
+    skuList.innerHTML = ''
+    let numberOfOptions = document.getElementById('prod-skus').value
+    for (let i = 0; i < numberOfOptions; i++) {
+        skuList.innerHTML += `
+        <div style="display: flex; flex-direction: row; gap: 0px;">
+            <input type="text" id="item-size-${i}" style="width: 50px" placeholder="Tamaño">
+            <input type="text" id="item-price-${i}" style="width: 125px" placeholder="Precio">
+        </div>
+        `
+    }
+})
+
 ProductSave.addEventListener('click',()=>{
     updateItem()
 })
@@ -68,6 +95,7 @@ ProductSave.addEventListener('click',()=>{
 document.getElementById('delete-product').addEventListener('click',()=>{
     deleteItem()
 })
+
 
 function deleteItem(){
     let item = document.getElementById('product-select')

@@ -38,10 +38,19 @@
         <input type="text" id="prod-img" placeholder="image URL" style="width: 300px;">
        </div>
        
-       <div style="display: flex; align-items: center;">
-            <h4>Numero de variantes:</h4>
-            <input type="number" id="prod-skus" placeholder="" style="width: 50px; height: 20px;">
-       </div>
+      
+
+       <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+        <h4>Variantes:</h4>
+        <input type="number" id="prod-skus" placeholder="Numero de tamaños" style="width: 80px;">
+        
+        <div id="dec-skus" onclick="if((document.getElementById('prod-skus').value > 1)){document.getElementById('prod-skus').value--};" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+            <div style="height: 10px; margin-top: 8px;">-</div>
+        </div>
+        <div id="inc-skus" onclick="if(document.getElementById('prod-skus').value < 4){document.getElementById('prod-skus').value ++};" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+            <div style="height: 10px; margin-top: 8px;">+</div>
+        </div>
+    </div>
        
 
        <div id="sku-list" style="height: 25vh;">
