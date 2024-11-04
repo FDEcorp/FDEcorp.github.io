@@ -59,6 +59,18 @@ input{
     display: inline;
 }
 
+select{
+    background-color: white;
+    color: gray;
+    height: 40px;
+    border: 1px solid rgb(192, 192, 192);
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 8px;
+    margin: 4px;
+    width: 200px;
+}
+
 @media (max-width: 600px) {
     input{
         display: block;
@@ -219,7 +231,6 @@ a{
     display: flex;
     flex-direction: column;
     padding: 20px;
- 
 }
 
 ul{

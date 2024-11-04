@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Nuevo Producto</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="getProdDetails.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 9; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Editar Producto</h3>
+        </div>
+        <div style="flex: 1; padding: 10px; border-radius: 8px;"></div>
+    </section>
+    
+    <div style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
+       <div style="display: flex; flex-direction: row; align-items: center;">
+        <select name="product-select" id="product-select" style="width:320px">
+            <option value="">Seleccionar</option>
+        </select>
+
+       </div>
+       <br>
+       <div style="display: flex; flex-wrap: wrap; align-items: center; align-content: center; text-align: center; justify-content: center;">
+        <input type="text" id="prod-cat" placeholder="category" style="width: 300px;">
+        <input type="text" id="prod-img" placeholder="image URL" style="width: 300px;">
+       </div>
+       
+       <div style="display: flex; align-items: center;">
+            <h4>Numero de variantes:</h4>
+            <input type="number" id="prod-skus" placeholder="" style="width: 50px; height: 20px;">
+       </div>
+       
+
+       <div id="sku-list" style="height: 25vh;">
+
+       </div>
+      
+
+       <button id="save-button">SAVE</button>
+    </div>
+</body>
+</html>
