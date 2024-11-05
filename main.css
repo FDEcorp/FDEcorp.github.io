@@ -56,7 +56,8 @@ input{
     margin: 4px;
     width: 200px;
     color: gray;
-    display: inline;
+    display: flex;
+    height: 36px;
 }
 
 select{
@@ -76,6 +77,16 @@ select{
     justify-content: left;
     text-align: left;
     justify-items: left;
+}
+
+#pos-cont{
+    margin-inline: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    height: 55vh;
 }
 
 @media (max-width: 600px) {
@@ -102,6 +113,10 @@ select{
         text-align: right;
         justify-items: right;
         justify-content: right;
+    }
+
+    #pos-cont{
+        height: 60vh;
     }
 }
 div{
@@ -194,15 +209,7 @@ a{
     justify-content: center;
 }
 
-#pos-cont{
-    margin-inline: 10px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
-    height: 63vh;
-}
+
 
 .sidebar{
     flex: 2;
