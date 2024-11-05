@@ -130,16 +130,19 @@ function updateItem(){
                  category: document.getElementById('prod-cat').value
               });
 
-        }, "1000");
+        }, "800");
 
         
     }
-    if(confirm("Product modificado, Deseas regresar a Menu?")){
-        location.href = 'menu.html'
-      }
-    else{
-        location.href = 'ProductDetails.html'
-    }
+    setTimeout(()=>{
+        if(confirm("Product modificado, Deseas regresar a Menu?")){
+            location.href = 'menu.html'
+          }
+        else{
+            location.href = 'ProductDetails.html'
+        }
+    },'1000')
+    
 }
 
 window.getDetails = getDetails
