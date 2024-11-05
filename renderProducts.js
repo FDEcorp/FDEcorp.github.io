@@ -185,7 +185,8 @@ get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
             
             console.log(product.key,product.val().Sizes)
 
-            let image = Object.values(product.val())[1]
+            let image = Object.values(product.val())[2]
+            console.log(image)
             prodList.innerHTML += `
             <div class="product" id="${product.key}-card">
                 <section ondblclick="removeItem('${product.key}')" style="background-color:rgb(200,200,200); background-image: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(240, 240, 240, 1)),url('${image}'); background-size: cover;background-position: center; height:65%; margin: 6px; border-radius: 6px; display: flex; align-content: center; justify-content: center;">
