@@ -71,6 +71,13 @@ select{
     width: 200px;
 }
 
+#filter-bar{
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    justify-items: left;
+}
+
 @media (max-width: 600px) {
     input{
         display: flex;
@@ -87,6 +94,14 @@ select{
         background-color: rgb(24, 24, 24);
         color: white;
         height: 50px;
+    }
+
+    #filter-bar{
+        display: flex;
+        justify-content: right;
+        text-align: right;
+        justify-items: right;
+        justify-content: right;
     }
 }
 div{
@@ -186,7 +201,7 @@ a{
     flex-direction: row;
     gap: 10px;
     padding: 10px;
-    height: 70vh;
+    height: 63vh;
 }
 
 .sidebar{
