@@ -73,7 +73,8 @@ select{
 
 @media (max-width: 600px) {
     input{
-        display: block;
+        display: flex;
+        height: 35px;
     }
     
     header{
