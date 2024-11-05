@@ -76,6 +76,17 @@ select{
         display: block;
     }
     
+    header{
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        padding-left: 40px;
+        margin: 0;
+        justify-content: left;
+        background-color: rgb(24, 24, 24);
+        color: white;
+        height: 50px;
+    }
 }
 div{
     touch-action: manipulation;
@@ -174,9 +185,8 @@ a{
     flex-direction: row;
     gap: 10px;
     padding: 10px;
-    height: 65vh;
+    height: 70vh;
 }
-
 
 .sidebar{
     flex: 2;
@@ -202,7 +212,7 @@ a{
 }
 
 .product{
-    height: 170px;
+    height: 150px;
     min-width: 150px;
     flex-grow: 1;
     max-width: 200px;
