@@ -129,16 +129,16 @@ function updateItem(){
                  image: document.getElementById('prod-img').value,
                  category: document.getElementById('prod-cat').value
               });
-              if(confirm("Product modificado, Deseas regresar a Menu?")){
-                location.href = 'menu.html'
-              }
-              else{
-                location.href = 'ProductDetails.html'
-              }
 
         }, "1000");
 
         
+    }
+    if(confirm("Product modificado, Deseas regresar a Menu?")){
+        location.href = 'menu.html'
+      }
+    else{
+        location.href = 'ProductDetails.html'
     }
 }
 
