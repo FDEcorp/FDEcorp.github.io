@@ -127,7 +127,7 @@ function updateItem(){
      
              update(ref(db,'businesses/'+business+'/Products/'+itemName+"/"),{
                  image: document.getElementById('prod-img').value,
-                 category: document.getElementById('prod-cat').value
+                 category: String(document.getElementById('prod-cat').value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"")
               });
 
         }, "800");

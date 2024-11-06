@@ -29,7 +29,7 @@ function uploadItem(){
 
         update(ref(db,'businesses/'+business+'/Products/'+itemName+"/"),{
             image: itemImg.value,
-            category: itemCat.value
+            category: String(itemCat.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"")
          });
     }
 }

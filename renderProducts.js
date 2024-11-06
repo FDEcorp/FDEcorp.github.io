@@ -29,11 +29,12 @@ let categorias = {}
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
         function(product){ 
-            if(categorias[product.val().category]==undefined){
-                categorias[product.val().category] = 1
+            let categoria = String(product.val().category).toLowerCase()
+            if(categorias[categoria]==undefined){
+                categorias[categoria] = 1
             }
             else{
-                categorias[product.val().category] = Number(categorias[product.val().category]) + 1
+                categorias[categoria] = Number(categorias[categoria]) + 1
             }
         })
     console.log(categorias)
