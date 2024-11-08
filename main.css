@@ -22,9 +22,8 @@ body{
 header{
     display: flex;
     align-items: center;
-    
     padding: 20px;
-    padding-left: 40px;
+    padding-left: 20px;
     margin: 0;
     justify-content: left;
     background-color: rgb(24, 24, 24);
@@ -99,7 +98,7 @@ select{
         display: flex;
         align-items: center;
         padding: 10px;
-        padding-left: 40px;
+        padding-left: 20px;
         margin: 0;
         justify-content: left;
         background-color: rgb(24, 24, 24);
