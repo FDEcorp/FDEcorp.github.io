@@ -224,14 +224,14 @@ function renderItems(filter = 'all'){
 
                 if(filter == 'all' || filter == product.val().category){
 
-                
 
                 prodList.innerHTML += `
                 <div class="product" id="${product.key}-card">
-                    <section ondblclick="removeItem('${product.key}')" style="background-color:rgb(200,200,200); background-image: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(240, 240, 240, 1)),url('${image}'); background-size: cover;background-position: center; height:65%; margin: 6px; border-radius: 6px; display: flex; align-content: center; justify-content: center;">
-                        <div style="font-weight:800; font-size:16px; color: Black; width: 100px; margin-top:10px">${String(product.key).replaceAll('_',' ')}<div>
-                    </section>
-    
+                    <div ondblclick="removeItem('${product.key}')" style="height:65%; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;">
+                        <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 50%; border-radius: 8px"></div>
+                        <div style="font-weight:800; font-size:16px; color: Black; width: 100px; text-align: left; width: 50%; padding: 4px; display: flex; align-content: start;">${String(product.key).replaceAll('_',' ')}</div>
+                    </div>
+                   
                     <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
                     getSizes(product)+
                         `
