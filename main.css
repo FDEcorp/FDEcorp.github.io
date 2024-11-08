@@ -334,8 +334,13 @@ li{
     border-radius: 4px;
     background-color: rgba(239, 239, 239,1);
     box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.25);
+    transform: translateY(-15vh);
 }
-
+@media (max-width: 600px) {
+    #change-calculator-pane{
+        transform: translateY(0vh);
+    }
+}
 
 .pay-bill{
     margin: 0;
@@ -361,7 +366,6 @@ li{
 .confirm-purchase{
     width: 150px;
     height: 40px;
-    background-color: rgb(20, 156, 20);
 }
 
 @media (max-width: 800px){
