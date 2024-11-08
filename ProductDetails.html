@@ -62,5 +62,20 @@
        <br>
        <button style="background-color: white; color: rgb(104, 104, 104);" id="delete-product">Eliminar Producto</button>
     </div>
+
+    <script>
+        setTimeout(()=>{
+            var url = new URL(location);
+            var prod = url.searchParams.get("prod");
+            console.log(prod)
+            if(prod!=undefined && prod!=""){
+                document.getElementById('product-select').value = prod
+                getDetails(document.getElementById('product-select').value)
+            }
+            
+        },'500')
+        
+        
+    </script>
 </body>
 </html>
