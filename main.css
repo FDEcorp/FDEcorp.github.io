@@ -261,7 +261,7 @@ a{
 .size-button{
     margin: 0px;
     width: auto;
-    height: 50px;
+    height: 42px;
     flex: 1;
     flex-shrink: 1;
     background-color: rgb(105, 171, 237);
