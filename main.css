@@ -353,6 +353,8 @@ li{
     font-weight: 800;
     border-radius: 10px;
     align-content: center;
+    align-items: center;
+    
 }
 .close-button{
     width: 20px;
