@@ -227,6 +227,22 @@ function getSizes(product){
     return String(Options).replaceAll(',','')
 }
 
+function getPrices(product){
+    let Size = product.val().Sizes
+    
+    window.test = Object.entries(Size)
+    console.log("sizes",product.val(),test)
+    
+    let Options = test.map((size,index)=>
+        `
+        <p style="padding: 0; margin: 0; display: inline;" id="${product.key+'-'+index}">
+        $  ${Object.values(test[index][1])[0]}
+        </p>
+        `
+    )
+    return String(Options).replaceAll(',','')
+}
+
 function renderItems(filter = 'all',productSearch=false){
     console.log("filtrando por",filter)
     get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
@@ -245,7 +261,16 @@ function renderItems(filter = 'all',productSearch=false){
                 <div class="product" id="${product.key}-card">
                     <div ondblclick="removeItem('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;">
                         <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
-                        <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; align-items: start;">${String(product.key).replaceAll('_',' ')}</div>
+                        <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
+                        <div style="height:50px; overflow: hidden">
+                        ${String(product.key).replaceAll('_',' ')}
+                        </div>
+                      
+                        <span style="font-size: 12px; color: gray; font-weight: 100">Precios:</span>
+                        <span style="font-size: 12px; color: gray; font-weight: 100" id="${product.key}-prices">${getPrices(product)}</span>
+                        
+                        </div>
+                        
                     </div>
                    
                     <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
