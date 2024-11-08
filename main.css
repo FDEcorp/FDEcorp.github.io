@@ -355,6 +355,10 @@ li{
     #change-calculator-pane{
         transform: translateY(0vh);
     }
+    #items-ordered-ul{
+        height: 40px;
+        overflow: scroll;
+    }
 }
 
 .pay-bill{
@@ -407,6 +411,8 @@ li{
     #items-ordered{
         overflow: scroll;
     }
+   
+
     #products-window{
         flex-grow: 1;
     }
