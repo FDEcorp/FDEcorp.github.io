@@ -43,12 +43,24 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
 
 let filterSelect = document.getElementById('cat-filter') 
 let filterReset = document.getElementById('filter-reset') 
+let prodSearch = document.getElementById('prod-search') 
+let searchReset = document.getElementById('search-reset') 
 
 filterSelect.addEventListener('change',()=>{
     prodList.innerHTML = ''
     renderItems(filterSelect.value)
 })
 filterReset.addEventListener('click',()=>{
+    prodList.innerHTML = ''
+    filterSelect.value = 'all'
+    renderItems()
+})
+
+prodSearch.addEventListener('change',()=>{
+    prodList.innerHTML = ''
+    renderItems(prodSearch.value,true)
+})
+searchReset.addEventListener('click',()=>{
     prodList.innerHTML = ''
     filterSelect.value = 'all'
     renderItems()
@@ -211,7 +223,7 @@ function getSizes(product){
     return String(Options).replaceAll(',','')
 }
 
-function renderItems(filter = 'all'){
+function renderItems(filter = 'all',productSearch=false){
     console.log("filtrando por",filter)
     get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
         Products.forEach(
@@ -222,7 +234,7 @@ function renderItems(filter = 'all'){
                 let image = Object.values(product.val())[2]
                 console.log(image)
 
-                if(filter == 'all' || filter == product.val().category){
+                if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).includes(String(prodSearch.value).trim().replaceAll(' ','_') ) )){
 
 
                 prodList.innerHTML += `

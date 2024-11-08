@@ -22,8 +22,8 @@ body{
 header{
     display: flex;
     align-items: center;
-    padding: 20px;
-    padding-left: 20px;
+    padding: 0px;
+    padding-inline: 20px;
     margin: 0;
     justify-content: left;
     background-color: rgb(24, 24, 24);
@@ -81,11 +81,12 @@ select{
 #pos-cont{
     margin-inline: 10px;
     border-radius: 10px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
     gap: 10px;
     padding: 10px;
-    height: 55vh;
+    height: 70dvh;
 }
 
 @media (max-width: 600px) {
@@ -98,7 +99,6 @@ select{
         display: flex;
         align-items: center;
         padding: 10px;
-        padding-left: 20px;
         margin: 0;
         justify-content: left;
         background-color: rgb(24, 24, 24);
@@ -242,6 +242,7 @@ a{
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    height: 130px;
 }
 
 .size-button{
