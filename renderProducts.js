@@ -48,21 +48,25 @@ let searchReset = document.getElementById('search-reset')
 
 filterSelect.addEventListener('change',()=>{
     prodList.innerHTML = ''
+    prodSearch.value = ''
     renderItems(filterSelect.value)
 })
 filterReset.addEventListener('click',()=>{
     prodList.innerHTML = ''
+    prodSearch.val = ''
     filterSelect.value = 'all'
     renderItems()
 })
 
 prodSearch.addEventListener('change',()=>{
     prodList.innerHTML = ''
+    filterSelect.value = 'all'
     renderItems(prodSearch.value,true)
 })
 searchReset.addEventListener('click',()=>{
     prodList.innerHTML = ''
     filterSelect.value = 'all'
+    prodSearch.value = ''
     renderItems()
 })
 
