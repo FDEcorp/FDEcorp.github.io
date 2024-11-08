@@ -259,10 +259,10 @@ function renderItems(filter = 'all',productSearch=false){
 
                 prodList.innerHTML += `
                 <div class="product" id="${product.key}-card">
-                    <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;">
+                    <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
                         <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
                         <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
-                        <div style="height:50px; overflow: hidden">
+                        <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
                         ${String(product.key).replaceAll('_',' ')}
                         </div>
                       

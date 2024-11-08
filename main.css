@@ -256,6 +256,16 @@ a{
     display: flex;
     flex-direction: column;
     height: 130px;
+
+    touch-action: manipulation;
+}
+
+*{
+
+    touch-action: manipulation;
+}
+.doubletap{
+    touch-action: manipulation;
 }
 
 .size-button{
