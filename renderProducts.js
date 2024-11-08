@@ -227,7 +227,7 @@ function renderItems(filter = 'all'){
 
                 prodList.innerHTML += `
                 <div class="product" id="${product.key}-card">
-                    <div ondblclick="removeItem('${product.key}')" style="height:65%; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;">
+                    <div ondblclick="removeItem('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;">
                         <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 50%; border-radius: 8px"></div>
                         <div style="font-weight:800; font-size:16px; color: Black; width: 100px; text-align: left; width: 50%; padding: 4px; display: flex; align-items: center;">${String(product.key).replaceAll('_',' ')}</div>
                     </div>

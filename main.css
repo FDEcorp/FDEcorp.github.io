@@ -235,7 +235,6 @@ a{
 }
 
 .product{
-    height: 150px;
     min-width: 150px;
     flex-grow: 1;
     max-width: 200px;
@@ -264,6 +263,9 @@ a{
     display: flex;
     flex-direction: column;
     padding: 20px;
+}
+@media (max-width: 600px) {
+   
 }
 
 ul{
