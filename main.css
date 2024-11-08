@@ -225,7 +225,7 @@ a{
     border-radius: 10px;
 
     justify-content: center;
-    
+    align-content: start;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

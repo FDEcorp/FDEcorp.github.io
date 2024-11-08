@@ -238,7 +238,7 @@ function renderItems(filter = 'all',productSearch=false){
                 let image = Object.values(product.val())[2]
                 console.log(image)
 
-                if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).includes(String(prodSearch.value).trim().replaceAll(' ','_') ) )){
+                if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
 
 
                 prodList.innerHTML += `
