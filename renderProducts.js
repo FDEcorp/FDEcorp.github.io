@@ -1,14 +1,4 @@
 import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
- 
-/*
-<div class="product">
-<section style="background-color: rgb(202, 202, 202); height:60%; margin: 10px; border-radius: 6px;"></section>
-<div style="display: flex; gap: 10px; padding: 10px; padding-top:0;">
-    <button class="size-button">S</button>
-    <button class="size-button">L</button>
-</div>
-</div> 
-*/
 
 let business = localStorage.getItem('business')
 let prodList = document.getElementById('products-window')
@@ -266,8 +256,8 @@ function renderItems(filter = 'all',productSearch=false){
                         ${String(product.key).replaceAll('_',' ')}
                         </div>
                       
-                        <span style="font-size: 12px; color: gray; font-weight: 100">Precios:</span>
-                        <span style="font-size: 12px; color: gray; font-weight: 100" id="${product.key}-prices">${getPrices(product)}</span>
+                        <span style="font-size: 10px; color: rgb(150,150,150); font-weight: 800">Precios:</span>
+                        <span style="font-size: 14px; color: rgb(150,150,150); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
                         
                         </div>
                         
