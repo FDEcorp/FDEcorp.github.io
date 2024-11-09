@@ -8,6 +8,21 @@ let prodSearch = document.getElementById('prod-search')
 let searchReset = document.getElementById('search-reset') 
 let prodList = document.getElementById('products-window')
 
+let resumenToggle = document.getElementById('resumen-button')
+localStorage.setItem('resumen',false)
+
+resumenToggle.addEventListener('click',()=>{
+    
+    if(localStorage.getItem('resumen')=="false"){
+        localStorage.setItem('resumen',true)
+    }
+    else{
+        localStorage.setItem('resumen',false)
+    }
+    
+    renderItems()
+})
+
 filterSelect.addEventListener('change',()=>{
     prodList.innerHTML = ''
     prodSearch.value = ''
@@ -54,7 +69,6 @@ get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
                 categorias[categoria] = Number(categorias[categoria]) + 1
             }
         })
-    console.log(categorias)
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
 })
 
@@ -63,20 +77,18 @@ renderItems()
 function renderItems(filter = 'all',productSearch=false){
 
     prodList.innerHTML=""
-    console.log("filtrando por",filter)
     get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
         Items.forEach(
             function(item){
                 
-                console.log(item.key,item.val().Sizes)
     
                 let image = Object.values(item.val())[2]
-                console.log(image)
 
                 if(filter == 'all' || (filter == item.val().category && productSearch==false) || (productSearch == true && String(item.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
 
-
-                prodList.innerHTML += `
+                if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
+                    console.log("resumen: ",localStorage.getItem('resumen'))
+                    prodList.innerHTML += `
                 <div class="item" id="${item.key}-card">
                     <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                         
@@ -104,6 +116,8 @@ function renderItems(filter = 'all',productSearch=false){
                    
                 </div> 
                 `
+                }
+                
                 }
 
     
