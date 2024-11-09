@@ -81,11 +81,11 @@ function renderItems(filter = 'all',productSearch=false){
                     <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                         
                             <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
-                                <div style="height:30px; overflow: hidden" onclick="editProd('${item.key}')">
-                                ${String(item.key).replaceAll('_',' ')}
+                                <div style="height:20px; overflow: hidden" onclick="editProd('${item.key}')">
+                                    ${String(item.key).replaceAll('_',' ')}
                                 </div>
-                      
-                                <span style="font-size: 16px; color: gray; font-weight: 100">${item.val().category}</span>
+                                <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${item.val().stock}</span>
+                                <span style="font-size: 12px; color: gray; font-weight: 100">${item.val().category}</span>
                             </div>
                         
                             <div style="height: 20px; font-size: 16px; text-align: right; padding-right:4px; padding-top: 2px; flex: 1">
@@ -96,7 +96,7 @@ function renderItems(filter = 'all',productSearch=false){
                             <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
                                 <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false)">-</button>
                                 <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true)">+</button>
-                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true)" style="background-color: ${item.val().orderQty > 0 ? 'rgb(120,160,140)':'rgb(200,200,200)'}">+</button>
+                                <button class="order-qty-control" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(120,160,140)':'rgb(200,200,200)'}">0</button>
                             </div>
 
                         
@@ -112,6 +112,27 @@ function renderItems(filter = 'all',productSearch=false){
             
         )
     })
+}
+
+function receiveItem(itemOBJ){
+    //increase inventory by order qty*qtypack
+    let itemName = itemOBJ
+    //reset order qty to 0
+    get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
+        let currentOrder = item.val().orderQty
+        let currentStock = item.val().stock
+
+            update(ref(db,'businesses/'+business+'/Items/'+itemName),{
+                stock: Number(currentStock) + Number(currentOrder),
+                orderQty: Number(0)
+            });
+            document.getElementById(itemName+"-order-qty").innerHTML = 0
+            document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)}`
+
+        
+        }
+    )
+    
 }
 
 function changeOrdQty(itemOBJ,increase){
@@ -139,3 +160,4 @@ function changeOrdQty(itemOBJ,increase){
 }
 
 window.changeOrdQty = changeOrdQty;
+window.receiveItem = receiveItem;
