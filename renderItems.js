@@ -97,7 +97,7 @@ function renderItems(filter = 'all',productSearch=false){
                                     ${String(item.key).replaceAll('_',' ')}
                                 </div>
                                 <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${item.val().stock}</span>
-                                <span style="font-size: 12px; color: gray; font-weight: 100">${item.val().category}</span>
+                                <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
                             </div>
                         
                             <div style="height: 20px; font-size: 16px; text-align: right; padding-right:4px; padding-top: 2px; flex: 1">
@@ -135,13 +135,14 @@ function receiveItem(itemOBJ){
     get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
         let currentOrder = item.val().orderQty
         let currentStock = item.val().stock
+        let pack = item.val().packQty
 
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                stock: Number(currentStock) + Number(currentOrder),
+                stock: Number(currentStock) + Number(currentOrder)*Number(pack),
                 orderQty: Number(0)
             });
             document.getElementById(itemName+"-order-qty").innerHTML = 0
-            document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)}`
+            document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)*Number(pack)}`
 
         
         }

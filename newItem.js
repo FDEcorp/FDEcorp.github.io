@@ -15,8 +15,8 @@ function uploadItem(){
         update(ref(db,'businesses/'+business+'/Items/'+itemName+"/"),{
             vendor: String(itemVend.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
             category: String(itemCat.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
-            packQty:  Number(itemPack.value)>0 ? Number(itemPack.value)>0:1,
-            minStock: Number(itemMin.value)>0 ? Number(itemMin.value)>0:1,
+            packQty:  Number(itemPack.value)>0 ? Number(itemPack.value):1,
+            minStock: Number(itemMin.value)>0 ? Number(itemMin.value):1,
             orderQty: 0,
             stock: 0,
          });
