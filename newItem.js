@@ -8,6 +8,7 @@ let itemMin = document.getElementById('new-item-min')
 let submitButton = document.getElementById('add-item-button')
 
 function uploadItem(){
+    if(item.value==""){return}
     let business = localStorage.getItem('business')
     let itemName = String(item.value).trim().replaceAll(' ','_')
 

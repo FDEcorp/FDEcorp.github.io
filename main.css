@@ -273,6 +273,7 @@ a{
     height: 60px;
     touch-action: manipulation;
     max-width: 400px;
+    min-width: 300px;
 }
 
 *{
