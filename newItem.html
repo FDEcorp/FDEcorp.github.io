@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Nuevo Producto</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="newItem.js"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='compras.html'">Back</div>
+        <div style="flex: 8; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Insumo Nuevo</h3>
+        </div>
+        <div style="flex: 4; padding: 8px; border-radius: 8px; border: 1px solid rgb(206, 206, 206); margin-right: 0px;">Editar Otro</div>
+    </section>
+    
+    <div style="padding: 20px; text-align: center; height: 70vh;" id="content">
+        
+    <div style="display: flex; flex-direction: column; justify-content: center; margin-inline: auto; align-items: start; max-width: 500px;">
+        <div style="display: flex; width: 100%;">
+            <input type="text" name="" id="new-item-name" placeholder="Insumo" style="flex: 1;">
+        </div>
+        <div style="display: flex; width: 100%;">
+            <input type="text" name="" id="new-item-cat" placeholder="Categoria" style="flex: 1;">
+        </div>
+        <div style="display: flex; width: 100%;">
+            <input type="text" name="" id="new-item-vendor" placeholder="Proveedor" style="flex: 1;">
+        </div>
+        
+        <div style="display: flex; width: 100%;">
+            <input type="text" name="" id="new-item-pack" placeholder="Pack Qty" style="flex: 1; width: 100%;">
+            <input type="text" name="" id="new-item-min" placeholder="Min Stock" style="flex: 1; min-width: none;">
+        </div>
+
+        <div style="width: 100%; margin-top: 20px;">
+            <button id="add-item-button">Añadir</button>
+        </div>
+    </div>
+        
+        
+
+
+    </div>
+</body>
+</html>

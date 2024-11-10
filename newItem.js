@@ -2,36 +2,24 @@ import {set, get, update, remove, ref, child} from "https://www.gstatic.com/fire
 
 let item = document.getElementById('new-item-name')
 let itemCat = document.getElementById('new-item-cat')
-let itemImg = document.getElementById('new-item-img')
-
-let numberOfOptions = document.getElementById('new-item-skus')
+let itemVend = document.getElementById('new-item-vendor')
+let itemPack = document.getElementById('new-item-pack')
+let itemMin = document.getElementById('new-item-min')
 let submitButton = document.getElementById('add-item-button')
 
 function uploadItem(){
     let business = localStorage.getItem('business')
-    
-    for(let i=0; i < numberOfOptions.value; i++){
-        let sizeName = document.getElementById('item-size-'+i).value
-        let price = document.getElementById('item-price-'+i).value
+    let itemName = String(item.value).trim().replaceAll(' ','_')
 
-        console.log(
-            item.value,
-            String(sizeName).toUpperCase(),
-            price
-        )
-
-        let itemName = String(item.value).trim().replaceAll(' ','_')
-
-        update(ref(db,'businesses/'+business+'/Products/'+itemName+"/Sizes/"+i),{
-           price: price,
-           sizeLabel: sizeName
-        });
-
-        update(ref(db,'businesses/'+business+'/Products/'+itemName+"/"),{
-            image: itemImg.value,
-            category: String(itemCat.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"")
+        update(ref(db,'businesses/'+business+'/Items/'+itemName+"/"),{
+            vendor: String(itemVend.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
+            category: String(itemCat.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
+            packQty:  Number(itemPack.value)>0 ? Number(itemPack.value)>0:1,
+            minStock: Number(itemMin.value)>0 ? Number(itemMin.value)>0:1,
+            orderQty: 0,
+            stock: 0,
          });
-    }
+    
 }
 
 submitButton.addEventListener('click',()=>{
@@ -39,13 +27,52 @@ submitButton.addEventListener('click',()=>{
 
     if(confirm("Registrado! Deseas agregar otro producto?")){
         setTimeout(() => {
-            location.href = 'newProduct.html'
+            location.href = 'newItem.html'
         }, "1000");
     }
     else{
         setTimeout(() => {
-            location.href = 'pos.html'
+            location.href = 'compras.html'
         }, "1000");
     }
 })
 
+itemMin.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    uploadItem()
+    setTimeout(() => {
+        location.href = 'newItem.html'
+    }, "1000");
+})
+
+itemPack.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    uploadItem()
+    setTimeout(() => {
+        location.href = 'newItem.html'
+    }, "1000");
+})
+
+itemVend.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    uploadItem()
+    setTimeout(() => {
+        location.href = 'newItem.html'
+    }, "1000");
+})
+
+itemCat.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    uploadItem()
+    setTimeout(() => {
+        location.href = 'newItem.html'
+    }, "1000");
+})
