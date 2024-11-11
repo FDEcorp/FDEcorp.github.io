@@ -8,6 +8,7 @@ let numberOfOptions = document.getElementById('new-item-skus')
 let submitButton = document.getElementById('add-item-button')
 
 function uploadItem(){
+    if(item.value ==""){return}
     let business = localStorage.getItem('business')
     
     for(let i=0; i < numberOfOptions.value; i++){
