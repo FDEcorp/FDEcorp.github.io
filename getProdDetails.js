@@ -100,6 +100,7 @@ document.getElementById('delete-product').addEventListener('click',()=>{
 function deleteItem(){
     let item = document.getElementById('product-select')
     if(item.value==""){return}
+    
     if(confirm('¿Seguro que deseas eliminar '+ item.value + '?')){
         remove(child(ref(db),`businesses/${business}/Products/${item.value}`))
         setTimeout(()=>{

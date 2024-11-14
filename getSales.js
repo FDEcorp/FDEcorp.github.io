@@ -61,8 +61,88 @@ function getSales(){
     prodCatSum = {}
 
     drawChart()
-    drawChart2()
+    
+    console.log("getting sales in range")
 
+    let [year,month,day] = String(fromDateInput.value).split("-")
+    let [year2,month2,day2] = String(toDateInput.value).split("-")
+
+    if(Number(year+month+day)>Number(year2+month2+day2)){
+        console.log("fecha FROM debe ser MENOR a TO")
+    }
+    else{
+        console.log("searching from: "+fromDateInput.value+" to:"+toDateInput.value)
+    }
+
+    if(month == month2){
+        get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
+            (Sales).forEach((Sale)=>{
+                let Day = Sale.key
+                Object.entries(Sale.val()).forEach((transaction)=>{
+                    let saleID = String(transaction[0])
+                    let saleYear = saleID.substring(0,4)
+                    let saleMonth = saleID.substring(4,6)
+                    let saleDay = saleID.substring(6,8)
+                    let saleVal = transaction[1]
+                    
+                    if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
+                        console.log(saleID,`${saleYear}/${saleMonth}/${saleDay}`,saleVal.Total)
+
+                        document.getElementById('sales-list').innerHTML += `
+                        <li class="sale-record" id="${saleID}">
+                            <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
+                            <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
+
+                            <div class="sale-total" style="flex: 1"> $ ${saleVal.Total} </div>
+                        </li>
+                        `
+                        salesTotal += saleVal.Total
+
+                        let years = saleID.substring(0,4)
+                        let monthIndex = Number(saleID.substring(4,6))-1
+                        let day = saleID.substring(6,8)
+                        let hours = saleVal.Time.substring(0,2)
+                        let minutes = saleVal.Time.substring(3,5)
+                        let seconds = saleVal.Time.substring(6,8)
+                    
+                        groupByHour(saleVal.Time,saleVal.Total)
+                        getSaleItemsCat(saleVal.Items)
+                        
+                        salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                        if(saleVal.Method == "cash"){
+                            salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
+                        }
+                        else{
+                            salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
+                        }
+
+                    }
+
+                    datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                    datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+                })
+            })
+        })
+    }
+
+
+    
+    
+}
+
+function getSalesOld(){
+
+    salestotalDisp.innerText = 0 
+    salestotalDispCash.innerText = 0
+    salestotalDispCard.innerText = 0
+    let salesTotal = 0
+    document.getElementById('sales-list').innerHTML = ''
+    datatoload = []
+    datatoload2 = []
+    salesbyHour = {}
+    prodCatSum = {}
+
+    drawChart()
 
     console.log("getting sales")
     let [year,month,day] = String(fromDateInput.value).split("-")
@@ -144,8 +224,11 @@ function drawChart() {
                     }}
                 };
 
-    var options2 = {
+                var options2 = {
                     pieHole: 0.4,
+                   
+                    pieStartAngle: 270,
+            
                 };
     
      // Instantiate and draw our chart, passing in some options.
@@ -175,27 +258,4 @@ function getSaleItemsCat(saleItems){
     //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
     //let qty = Object.entries(saleItems)[0][1]
     //console.log("items in order:",item,qty)
-}
-
-function drawChart2() {
-    setTimeout(() => {
-    
-     // Create the data table.
-    var data2 = new google.visualization.DataTable();
-    data2.addColumn('string', 'category');
-    data2.addColumn('number', 'quantity');       
-    data2.addRows(datatoload2);
-
-     // Set chart options
-    var options2 = {
-        title: 'Sales by Category',
-        pieHole: 0.4,
-    };
-    
-    var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
-
-    chart2.draw(data2, options2);
-    }, "500");
-    
-    
 }
