@@ -25,6 +25,9 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
 
 
 fromDateInput.addEventListener('change',()=>{
+    if(toDateInput.value == ""){
+        toDateInput.value = fromDateInput.value
+    }
     getSales()
 })
 
@@ -90,10 +93,11 @@ function getSales(){
 
                         document.getElementById('sales-list').innerHTML += `
                         <li class="sale-record" id="${saleID}">
+                            <div class="sale-time" style="flex: 4; text-align: left">${saleDay}/${saleMonth}/${saleYear}</div>
                             <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
                             <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
 
-                            <div class="sale-total" style="flex: 1"> $ ${saleVal.Total} </div>
+                            <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
                         </li>
                         `
                         salesTotal += saleVal.Total
@@ -120,6 +124,7 @@ function getSales(){
 
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                     datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+                    drawChart()
                 })
             })
         })
@@ -150,6 +155,8 @@ function getSalesOld(){
         (Sales).forEach((Sale)=>{
             document.getElementById('sales-list').innerHTML += `
                 <li class="sale-record" id="${Sale.key}">
+                    <div class="sale-time" style="flex: 2; text-align: right">${Sale.val().Method}</div>
+
                     <div class="sale-time" style="flex: 3; text-align: left">${Sale.val().Time}</div>
                     <div class="sale-time" style="flex: 2; text-align: right">${Sale.val().Method}</div>
 
