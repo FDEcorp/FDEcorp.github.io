@@ -182,7 +182,7 @@ function drawChart() {
 
      // Set chart options
     var options = {
-                    'height':'270',
+                    'height':'280',
                     'bar': {groupWidth: "20"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
@@ -194,14 +194,14 @@ function drawChart() {
                 };
 
                 var options3 = {
-                    'height':'270',
+                    'height':'260',
                     'legend': { position: "none" },
                     'vAxis': {format:"$ "},
                 };
 
     var options2 = {
                     pieHole: 0.4,
-                   
+                   'width':'400',
                     pieStartAngle: 270,
             
                 };
@@ -209,7 +209,7 @@ function drawChart() {
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+    var chart3 = new google.visualization.ScatterChart(document.getElementById('chart_div2'));
 
     chart.draw(data, options);
     chart2.draw(data2, options2);
