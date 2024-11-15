@@ -8,9 +8,9 @@ let salestotalDispCard = document.getElementById('sales-total-card')
 let business = localStorage.getItem('business')
 let datatoload = []
 let datatoload2 = []
+let datatoload3 = []
 let productCategories = {}
 let prodCatSum = {}
-
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
@@ -36,6 +36,7 @@ toDateInput.addEventListener('change',()=>{
 })
 
 window.salesbyHour = {}
+window.salesbyDate = {}
 
 function groupByHour(time,amount){
     let [hours,minutes,seconds] = String(time).split(":")
@@ -52,6 +53,16 @@ function groupByHour(time,amount){
 
 }
 
+function groupByDate(day,month,year,amount){
+    let date = `${day}/${month}/${year}`
+
+    if(salesbyDate[date] == undefined){
+        salesbyDate[date] = amount
+    }else{
+        salesbyDate[date] = salesbyDate[date] + amount
+    }
+}
+
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
@@ -62,6 +73,7 @@ function getSales(){
     datatoload2 = []
     salesbyHour = {}
     prodCatSum = {}
+    salesbyDate = {}
 
     drawChart()
     
@@ -110,6 +122,7 @@ function getSales(){
                         let seconds = saleVal.Time.substring(6,8)
                     
                         groupByHour(saleVal.Time,saleVal.Total)
+                        groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
                         getSaleItemsCat(saleVal.Items)
                         
                         salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
@@ -123,74 +136,18 @@ function getSales(){
                     }
 
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                    datatoload3 = Object.keys(salesbyDate).map((date,amount) => [date, salesbyDate[date]])
                     datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+                    
                     drawChart()
                 })
+                
             })
+            console.log("sales by date:",salesbyDate)
         })
     }
 
 
-    
-    
-}
-
-function getSalesOld(){
-
-    salestotalDisp.innerText = 0 
-    salestotalDispCash.innerText = 0
-    salestotalDispCard.innerText = 0
-    let salesTotal = 0
-    document.getElementById('sales-list').innerHTML = ''
-    datatoload = []
-    datatoload2 = []
-    salesbyHour = {}
-    prodCatSum = {}
-
-    drawChart()
-
-    console.log("getting sales")
-    let [year,month,day] = String(fromDateInput.value).split("-")
-    get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
-        (Sales).forEach((Sale)=>{
-            document.getElementById('sales-list').innerHTML += `
-                <li class="sale-record" id="${Sale.key}">
-                    <div class="sale-time" style="flex: 2; text-align: right">${Sale.val().Method}</div>
-
-                    <div class="sale-time" style="flex: 3; text-align: left">${Sale.val().Time}</div>
-                    <div class="sale-time" style="flex: 2; text-align: right">${Sale.val().Method}</div>
-
-                    <div class="sale-total" style="flex: 1"> $ ${Sale.val().Total} </div>
-                </li>
-            `
-            salesTotal += Sale.val().Total
-            let years = Sale.key.substring(0,4)
-            let monthIndex = Number(Sale.key.substring(4,6))-1
-            let day = Sale.key.substring(6,8)
-            let hours = Sale.val().Time.substring(0,2)
-            let minutes = Sale.val().Time.substring(3,5)
-            let seconds = Sale.val().Time.substring(6,8)
-           
-            groupByHour(Sale.val().Time,Sale.val().Total)
-            getSaleItemsCat(Sale.val().Items)
-            
-            salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(Sale.val().Total)
-            if(Sale.val().Method == "cash"){
-                salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(Sale.val().Total)
-            }
-            else{
-                salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(Sale.val().Total)
-
-            }
-        })
-        //update date to load
-        datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-        datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-
-        //datatoload.push([new Date(years, monthIndex, day, hours, minutes, seconds), amount])
-        drawChart()
- 
-    })
     
     
 }
@@ -210,13 +167,19 @@ function drawChart() {
      // Create the data table.
     var data = new google.visualization.DataTable();
     var data2 = new google.visualization.DataTable();
+    var data3 = new google.visualization.DataTable();
     data.addColumn('number', 'Hora');
-    data.addColumn('number', 'Sales');     
+    data.addColumn('number', 'Sales'); 
+
     data2.addColumn('string', 'category');
-    data2.addColumn('number', 'quantity');       
-    
+    data2.addColumn('number', 'quantity');     
+
+    data3.addColumn('string', 'Fecha');
+    data3.addColumn('number', 'Sales');
+
     data.addRows(datatoload);
     data2.addRows(datatoload2);  
+    data3.addRows(datatoload3);  
 
      // Set chart options
     var options = {
@@ -231,7 +194,18 @@ function drawChart() {
                     }}
                 };
 
-                var options2 = {
+                var options3 = {
+                    'height':'260',
+                    'legend': { position: "none" },
+                    'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
+                        count: 10
+                    }},
+                    'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
+                        count: 12
+                    }}
+                };
+
+    var options2 = {
                     pieHole: 0.4,
                    
                     pieStartAngle: 270,
@@ -241,9 +215,11 @@ function drawChart() {
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
+    var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
 
     chart.draw(data, options);
     chart2.draw(data2, options2);
+    chart3.draw(data3, options3);
     }, "500");
     
     
