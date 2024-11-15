@@ -55,7 +55,6 @@ function groupByHour(time,amount){
 
 function groupByDate(day,month,year,amount){
     let date = `${day}/${month}/${year}`
-
     if(salesbyDate[date] == undefined){
         salesbyDate[date] = amount
     }else{
@@ -136,7 +135,7 @@ function getSales(){
                     }
 
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-                    datatoload3 = Object.keys(salesbyDate).map((date,amount) => [date, salesbyDate[date]])
+                    datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
                     datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                     
                     drawChart()
@@ -174,7 +173,7 @@ function drawChart() {
     data2.addColumn('string', 'category');
     data2.addColumn('number', 'quantity');     
 
-    data3.addColumn('string', 'Fecha');
+    data3.addColumn('date', 'Fecha');
     data3.addColumn('number', 'Sales');
 
     data.addRows(datatoload);
@@ -183,7 +182,7 @@ function drawChart() {
 
      // Set chart options
     var options = {
-                    'height':'260',
+                    'height':'270',
                     'bar': {groupWidth: "20"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
@@ -195,14 +194,9 @@ function drawChart() {
                 };
 
                 var options3 = {
-                    'height':'260',
+                    'height':'270',
                     'legend': { position: "none" },
-                    'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
-                        count: 10
-                    }},
-                    'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
-                        count: 12
-                    }}
+                    'vAxis': {format:"$ "},
                 };
 
     var options2 = {
