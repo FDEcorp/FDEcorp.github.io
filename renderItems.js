@@ -106,9 +106,9 @@ function renderItems(filter = 'all',productSearch=false){
                             </div>
                             
                             <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
-                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false)">-</button>
-                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true)">+</button>
-                                <button class="order-qty-control" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(120,160,140)':'rgb(200,200,200)'}">0</button>
+                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
+                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
+                                <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(51, 153, 255)':'rgb(200,200,200)'}">0</button>
                             </div>
 
                         
@@ -128,6 +128,16 @@ function renderItems(filter = 'all',productSearch=false){
     })
 }
 
+function checkQty(item){
+    console.log("checking qty")
+    if(Number(document.getElementById(item+"-order-qty").innerText) > 0){
+        document.getElementById(item+"-receive").style.backgroundColor = 'rgb(51, 153, 255)'
+    }
+    else{
+        document.getElementById(item+"-receive").style.backgroundColor = 'rgb(200,200,200)'
+    }
+}
+
 function receiveItem(itemOBJ){
     //increase inventory by order qty*qtypack
     let itemName = itemOBJ
@@ -143,7 +153,7 @@ function receiveItem(itemOBJ){
             });
             document.getElementById(itemName+"-order-qty").innerHTML = 0
             document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)*Number(pack)}`
-
+            checkQty(itemName)
         
         }
     )
@@ -162,17 +172,20 @@ function changeOrdQty(itemOBJ,increase){
                 orderQty: current+1
             });
             document.getElementById(itemName+"-order-qty").innerHTML = Number(document.getElementById(itemName+"-order-qty").innerHTML)+1
+            checkQty(itemName)
         }
         if(!increase && Number(document.getElementById(itemName+"-order-qty").innerHTML)>0){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
                 orderQty: current-1
             });
             document.getElementById(itemName+"-order-qty").innerHTML = Number(document.getElementById(itemName+"-order-qty").innerHTML)-1
+            checkQty(itemName)
         }
         }
     )
     
 }
 
+window.checkQty = checkQty;
 window.changeOrdQty = changeOrdQty;
 window.receiveItem = receiveItem;
