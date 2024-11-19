@@ -27,7 +27,7 @@ header{
     align-items: center;
     justify-content: left;
     padding: 10px;
-    padding-left: 40px;
+    padding-inline: 40px;
     margin: 0;
     justify-content: left;
     background-color: rgb(28, 28, 28);
