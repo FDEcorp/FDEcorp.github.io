@@ -27,7 +27,7 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
                 categorias[categoria] = Number(categorias[categoria]) + 1
             }
         })
-    console.log(categorias)
+    //console.log(categorias)
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
 })
 
@@ -98,7 +98,7 @@ function showChangeCalc(){
     let totalDisp = document.getElementById('total-change-pane')
     totalDisp.innerText = total
     window.orderListArr = Object.entries(order)
-    console.log(orderListArr)
+    //console.log(orderListArr)
 
     let Options = orderListArr.map((item)=>
         `
@@ -134,16 +134,16 @@ function clearOrder(){
 function undoAdd(){
     window.latest = orderArr[orderArr.length-1]
     //check array for latest
-    console.log('latest added',latest);
+    //console.log('latest added',latest);
     //if in object qty greater than 1, decrease by 1
     if(order[latest][0] > 1) {
         order[latest][0]--
-        console.log('minus one: ',order)
+        //console.log('minus one: ',order)
     }
     //if 1, remove from object
     else{
         delete order[latest]
-        console.log('removed',order)
+        //console.log('removed',order)
     }
     //remove last element from array
     orderArr.pop()
@@ -221,7 +221,7 @@ function getPrices(product){
     let Size = product.val().Sizes
     
     window.test = Object.entries(Size)
-    console.log("sizes",product.val(),test)
+    //console.log("sizes",product.val(),test)
     
     let Options = test.map((size,index)=>
         `
@@ -234,15 +234,15 @@ function getPrices(product){
 }
 
 function renderItems(filter = 'all',productSearch=false){
-    console.log("filtrando por",filter)
+    //console.log("filtrando por",filter)
     get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
         Products.forEach(
             function(product){
                 
-                console.log(product.key,product.val().Sizes)
+                //console.log(product.key,product.val().Sizes)
     
                 let image = Object.values(product.val())[2]
-                console.log(image)
+                //console.log(image)
 
                 if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
 
