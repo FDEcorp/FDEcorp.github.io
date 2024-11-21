@@ -31,7 +31,7 @@ header{
     margin: 0;
     justify-content: left;
     background-color: rgb(28, 28, 28);
-    color: rgb(236, 43, 43);
+    color: rgb(223, 57, 57);
     border: 0px 0px 0px 1px solid rgba(0, 0, 0,0.15);
 }
 
@@ -48,7 +48,7 @@ header{
 
 .main-cont{
     margin: auto;
-    max-width: 800px;
+    max-width: 900px;
     overflow: scroll;
 }
 

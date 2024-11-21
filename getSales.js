@@ -181,29 +181,54 @@ function drawChart() {
     data3.addRows(datatoload3);  
 
      // Set chart options
-    var options = {
+    var horariosOptions = {
                     'height':'280',
+                    'colors': ['#e24848'],
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
                     'bar': {groupWidth: "20"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
-                        count: 10
-                    }},
+                        count: 5,
+                    },
+                    baselineColor: '#fff',
+                    gridlineColor: '#eee',
+                    },
                     'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
-                        count: 12
-                    }}
+                        count: 12,
+                    
+                    },
+                    baselineColor: '#fff',
+                    gridlineColor: '#fff',},
                 };
 
-                var options3 = {
-                    'height':'260',
-                    'legend': { position: "none" },
-                    'vAxis': {format:"$ "},
-                };
-
-    var options2 = {
+    var categoryChartOptions = {
                     pieHole: 0.4,
-                   'width':'400',
+                    height: '300',
+                    colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
                     pieStartAngle: 270,
-            
+                    'vAxis': {
+                    baselineColor: '#fff',
+                    gridlineColor: '#eee',
+                    },
+                    'pointSize': 20,
+                };
+
+    var saleDatesOptions = {
+                    'height':'260',
+                    'colors': ['#e24848'],
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    'legend': { position: "none" },
+                    'lineWidth':3.5,
+                    'vAxis': {
+                        format:"$ ",
+                        minValue: 0,
+                        baselineColor: '#fff',
+                        gridlineColor: '#eee',},
+                    'hAxis':{
+                        baselineColor: '#fff',
+                        gridlineColor: '#fff',
+                    }
                 };
     
      // Instantiate and draw our chart, passing in some options.
@@ -211,9 +236,9 @@ function drawChart() {
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
     var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
 
-    chart.draw(data, options);
-    chart2.draw(data2, options2);
-    chart3.draw(data3, options3);
+    chart.draw(data, horariosOptions);
+    chart2.draw(data2, categoryChartOptions);
+    chart3.draw(data3, saleDatesOptions);
     }, "500");
     
     

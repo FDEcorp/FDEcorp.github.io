@@ -31,7 +31,7 @@ function getDetails(selected){
             skuList.innerHTML = ''
             let numberOfOptions = document.getElementById('prod-skus').value
             for (let i = 0; i < numberOfOptions; i++) {
-                skuList.innerHTML += `
+                skuList.innerHTML += `f
                 <div style="display: flex; flex-direction: row; gap: 0px;">
                     <input type="text" id="item-size-${i}" style="width: 50px" placeholder="Tamaño">
                     <input type="text" id="item-price-${i}" style="width: 125px" placeholder="Precio">
