@@ -12,6 +12,9 @@ let datatoload3 = []
 let productCategories = {}
 let prodCatSum = {}
 
+fromDateInput.value = new Date()
+toDateInput.value = new Date()
+
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
         function(product){

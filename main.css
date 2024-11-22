@@ -58,7 +58,6 @@ input{
     font-size: 16px;
     padding: 8px;
     margin: 4px;
-    width: 200px;
     color: gray;
     display: flex;
     height: 36px;
@@ -274,6 +273,18 @@ a{
     background-color: rgb(226, 72, 72);
     border: 0;
 }
+
+.date-selector{
+    margin: 0; width: 300px; background-color: white; border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+    .date-selector{
+        margin: 0; width: 39vw; background-color: white; border-radius: 8px;
+    }
+}
+
+
 
 
 .item{
