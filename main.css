@@ -264,6 +264,18 @@ a{
 
     touch-action: manipulation;
 }
+
+.blue-bg{
+    background-color: rgb(72, 164, 255);
+    border: 0;
+}
+
+.red-bg{
+    background-color: rgb(226, 72, 72);
+    border: 0;
+}
+
+
 .item{
     flex: 1;
     background-color: rgb(239, 239, 239);
@@ -290,7 +302,6 @@ a{
     height: 42px;
     flex: 1;
     flex-shrink: 1;
-    background-color: rgb(105, 171, 237);
 }
 
 #order-details{

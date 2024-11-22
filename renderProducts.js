@@ -209,7 +209,7 @@ function getSizes(product){
     
     let Options = test.map((size,index)=>
         `
-        <button class="size-button" id="${product.key+'-'+index}" onclick="addToOrder('${product.key} ${Object.values(test[index][1])[1]} ${Object.values(test[index][1])[0]}')">
+        <button class="size-button blue-bg" id="${product.key+'-'+index}" onclick="addToOrder('${product.key} ${Object.values(test[index][1])[1]} ${Object.values(test[index][1])[0]}')">
             ${Object.values(test[index][1])[1]}
         </button>
         `
