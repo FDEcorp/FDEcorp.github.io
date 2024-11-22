@@ -11,6 +11,8 @@ function setCorte() {
     let previousCard = 0
     let previousTotal = 0
 
+    let prodCatSum = {}
+
     get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/${day}`)).then((Cortes) => {
         let index = 0;
         if(!Cortes.exists()){
@@ -42,6 +44,7 @@ function setCorte() {
                 }else{
                     cardSUM = cardSUM + sale.val().Total
                 }
+                
                 index2++
 
                 if(index2 == Sales.size){
@@ -51,7 +54,7 @@ function setCorte() {
                         total:totalSUM-previousTotal,
                         TimeStamp: String(new Date()).substring(16,24)
                     })
-                    alert(`Corte: \n\n
+                    alert(`Corte ${index}: ${String(new Date()).substring(16,24)} \n
                         cash: ${cashSUM-previousCash}
                         card: ${cardSUM-previousCard}
                         total: ${totalSUM-previousTotal}
@@ -84,3 +87,21 @@ function setCorte() {
 }
 
 window.setCorte = setCorte
+
+function getSaleItemsCat(saleItems){
+    Object.entries(saleItems).forEach((item)=>{
+        let itemName = String(item[0]).split(" ")[0]
+        let qty = item[1][0]
+        let cat = productCategories[itemName]
+
+        if(prodCatSum[cat]==undefined){
+            prodCatSum[cat] = Number(qty)
+        }
+        else{
+            prodCatSum[cat] = Number(prodCatSum[cat])+Number(qty)
+        }
+    })
+    //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
+    //let qty = Object.entries(saleItems)[0][1]
+    //console.log("items in order:",item,qty)
+}
