@@ -94,12 +94,13 @@ function getSales(){
     if(month == month2){
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
             (Sales).forEach((Sale)=>{
+                
                 let Day = Sale.key
                 Object.entries(Sale.val()).forEach((transaction)=>{
                     let saleID = String(transaction[0])
                     let saleYear = saleID.substring(0,4)
                     let saleMonth = saleID.substring(4,6)
-                    let saleDay = saleID.substring(6,8)
+                    let saleDay = Sale.key
                     let saleVal = transaction[1]
                     
                     if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
