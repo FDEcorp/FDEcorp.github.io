@@ -1,6 +1,17 @@
 import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
-function setCorte() {
+function setCorte(){
+    let EfectivoEnCaja = prompt("Ingresa cuanto efectivo hay en caja:")
+
+    if(EfectivoEnCaja == ""){
+        alert("Favor de ingresar cuanto hay en caja")
+        return
+    }
+
+    registerCorte(EfectivoEnCaja)
+}
+
+function registerCorte(EfectivoEnCaja) {
     let business = localStorage.getItem('business')
     let TimeStamp = String(new Date()).substring(16,24);
     let year = new Date().getFullYear();
@@ -52,12 +63,17 @@ function setCorte() {
                         card:cardSUM-previousCard,
                         cash:cashSUM-previousCash,
                         total:totalSUM-previousTotal,
+                        cashReal: EfectivoEnCaja,
+                        diff: EfectivoEnCaja-(cashSUM-previousCash),
                         TimeStamp: String(new Date()).substring(16,24)
                     })
                     alert(`Corte ${index}: ${String(new Date()).substring(16,24)} \n
                         cash: ${cashSUM-previousCash}
+                        cash en caja: ${EfectivoEnCaja}
+                        differencia de efectivo: ${EfectivoEnCaja - (cashSUM-previousCash)}
+                        \n
                         card: ${cardSUM-previousCard}
-                        total: ${totalSUM-previousTotal}
+                        Total: ${totalSUM-previousTotal}
                         `)
                 }
                 
@@ -87,6 +103,8 @@ function setCorte() {
 }
 
 window.setCorte = setCorte
+window.registerCorte = registerCorte
+
 
 function getSaleItemsCat(saleItems){
     Object.entries(saleItems).forEach((item)=>{

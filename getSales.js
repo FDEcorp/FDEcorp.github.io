@@ -23,7 +23,6 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
             }
             productCategories[product.key] = product.val().category
         })
-        console.log(productCategories)
 })
 
 
@@ -71,6 +70,8 @@ function getSales(){
     salestotalDispCard.innerText = 0
     let salesTotal = 0
     document.getElementById('sales-list').innerHTML = ''
+    document.getElementById('cortes-list').innerHTML = ''
+
     datatoload = []
     datatoload2 = []
     salesbyHour = {}
@@ -79,7 +80,6 @@ function getSales(){
 
     drawChart()
     
-    console.log("getting sales in range")
 
     let [year,month,day] = String(fromDateInput.value).split("-")
     let [year2,month2,day2] = String(toDateInput.value).split("-")
@@ -92,6 +92,40 @@ function getSales(){
     }
 
     if(month == month2){
+        get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
+            (Cortes).forEach((corte)=>{
+                let Day = corte.key
+                Object.entries(corte.val()).forEach((corteRec)=>{
+                    console.log(corte.key)
+                    let saleYear = year
+                    let saleMonth = month
+                    let saleDay = corte.key
+                    if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
+                        document.getElementById('cortes-list').innerHTML += `
+                        <li class="corte-record" id="${corteRec[0]}" stlye="flex-direction: row">
+                            <div style="display: flex; flex-direction: column; flex: 1; align-content: start">
+                                <div style="text-align: left; font-weight: 800">${Day}/${month}/${year}</div>
+                                <div style="text-align: left; color: gray;">${corteRec[1].TimeStamp}</div>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; flex: 4;">
+                                <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRec[1].total}</div>
+                                <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRec[1].cash}</div>
+                                <div style="flex: 1; text-align: right"><b>Card: </b>$ ${corteRec[1].card}</div>
+                            </div>
+            
+                                
+                        </li>
+                        `
+                    }
+                    
+
+
+                })
+            })
+
+        })
+
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
             (Sales).forEach((Sale)=>{
                 
@@ -104,7 +138,6 @@ function getSales(){
                     let saleVal = transaction[1]
                     
                     if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
-                        console.log(saleID,`${saleYear}/${saleMonth}/${saleDay}`,saleVal.Total)
 
                         document.getElementById('sales-list').innerHTML += `
                         <li class="sale-record" id="${saleID}">
@@ -146,7 +179,6 @@ function getSales(){
                 })
                 
             })
-            console.log("sales by date:",salesbyDate)
         })
     }
 
@@ -155,6 +187,9 @@ function getSales(){
     
 }
 
+function getCortes(){
+
+}
 
  // Load the Visualization API and the piechart package.
  google.charts.load('current', {'packages':['bar']});
