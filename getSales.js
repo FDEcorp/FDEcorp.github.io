@@ -6,9 +6,9 @@ let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
 let business = localStorage.getItem('business')
-let datatoload = []
-let datatoload2 = []
-let datatoload3 = []
+window.datatoload = []
+window.datatoload2 = []
+window.datatoload3 = []
 let productCategories = {}
 let prodCatSum = {}
 
@@ -62,6 +62,7 @@ function groupByDate(day,month,year,amount){
     }else{
         salesbyDate[date] = salesbyDate[date] + amount
     }
+
 }
 
 function getSales(){
@@ -103,6 +104,22 @@ function getSales(){
                     let saleYear = year
                     let saleMonth = month
                     let saleDay = corte.key
+                    let diff = corteRec[1].diff
+                 
+                    if(diff == undefined){
+                        diff = 0;
+                    }
+                    let color = 'rgb(150,150,150)'
+                            if(diff > 0){
+                                color = 'rgba(0,155,0,0.5)'
+                                diff = `+ ${diff}`
+                            }
+                            if(diff < 0){
+                                color = 'rgba(255,0,0,0.5)'
+                                diff = `- ${diff}`
+                            }
+                            
+
                     if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
                         document.getElementById('cortes-list').innerHTML += `
                         <li class="corte-record" id="${corteRec[0]}" stlye="flex-direction: row">
@@ -113,8 +130,9 @@ function getSales(){
 
                             <div style="display: flex; flex-direction: column; flex: 4;">
                                 <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRec[1].total}</div>
-                                <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRec[1].cash}</div>
                                 <div style="flex: 1; text-align: right"><b>Card: </b> $ ${corteRec[1].card}</div>
+                                <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRec[1].cash}</div>
+                                <div style="flex: 1; text-align: right; color: ${color}"><b>${diff}</b></div>
                             </div>
             
                                 
@@ -198,6 +216,19 @@ function getSales(){
                             let saleYear = year
                             let saleMonth = Month.key
                             let saleDay = corte[0]
+                            let diff = corteRecord.diff
+                            if(diff == undefined){
+                                diff = 0;
+                            }
+                            let color = 'rgb(150,150,150)'
+                            if(diff > 0){
+                                color = 'rgba(0,155,0,0.5)'
+                                diff = `+ ${diff}`
+                            }
+                            if(diff < 0){
+                                color = 'rgba(255,0,0,0.5)'
+                                diff = `- ${diff}`
+                            }
 
                             document.getElementById('cortes-list').innerHTML += `
                                 <li class="corte-record" id="${corteRecord.TimeStamp}" stlye="flex-direction: row">
@@ -208,8 +239,11 @@ function getSales(){
 
                                     <div style="display: flex; flex-direction: column; flex: 4;">
                                         <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRecord.total}</div>
-                                        <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRecord.cash}</div>
                                         <div style="flex: 1; text-align: right"><b>Card: </b>$ ${corteRecord.card}</div>
+
+                                        <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRecord.cash}</div>
+                                        <div style="flex: 1; text-align: right; color: ${color}"><b>${diff}</b></div>
+
                                     </div>
                     
                                         
@@ -233,7 +267,7 @@ function getSales(){
                     Object.entries(Month.val()).forEach((Day)=>{
                         
 
-                        if(Number(year+Month.key+Day[0])>=Number(year+month+day) && Number(year+Month.key+Day[0])<=Number(year2+month2+day2)){
+                        if(Number(year+Month.key+String(Day[0]).padStart(2))>=Number(year+month+day) && Number(year+Month.key+String(Day[0]).padStart(2))<=Number(year2+month2+day2)){
                             console.log(Day[0],Day[1])
 
                             Object.entries(Day[1]).forEach((transaction)=>{
