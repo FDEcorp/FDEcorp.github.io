@@ -92,10 +92,13 @@ function getSales(){
     }
 
     if(month == month2){
+        console.log("scanning in month record")
         get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
             (Cortes).forEach((corte)=>{
+
                 let Day = corte.key
                 Object.entries(corte.val()).forEach((corteRec)=>{
+
                     console.log(corte.key)
                     let saleYear = year
                     let saleMonth = month
@@ -111,7 +114,7 @@ function getSales(){
                             <div style="display: flex; flex-direction: column; flex: 4;">
                                 <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRec[1].total}</div>
                                 <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRec[1].cash}</div>
-                                <div style="flex: 1; text-align: right"><b>Card: </b>$ ${corteRec[1].card}</div>
+                                <div style="flex: 1; text-align: right"><b>Card: </b> $ ${corteRec[1].card}</div>
                             </div>
             
                                 
@@ -182,6 +185,103 @@ function getSales(){
         })
     }
 
+    if(month != month2){
+        console.log("scanning in year record")
+        get(child(ref(db),`/businesses/${business}/Cortes/${year}/`)).then((Year) => {
+            (Year).forEach((Month)=>{
+                if(Number(Month.key)>=Number(month) && Number(Month.key) <=month2){
+                    Object.entries(Month.val()).forEach((corte)=>{
+
+                        let Day = corte[0]
+
+                        corte[1].forEach((corteRecord)=>{
+                            let saleYear = year
+                            let saleMonth = Month.key
+                            let saleDay = corte[0]
+
+                            document.getElementById('cortes-list').innerHTML += `
+                                <li class="corte-record" id="${corteRecord.TimeStamp}" stlye="flex-direction: row">
+                                    <div style="display: flex; flex-direction: column; flex: 1; align-content: start">
+                                        <div style="text-align: left; font-weight: 800">${Day}/${Month.key}/${year}</div>
+                                        <div style="text-align: left; color: gray;">${corteRecord.TimeStamp}</div>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; flex: 4;">
+                                        <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRecord.total}</div>
+                                        <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRecord.cash}</div>
+                                        <div style="flex: 1; text-align: right"><b>Card: </b>$ ${corteRecord.card}</div>
+                                    </div>
+                    
+                                        
+                                </li>
+                                `
+                        })
+
+
+                    })
+                }
+            })
+
+
+        })
+
+        get(child(ref(db),`/businesses/${business}/sales/${year}/`)).then((Year) => {
+            (Year).forEach((Month)=>{
+                console.log(Month.key)
+
+                if(Number(Month.key)>=Number(month) && Number(Month.key) <=month2){
+                    Object.entries(Month.val()).forEach((Day)=>{
+                        
+
+                        if(Number(year+Month.key+Day[0])>=Number(year+month+day) && Number(year+Month.key+Day[0])<=Number(year2+month2+day2)){
+                            console.log(Day[0],Day[1])
+
+                            Object.entries(Day[1]).forEach((transaction)=>{
+                                
+                                let saleID = transaction[0]
+                                let saleVal = transaction[1]
+                                
+                                document.getElementById('sales-list').innerHTML += `
+                                <li class="sale-record" id="${saleID}">
+                                    <div class="sale-time" style="flex: 4; text-align: left">${Day[0]}/${Month.key}/${year}</div>
+                                    <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
+                                    <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
+
+                                    <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
+                                </li>
+                                `
+
+                                salesTotal += saleVal.Total
+                                salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                                if(saleVal.Method == "cash"){
+                                    salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
+                                }
+                                else{
+                                    salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
+                                }
+
+                                groupByHour(saleVal.Time,saleVal.Total)
+                                groupByDate(Day[0],Month.key,year,saleVal.Total)
+                                getSaleItemsCat(saleVal.Items)
+                                console.log(salesbyDate)
+                                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                                datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
+                                datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+
+                                drawChart()
+
+                            })
+
+                        }
+
+
+
+                    })
+                }
+            })
+        })
+
+    }
 
     
     
