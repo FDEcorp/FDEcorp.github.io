@@ -351,6 +351,16 @@ function drawChart() {
                     gridlineColor: '#eee',
                     },
                     'pointSize': 20,
+                    legend: {
+                        position: 'labeled',
+                        labeledValueText: 'both',
+                        textStyle: {
+                            color: 'red', 
+                            fontSize: 14
+                        },
+                       
+                    }, 
+                    chartArea:{left:25,top:0,width:'80%',height:'50%'}
                 };
 
     var saleDatesOptions = {
