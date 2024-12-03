@@ -17,8 +17,13 @@ window.datatoload3 = []
 let productCategories = {}
 let prodCatSum = {}
 
-fromDateInput.value = new Date()
-toDateInput.value = new Date()
+var now = new Date();
+var dayForInput = ("0" + now.getDate()).slice(-2);
+var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
+var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput) ;
+
+fromDateInput.value = today
+toDateInput.value = today
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
