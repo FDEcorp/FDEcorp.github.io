@@ -24,6 +24,7 @@ var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput) ;
 
 fromDateInput.value = today
 toDateInput.value = today
+getSales()
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
