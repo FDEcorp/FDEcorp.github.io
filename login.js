@@ -13,9 +13,9 @@ function checkCreds(emailField){
             return
         }
         if(user.val().password === passField.value){
-            let admin = false
+            let admin = 'false'
             if(user.val().admin==true){
-                admin = true
+                admin = 'true'
             }
             
             let businessName = user.val().business
