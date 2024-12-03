@@ -101,7 +101,8 @@ function registerUser(email){
                         password: registerPass.value,
                         business: businessname,
                         name: registerNameField.value,
-                        lastName: registerLastNameField.value
+                        lastName: registerLastNameField.value,
+                        admin: true,
                     });
                     localStorage.setItem('business',businessname)
                     location.href = 'menu.html'
