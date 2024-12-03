@@ -13,10 +13,16 @@ function checkCreds(emailField){
             return
         }
         if(user.val().password === passField.value){
+            let admin = false
+            if(user.val().admin==true){
+                admin = true
+            }
+            
             let businessName = user.val().business
             let username = user.val().name +' '+ user.val().lastName
             localStorage.setItem("business", businessName);
             localStorage.setItem("username", username);
+            localStorage.setItem("admin",admin);
             location.href = "menu.html"
         }
         else{

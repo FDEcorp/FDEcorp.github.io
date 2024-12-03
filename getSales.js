@@ -1,11 +1,16 @@
 import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
+if(Boolean(localStorage.getItem("admin"))==false){
+    location.href = 'menu.html'
+}
+
 let fromDateInput = document.getElementById('from-date')
 let toDateInput = document.getElementById('to-date')
 let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
 let business = localStorage.getItem('business')
+
 window.datatoload = []
 window.datatoload2 = []
 window.datatoload3 = []
