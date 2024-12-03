@@ -355,7 +355,7 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
         
         document.getElementById('saleDetails-list').innerHTML += String(Object.entries(sale.val().Items).map(
             (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]} @ $ ${String(item).split(',')[2]}</li>`
-        )).replaceAll(',','')
+        )).replaceAll(',','').replaceAll('_',' ')
 
     })
     
