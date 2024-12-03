@@ -104,8 +104,16 @@ function registerUser(email){
                         lastName: registerLastNameField.value,
                         admin: true,
                     });
+
+                    set(ref(db,'businesses/'+businessname+'/users/'+username),{
+                        admin: true,
+                    });
+
                     localStorage.setItem('business',businessname)
-                    location.href = 'menu.html'
+
+                    setTimeout(()=>{
+                        location.href = 'menu.html'
+                    },'500')
                 }
             })
 
