@@ -3,12 +3,14 @@ import {set, get, update, remove, ref, child, getDatabase} from "https://www.gst
 function setCorte(){
     let EfectivoEnCaja = prompt("Ingresa cuanto efectivo hay en caja:")
 
-    if(EfectivoEnCaja == ""){
+    if(EfectivoEnCaja == "" || EfectivoEnCaja == null){
         alert("Favor de ingresar cuanto hay en caja")
         return
     }
+    else{
+        registerCorte(EfectivoEnCaja)
+    }
 
-    registerCorte(EfectivoEnCaja)
 }
 
 function registerCorte(EfectivoEnCaja) {
@@ -29,6 +31,7 @@ function registerCorte(EfectivoEnCaja) {
         if(!Cortes.exists()){
             console.log("no records")
         }
+        
 
 
         Cortes.forEach((corte)=>{
