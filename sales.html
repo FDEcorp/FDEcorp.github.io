@@ -85,6 +85,24 @@
 
             </ul>
             <h3>Transacciones</h3>
+            <div style="height: 0px; display: flex; justify-content: center;">
+                <div id="sale-details" style="visibility: hidden; z-index: 2; width: 90vw; height: 45vh; border-radius: 10px; background-color: rgba(231, 231, 231, 0.99); display: flex; flex-direction: column;">
+                    
+                    <div style="text-align: right; justify-content: right;"><button onclick="document.getElementById('sale-details').style.visibility = 'hidden'" style="width: 30px; height: 30px; padding: 0px; padding-bottom: 4px; background-color: transparent; color: gray;">x</button></div>
+                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Sale ID:</b> <span id="saleDetails-id"></span></div><br>
+                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Hora: </b><span id="saleDetails-time"></span></div>
+                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Monto:</b> <span id="saleDetails-monto"></span></div>
+                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Metodo</b>: <span id="saleDetails-method"></span></div>
+                    <br>
+                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Contenido:</b> <span id="saleDetails-items"></span><br>
+                        <ul id="saleDetails-list">
+
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
             <ul id="sales-list" class="salesList" style="height: 300px;">
                 
             </ul>

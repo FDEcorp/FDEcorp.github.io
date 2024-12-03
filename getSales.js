@@ -183,8 +183,9 @@ function getSales(){
                             <div class="sale-time" style="flex: 4; text-align: left">${saleDay}/${saleMonth}/${saleYear}</div>
                             <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
                             <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
-
                             <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
+                            <div class="sale-total" style="flex: 2" onclick="showSaleInfo('${saleID}','${saleDay}','${saleMonth}','${saleYear}')"> info </div>
+
                         </li>
                         `
                         salesTotal += saleVal.Total
@@ -339,9 +340,29 @@ function getSales(){
     
 }
 
-function getCortes(){
+function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
+    document.getElementById('saleDetails-list').innerHTML = ''
+    document.getElementById('sale-details').style.visibility = 'visible'
+    console.log(saleID)
+    document.getElementById('saleDetails-id').innerText = saleID
+    
+    get(child(ref(db),`/businesses/${business}/sales/${saleYear}/${saleMonth}/${saleDay}/${saleID}`)).then((sale) => {
+        console.log(sale.val().Items)
+        document.getElementById('saleDetails-time').innerText = sale.val().Time;
 
+        document.getElementById('saleDetails-method').innerText = sale.val().Method;
+        document.getElementById('saleDetails-monto').innerText = sale.val().Total;
+        
+        document.getElementById('saleDetails-list').innerHTML += String(Object.entries(sale.val().Items).map(
+            (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]} @ $ ${String(item).split(',')[2]}</li>`
+        )).replaceAll(',','')
+
+    })
+    
+    
 }
+
+window.showSaleInfo = showSaleInfo
 
  // Load the Visualization API and the piechart package.
  google.charts.load('current', {'packages':['bar']});
