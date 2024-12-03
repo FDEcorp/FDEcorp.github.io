@@ -18,13 +18,20 @@ let productCategories = {}
 let prodCatSum = {}
 
 var now = new Date();
-var dayForInput = ("0" + now.getDate()).slice(-2);
+var dayForInput1 = ("0" + now.getDate()).slice(-2);
+var dayForInput2 = ("0" + now.getDate()).slice(-2);
 var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
-var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput) ;
+var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput2) ;
 
-fromDateInput.value = today
+var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
+
+fromDateInput.value = startofmonth
 toDateInput.value = today
-getSales()
+
+setTimeout(()=>{
+    getSales()
+},'500')
+
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
