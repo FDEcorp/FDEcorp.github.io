@@ -451,7 +451,8 @@ function drawChart() {
                     'hAxis':{
                         baselineColor: '#fff',
                         gridlineColor: '#fff',
-                    }
+                    }, 
+                    chartArea:{left:80,top:30,width:'70%',height:'70%'}
                 };
     
      // Instantiate and draw our chart, passing in some options.
