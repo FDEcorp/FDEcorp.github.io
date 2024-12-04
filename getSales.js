@@ -442,7 +442,7 @@ function drawChart() {
                     'colors': ['#e24848'],
                     'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
                     'legend': { position: "none" },
-                    'lineWidth':3.5,
+                    'bar': {groupWidth: "20"},
                     'vAxis': {
                         format:"$ ",
                         minValue: 0,
@@ -457,7 +457,7 @@ function drawChart() {
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+    var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
 
     chart.draw(data, horariosOptions);
     chart2.draw(data2, categoryChartOptions);
