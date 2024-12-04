@@ -299,8 +299,9 @@ function getSales(){
                                     <div class="sale-time" style="flex: 4; text-align: left">${Day[0]}/${Month.key}/${year}</div>
                                     <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
                                     <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
-
                                     <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
+                                    <div class="sale-total" style="flex: 2" onclick="showSaleInfo('${saleID}','${Day[0]}','${Month.key}','${year}')"> info </div>
+
                                 </li>
                                 `
 
