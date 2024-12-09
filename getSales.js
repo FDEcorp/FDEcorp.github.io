@@ -27,7 +27,7 @@ var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput2) ;
 
 var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 
-fromDateInput.value = startofmonth
+fromDateInput.value = today
 toDateInput.value = today
 
 setTimeout(()=>{
