@@ -74,6 +74,22 @@ function groupByHour(time,amount){
     }
 
 }
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  
+    // These options can be used to round to whole numbers.
+    trailingZeroDisplay: 'stripIfInteger'   // This is probably what most people
+                                            // want. It will only stop printing
+                                            // the fraction when the input
+                                            // amount is a round number (int)
+                                            // already. If that's not what you
+                                            // need, have a look at the options
+                                            // below.
+    //minimumFractionDigits: 0, // This suffices for whole numbers, but will
+                                // print 2500.10 as $2,500.1
+    //maximumFractionDigits: 0, // Causes 2500.99 to be printed as $2,501
+  });
 
 function groupByDate(day,month,year,amount){
     let date = `${day}/${month}/${year}`
@@ -85,9 +101,14 @@ function groupByDate(day,month,year,amount){
     let averageArray = Object.values(salesbyDate)
     let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
     console.log("prom:",avg)
-    document.getElementById('average').innerText = avg;
-
-    document.getElementById('est-mens').innerText = avg*30.43;
+    document.getElementById('average').innerText = avg.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+    document.getElementById('est-mens').innerText = (avg*30.43).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
 }
 
 function getSales(){
@@ -210,6 +231,7 @@ function getSales(){
                         getSaleItemsCat(saleVal.Items)
                         
                         salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                        
                         if(saleVal.Method == "cash"){
                             salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
                         }
