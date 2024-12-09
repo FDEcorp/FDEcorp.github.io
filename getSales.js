@@ -82,7 +82,12 @@ function groupByDate(day,month,year,amount){
     }else{
         salesbyDate[date] = salesbyDate[date] + amount
     }
+    let averageArray = Object.values(salesbyDate)
+    let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
+    console.log("prom:",avg)
+    document.getElementById('average').innerText = avg;
 
+    document.getElementById('est-mens').innerText = avg*30.43;
 }
 
 function getSales(){
