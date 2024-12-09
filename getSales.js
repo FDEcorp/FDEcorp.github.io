@@ -14,8 +14,10 @@ let business = localStorage.getItem('business')
 window.datatoload = []
 window.datatoload2 = []
 window.datatoload3 = []
+window.datatoload4 = []
 let productCategories = {}
-let prodCatSum = {}
+window.prodCatSum = {}
+window.prodCatSumMoney = {}
 
 var now = new Date();
 var dayForInput1 = ("0" + now.getDate()).slice(-2);
@@ -95,6 +97,7 @@ function getSales(){
     datatoload2 = []
     salesbyHour = {}
     prodCatSum = {}
+    prodCatSumMoney = {}
     salesbyDate = {}
 
     drawChart()
@@ -214,7 +217,8 @@ function getSales(){
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                     datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
                     datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-                    
+                    datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
+
                     drawChart()
                 })
                 
@@ -321,6 +325,7 @@ function getSales(){
                                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                                 datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
                                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+                                datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
 
                                 drawChart()
 
@@ -380,6 +385,8 @@ function drawChart() {
     var data = new google.visualization.DataTable();
     var data2 = new google.visualization.DataTable();
     var data3 = new google.visualization.DataTable();
+    var data4 = new google.visualization.DataTable();
+
     data.addColumn('number', 'Hora');
     data.addColumn('number', 'Sales'); 
 
@@ -389,9 +396,20 @@ function drawChart() {
     data3.addColumn('date', 'Fecha');
     data3.addColumn('number', 'Sales');
 
+    data4.addColumn('string', 'category');
+    data4.addColumn('number', 'Sales');
+
     data.addRows(datatoload);
     data2.addRows(datatoload2);  
     data3.addRows(datatoload3);  
+    data4.addRows(datatoload4);  
+
+    var formatter = new google.visualization.NumberFormat({
+        prefix: '$',     // Add a dollar sign as a prefix
+        groupingSymbol: ',' // Use a comma as the thousands separator
+      });
+
+    formatter.format(data4, 1); // Format the second column (index 1)
 
      // Set chart options
     var horariosOptions = {
@@ -432,6 +450,30 @@ function drawChart() {
                             color: 'red', 
                             fontSize: 14
                         },
+                    }, 
+                    chartArea:{left:25,top:0,width:'80%',height:'50%'},
+                    'vAxis': {format:"$ "}
+                };
+
+                var categoryChartOptions2 = {
+                    pieHole: 0.4,
+                    height: '300',
+                    colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    pieStartAngle: 270,
+                    'vAxis': {
+                    baselineColor: '#fff',
+                    gridlineColor: '#eee',
+                    },
+                    'pointSize': 20,
+                    legend: {
+                        position: 'labeled',
+                        labeledValueText: 'both',
+                        format: "$",
+                        textStyle: {
+                            color: 'red', 
+                            fontSize: 14
+                        },
                        
                     }, 
                     chartArea:{left:25,top:0,width:'80%',height:'50%'}
@@ -459,10 +501,13 @@ function drawChart() {
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
     var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+    var chart4 = new google.visualization.PieChart(document.getElementById('donutchart2'));
+
 
     chart.draw(data, horariosOptions);
     chart2.draw(data2, categoryChartOptions);
     chart3.draw(data3, saleDatesOptions);
+    chart4.draw(data4, categoryChartOptions2);
     }, "500");
     
     
@@ -472,6 +517,8 @@ function getSaleItemsCat(saleItems){
     Object.entries(saleItems).forEach((item)=>{
         let itemName = String(item[0]).split(" ")[0]
         let qty = item[1][0]
+        let value = item[1][1]
+        console.log("check this",item[1][0],item[1][1])
         let cat = productCategories[itemName]
 
         if(prodCatSum[cat]==undefined){
@@ -479,6 +526,13 @@ function getSaleItemsCat(saleItems){
         }
         else{
             prodCatSum[cat] = Number(prodCatSum[cat])+Number(qty)
+        }
+
+        if(prodCatSumMoney[cat]==undefined){
+            prodCatSumMoney[cat] = Number(qty)*Number(value)
+        }
+        else{
+            prodCatSumMoney[cat] = Number(prodCatSumMoney[cat])+Number(qty)*Number(value)
         }
     })
     //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
