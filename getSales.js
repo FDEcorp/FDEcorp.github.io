@@ -459,6 +459,8 @@ function drawChart() {
                     gridlineColor: '#fff',},
                 };
 
+               
+
     var categoryChartOptions = {
                     pieHole: 0.4,
                     height: '300',
@@ -530,10 +532,31 @@ function drawChart() {
     var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
     var chart4 = new google.visualization.PieChart(document.getElementById('donutchart2'));
 
+    var view = new google.visualization.DataView(data);
 
-    chart.draw(data, horariosOptions);
+    view.setColumns([0, //The "descr column"
+        1, //Downlink column
+        {
+            calc: "stringify",
+            sourceColumn: 1, // Create an annotation column with source column "1"
+            type: "string",
+            role: "annotation"
+        }]);   
+        
+        var view3 = new google.visualization.DataView(data3);
+
+        view3.setColumns([0, //The "descr column"
+            1, //Downlink column
+            {
+                calc: "stringify",
+                sourceColumn: 1, // Create an annotation column with source column "1"
+                type: "string",
+                role: "annotation"
+            }]);   
+
+    chart.draw(view, horariosOptions);
     chart2.draw(data2, categoryChartOptions);
-    chart3.draw(data3, saleDatesOptions);
+    chart3.draw(view3, saleDatesOptions);
     chart4.draw(data4, categoryChartOptions2);
     }, "500");
     
