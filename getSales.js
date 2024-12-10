@@ -443,7 +443,7 @@ function drawChart() {
                     'height':'280',
                     'colors': ['#e24848'],
                     'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
-                    'bar': {groupWidth: "20"},
+                    'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
                         count: 5,
@@ -457,6 +457,7 @@ function drawChart() {
                     },
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
+                    alwaysOutside: false
                 };
 
                
@@ -551,7 +552,9 @@ function drawChart() {
                 calc: "stringify",
                 sourceColumn: 1, // Create an annotation column with source column "1"
                 type: "string",
-                role: "annotation"
+                role: "annotation",
+                alwaysOutside: false,
+                fontSize: "8px"
             }]);   
 
     chart.draw(view, horariosOptions);
