@@ -28,17 +28,11 @@ var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 fromDateInput.value = today
 toDateInput.value = today
 
-setTimeout(()=>{
-    getSales()
-},'500')
+let Search = document.getElementById('search')
 
-
-
-fromDateInput.addEventListener('change',()=>{
+Search.addEventListener('click',()=>{
     getSales()
 })
-
-
 
 window.salesbyHour = {}
 window.salesbyDate = {}
@@ -83,7 +77,8 @@ function groupByDate(day,month,year,amount){
     }
     let averageArray = Object.values(salesbyDate)
     let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
-    console.log("prom:",avg)
+    window.latestDate = Object.keys(salesbyDate)
+    console.log("prom:",latestDate[latestDate.length-1],avg)
     document.getElementById('average').innerText = avg.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -109,7 +104,6 @@ function getSales(){
 
     drawChart()
     
-
     let [year,month,day] = String(fromDateInput.value).split("-")
     let [year2,month2,day2] = String(toDateInput.value).split("-")
 
@@ -223,12 +217,12 @@ function getSales(){
 
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                     datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                 
-
                     drawChart()
                 })
                 
             })
+            drawChart()
+            alert("Done Fetching! 1")  
         })
     }
 
@@ -282,10 +276,12 @@ function getSales(){
 
 
                     })
+                    
                 }
             })
-
-
+            drawChart()            
+            alert("Done Fetching! 2") 
+        
         })
 
         get(child(ref(db),`/businesses/${business}/sales/${year}/`)).then((Year) => {
@@ -329,11 +325,8 @@ function getSales(){
                                 console.log(salesbyDate)
                                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                                 datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                            
-                                drawChart()
-
                             })
-
+                            
                         }
 
 
@@ -341,12 +334,12 @@ function getSales(){
                     })
                 }
             })
+            drawChart()
+            alert("Done Fetching! 3")  
         })
 
     }
 
-    
-    
 }
 
 function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
