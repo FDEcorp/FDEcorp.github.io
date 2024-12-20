@@ -515,7 +515,7 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#fff',
                     }, 
-                    chartArea:{left:80,top:30,width:'70%',height:'70%'}
+                    chartArea:{left:70,top:30,width:'60%',height:'70%'}
                 };
     
      // Instantiate and draw our chart, passing in some options.
