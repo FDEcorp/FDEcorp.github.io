@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Stock</title>
+    <script type="module" src="dbconfig.js"></script>
+
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
+    <style>
+        body{
+            height: 180vh;
+            background-color: #fff;
+        }
+        html{
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <h1>
+            <img src="../fdeicon.png" height="24px" alt="">
+            FDE: <span id="business"></span></h1>
+        <script>
+                document.getElementById('business').innerText = localStorage.getItem('business')
+        </script>
+        <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
+    </header> 
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+    
+        <div style="display: flex; gap: 10px; flex: 4; justify-content: right;">
+          
+        </div>
+        
+    </section>
+
+    <div class="main-cont">
+        
+    </div>
+
+</body>
+</html>
