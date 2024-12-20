@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDE - Sales Records</title>
     <script type="module" src="dbconfig.js"></script>
-    <script type="module" src="getSales.js"></script>
+    <script type="module" src="getSalesRange.js"></script>
 
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -45,7 +45,7 @@
     </section>
 
     <div class="main-cont">
-        <h3 style="margin: 0; text-align: center;">Venta por dia:</h3>
+        <h3 style="margin: 0; text-align: center;">Rango de Fechas</h3>
         <br>
     
         <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding-inline: 20px;">
@@ -57,6 +57,12 @@
                 </div>
             </div>
 
+            <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: left;">
+                <div style="text-align: left; color: gray; font-size: 12px;"><span>Hasta</span></div>
+                <div>
+                    <input type="date" id="to-date" class="date-selector">
+                </div>
+            </div>
 
         </div>
        
@@ -73,13 +79,10 @@
         
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; row-gap: 0px;">
             <div id="chart_div" style="max-width: 600px; height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
-            <div id="donutchart" style="max-width: 600px; height: 250px; overflow: hidden; padding-top: 50px; z-index: 2;"></div>
-            <div id="donutchart2" style="max-width: 600px; height: 250px; overflow: hidden; padding-top: 0; padding-bottom: 0px; z-index: 0;"></div>
-            <div id="chart_div2" style="flex-grow: 1; height: 250px; overflow: hidden; padding-top: 0; padding-bottom:50px; transform: translateY(-40px); z-index: 0;"></div>
-
-
+            <div id="chart_div2" style="flex-grow: 1; height: 250px; overflow: hidden; padding-top: 0; padding-bottom:0px; z-index: 0;"></div>
         </div>
-        <div style="transform: translateY(-90px);">
+
+        <div style="transform: translateY(-0px);">
             <h3>Cortes</h3>
             <ul class="salesList" id="cortes-list" style="height: 200px;">
 

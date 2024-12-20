@@ -5,6 +5,8 @@ if(Boolean(localStorage.getItem("admin"))==false){
 }
 
 let fromDateInput = document.getElementById('from-date')
+let toDateInput = document.getElementById('to-date')
+
 let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
@@ -14,9 +16,6 @@ window.datatoload = []
 window.datatoload2 = []
 window.datatoload3 = []
 window.datatoload4 = []
-let productCategories = {}
-window.prodCatSum = {}
-window.prodCatSumMoney = {}
 
 var now = new Date();
 var dayForInput1 = ("0" + now.getDate()).slice(-2);
@@ -27,26 +26,19 @@ var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput2) ;
 var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 
 fromDateInput.value = today
+toDateInput.value = today
 
 setTimeout(()=>{
     getSales()
 },'500')
 
 
-get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
-    Products.forEach(
-        function(product){
-            if(product.val().category == undefined || product.val().category == ""){
-                productCategories[product.key] = "unknown"
-            }
-            productCategories[product.key] = product.val().category
-        })
-})
-
 
 fromDateInput.addEventListener('change',()=>{
     getSales()
 })
+
+
 
 window.salesbyHour = {}
 window.salesbyDate = {}
@@ -113,21 +105,19 @@ function getSales(){
     datatoload = []
     datatoload2 = []
     salesbyHour = {}
-    prodCatSum = {}
-    prodCatSumMoney = {}
     salesbyDate = {}
 
     drawChart()
     
 
     let [year,month,day] = String(fromDateInput.value).split("-")
-    let [year2,month2,day2] = String(fromDateInput.value).split("-")
+    let [year2,month2,day2] = String(toDateInput.value).split("-")
 
     if(Number(year+month+day)>Number(year2+month2+day2)){
         console.log("fecha FROM debe ser MENOR a TO")
     }
     else{
-        console.log("searching from: "+fromDateInput.value+" to:"+fromDateInput.value)
+        console.log("searching from: "+fromDateInput.value+" to:"+toDateInput.value)
     }
 
     if(month == month2){
@@ -219,7 +209,6 @@ function getSales(){
                     
                         groupByHour(saleVal.Time,saleVal.Total)
                         groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
-                        getSaleItemsCat(saleVal.Items)
                         
                         salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
                         
@@ -234,8 +223,7 @@ function getSales(){
 
                     datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                     datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                    datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-                    datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
+                 
 
                     drawChart()
                 })
@@ -338,13 +326,10 @@ function getSales(){
 
                                 groupByHour(saleVal.Time,saleVal.Total)
                                 groupByDate(Day[0],Month.key,year,saleVal.Total)
-                                getSaleItemsCat(saleVal.Items)
                                 console.log(salesbyDate)
                                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                                 datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                                datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-                                datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
-
+                            
                                 drawChart()
 
                             })
@@ -401,33 +386,21 @@ function drawChart() {
     
      // Create the data table.
     var data = new google.visualization.DataTable();
-    var data2 = new google.visualization.DataTable();
     var data3 = new google.visualization.DataTable();
-    var data4 = new google.visualization.DataTable();
 
     data.addColumn('number', 'Hora');
     data.addColumn('number', 'Sales'); 
 
-    data2.addColumn('string', 'category');
-    data2.addColumn('number', 'quantity');     
-
     data3.addColumn('date', 'Fecha');
     data3.addColumn('number', 'Sales');
 
-    data4.addColumn('string', 'category');
-    data4.addColumn('number', 'Sales');
-
     data.addRows(datatoload);
-    data2.addRows(datatoload2);  
     data3.addRows(datatoload3);  
-    data4.addRows(datatoload4);  
 
     var formatter = new google.visualization.NumberFormat({
         prefix: '$',     // Add a dollar sign as a prefix
         groupingSymbol: ',' // Use a comma as the thousands separator
       });
-
-    formatter.format(data4, 1); // Format the second column (index 1)
 
      // Set chart options
     var horariosOptions = {
@@ -451,55 +424,6 @@ function drawChart() {
                     alwaysOutside: false
                 };
 
-               
-
-    var categoryChartOptions = {
-                    pieHole: 0.4,
-                    height: '300',
-                    colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
-                    pieStartAngle: 270,
-                    'vAxis': {
-                    baselineColor: '#fff',
-                    gridlineColor: '#eee',
-                    },
-                    'pointSize': 20,
-                    legend: {
-                        position: 'labeled',
-                        labeledValueText: 'both',
-                        textStyle: {
-                            color: 'red', 
-                            fontSize: 14
-                        },
-                    }, 
-                    chartArea:{left:25,top:0,width:'80%',height:'50%'},
-                    'vAxis': {format:"$ "}
-                };
-
-                var categoryChartOptions2 = {
-                    pieHole: 0.4,
-                    height: '300',
-                    colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
-                    pieStartAngle: 270,
-                    'vAxis': {
-                    baselineColor: '#fff',
-                    gridlineColor: '#eee',
-                    },
-                    'pointSize': 20,
-                    legend: {
-                        position: 'labeled',
-                        labeledValueText: 'both',
-                        format: "$",
-                        textStyle: {
-                            color: 'red', 
-                            fontSize: 14
-                        },
-                       
-                    }, 
-                    chartArea:{left:25,top:0,width:'80%',height:'50%'}
-                };
-
     var saleDatesOptions = {
                     'height':'260',
                     'colors': ['#e24848'],
@@ -515,14 +439,12 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#fff',
                     }, 
-                    chartArea:{left:80,top:30,width:'70%',height:'70%'}
+                    chartArea:{left:70,top:30,width:'60%',height:'70%'}
                 };
     
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
     var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-    var chart4 = new google.visualization.PieChart(document.getElementById('donutchart2'));
 
     var view = new google.visualization.DataView(data);
 
@@ -549,37 +471,9 @@ function drawChart() {
             }]);   
 
     chart.draw(view, horariosOptions);
-    chart2.draw(data2, categoryChartOptions);
     chart3.draw(view3, saleDatesOptions);
-    chart4.draw(data4, categoryChartOptions2);
     }, "500");
     
     
 }
 
-function getSaleItemsCat(saleItems){
-    Object.entries(saleItems).forEach((item)=>{
-        let itemName = String(item[0]).split(" ")[0]
-        let qty = item[1][0]
-        let value = item[1][1]
-        console.log("check this",item[1][0],item[1][1])
-        let cat = productCategories[itemName]
-
-        if(prodCatSum[cat]==undefined){
-            prodCatSum[cat] = Number(qty)
-        }
-        else{
-            prodCatSum[cat] = Number(prodCatSum[cat])+Number(qty)
-        }
-
-        if(prodCatSumMoney[cat]==undefined){
-            prodCatSumMoney[cat] = Number(qty)*Number(value)
-        }
-        else{
-            prodCatSumMoney[cat] = Number(prodCatSumMoney[cat])+Number(qty)*Number(value)
-        }
-    })
-    //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
-    //let qty = Object.entries(saleItems)[0][1]
-    //console.log("items in order:",item,qty)
-}

@@ -24,7 +24,7 @@
             <div id="menu-item-2" class="menu-module" onclick="location.href = 'compras.html'">COMPRAS</div>
             <div id="menu-item-3" class="menu-module" onclick="if(localStorage.getItem('admin')=='true'){location.href='sales.html'}else{alert('No cuenta con permisos')}">VENTAS</div>
             <div id="menu-item-5" class="menu-module">GASTOS</div>
-            <div id="menu-item-5" class="menu-module">REPORTES</div>
+            <div id="menu-item-5" class="menu-module" onclick="if(localStorage.getItem('admin')=='true'){location.href='salesRange.html'}else{alert('No cuenta con permisos')}">VENTAS RANGO</div>
             <div id="menu-item-5" class="menu-module">USUARIOS</div>
             <div id="menu-item-5" class="menu-module">INSUMOS</div>
             <div id="menu-item-5" class="menu-module" onclick="location.href='ProductDetails.html'">PRODUCTOS</div>
