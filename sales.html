@@ -47,21 +47,15 @@
     <div class="main-cont">
         <h3 style="margin: 0; text-align: center;">Venta por dia:</h3>
         <br>
-    
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding-inline: 20px;">
-
-            <div style="flex: 1; display: flex; flex-direction: row; gap: 8px; margin: 0; padding: 0; justify-content: left; text-align: left;">
-                <div style="flex: 1;  text-align: left; color: gray; font-size: 12px;"><span>Desde:</span></div>
-                <div>                
-                    <input type="date" id="from-date" class="date-selector">
+            <div style="display: flex; flex-direction: row; gap: 8px; margin: 0; margin-inline: 20px; padding: 0; justify-content: left; text-align: left;">
+                <div style="flex-grow: 1; max-width: 220px;">                
+                    <input type="date" id="from-date" class="date-selector" style="width: 200px">
                 </div>
+
                 <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
-                        <button id="search">Buscar</button>
+                        <button id="search" style="width: 100px; height: 40px;">Buscar</button>
                 </div>
             </div>
-
-
-        </div>
        
         <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px;">
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
