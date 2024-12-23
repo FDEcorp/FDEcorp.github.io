@@ -9,6 +9,7 @@ let salestotalDisp = document.getElementById('sales-total')
 let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
 let business = localStorage.getItem('business')
+let search = document.getElementById('search')
 
 window.datatoload = []
 window.datatoload2 = []
@@ -28,10 +29,6 @@ var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 
 fromDateInput.value = today
 
-setTimeout(()=>{
-    getSales()
-},'500')
-
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
@@ -44,7 +41,7 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
 })
 
 
-fromDateInput.addEventListener('change',()=>{
+search.addEventListener('click',()=>{
     getSales()
 })
 
@@ -107,6 +104,7 @@ function getSales(){
     salestotalDispCash.innerText = 0
     salestotalDispCard.innerText = 0
     let salesTotal = 0
+
     document.getElementById('sales-list').innerHTML = ''
     document.getElementById('cortes-list').innerHTML = ''
 
@@ -116,22 +114,13 @@ function getSales(){
     prodCatSum = {}
     prodCatSumMoney = {}
     salesbyDate = {}
-
-    drawChart()
     
-
     let [year,month,day] = String(fromDateInput.value).split("-")
     let [year2,month2,day2] = String(fromDateInput.value).split("-")
 
-    if(Number(year+month+day)>Number(year2+month2+day2)){
-        console.log("fecha FROM debe ser MENOR a TO")
-    }
-    else{
-        console.log("searching from: "+fromDateInput.value+" to:"+fromDateInput.value)
-    }
-
     if(month == month2){
         console.log("scanning in month record")
+
         get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
             (Cortes).forEach((corte)=>{
 
@@ -185,183 +174,53 @@ function getSales(){
 
         })
 
-        get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
-            (Sales).forEach((Sale)=>{
-                
-                let Day = Sale.key
-                Object.entries(Sale.val()).forEach((transaction)=>{
-                    let saleID = String(transaction[0])
-                    let saleYear = saleID.substring(0,4)
-                    let saleMonth = saleID.substring(4,6)
-                    let saleDay = Sale.key
-                    let saleVal = transaction[1]
-                    
-                    if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
 
-                        document.getElementById('sales-list').innerHTML += `
+        get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
+            (Sales).forEach((transaction)=>{
+                let saleID = transaction.key
+                let saleYear = saleID.substring(0,4)
+                let saleMonth = saleID.substring(4,6)
+    
+                let saleVal = transaction.val()
+
+                document.getElementById('sales-list').innerHTML += `
                         <li class="sale-record" id="${saleID}">
-                            <div class="sale-time" style="flex: 4; text-align: left">${saleDay}/${saleMonth}/${saleYear}</div>
+                            <div class="sale-time" style="flex: 4; text-align: left">${day}/${saleMonth}/${saleYear}</div>
                             <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
                             <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
                             <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
-                            <div class="sale-total" style="flex: 2" onclick="showSaleInfo('${saleID}','${saleDay}','${saleMonth}','${saleYear}')"> info </div>
+                            <div class="sale-total" style="flex: 2" onclick="showSaleInfo('${saleID}','${day}','${saleMonth}','${saleYear}')"> info </div>
 
                         </li>
                         `
-                        salesTotal += saleVal.Total
-
-                        let years = saleID.substring(0,4)
-                        let monthIndex = Number(saleID.substring(4,6))-1
-                        let day = saleID.substring(6,8)
-                        let hours = saleVal.Time.substring(0,2)
-                        let minutes = saleVal.Time.substring(3,5)
-                        let seconds = saleVal.Time.substring(6,8)
-                    
-                        groupByHour(saleVal.Time,saleVal.Total)
-                        groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
-                        getSaleItemsCat(saleVal.Items)
+                salesTotal += saleVal.Total
+    
+                groupByHour(saleVal.Time,saleVal.Total)
+                groupByDate(day,saleMonth,saleYear,saleVal.Total)
+                getSaleItemsCat(saleVal.Items)
                         
-                        salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
                         
-                        if(saleVal.Method == "cash"){
-                            salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
-                        }
-                        else{
-                            salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
-                        }
-
-                    }
-
-                    datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-                    datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                    datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-                    datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
-
-                    drawChart()
-                })
-                
-            })
-        })
-    }
-
-    if(month != month2){
-        console.log("scanning in year record")
-        get(child(ref(db),`/businesses/${business}/Cortes/${year}/`)).then((Year) => {
-            (Year).forEach((Month)=>{
-                if(Number(Month.key)>=Number(month) && Number(Month.key) <=month2){
-                    Object.entries(Month.val()).forEach((corte)=>{
-
-                        let Day = corte[0]
-
-                        corte[1].forEach((corteRecord)=>{
-                            let saleYear = year
-                            let saleMonth = Month.key
-                            let saleDay = corte[0]
-                            let diff = corteRecord.diff
-                            if(diff == undefined){
-                                diff = 0;
-                            }
-                            let color = 'rgb(150,150,150)'
-                            if(diff > 0){
-                                color = 'rgba(0,155,0,0.5)'
-                                diff = `+ ${diff}`
-                            }
-                            if(diff < 0){
-                                color = 'rgba(255,0,0,0.5)'
-                                diff = `- ${diff}`
-                            }
-
-                            document.getElementById('cortes-list').innerHTML += `
-                                <li class="corte-record" id="${corteRecord.TimeStamp}" stlye="flex-direction: row">
-                                    <div style="display: flex; flex-direction: column; flex: 1; align-content: start">
-                                        <div style="text-align: left; font-weight: 800">${Day}/${Month.key}/${year}</div>
-                                        <div style="text-align: left; color: gray;">${corteRecord.TimeStamp}</div>
-                                    </div>
-
-                                    <div style="display: flex; flex-direction: column; flex: 4;">
-                                        <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRecord.total}</div>
-                                        <div style="flex: 1; text-align: right"><b>Card: </b>$ ${corteRecord.card}</div>
-
-                                        <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRecord.cash}</div>
-                                        <div style="flex: 1; text-align: right; color: ${color}"><b>${diff}</b></div>
-
-                                    </div>
-                    
-                                        
-                                </li>
-                                `
-                        })
-
-
-                    })
+                if(saleVal.Method == "cash"){
+                    salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
                 }
-            })
-
-
-        })
-
-        get(child(ref(db),`/businesses/${business}/sales/${year}/`)).then((Year) => {
-            (Year).forEach((Month)=>{
-                console.log(Month.key)
-
-                if(Number(Month.key)>=Number(month) && Number(Month.key) <=month2){
-                    Object.entries(Month.val()).forEach((Day)=>{
-                        
-
-                        if(Number(year+Month.key+String(Day[0]).padStart(2))>=Number(year+month+day) && Number(year+Month.key+String(Day[0]).padStart(2))<=Number(year2+month2+day2)){
-                            console.log(Day[0],Day[1])
-
-                            Object.entries(Day[1]).forEach((transaction)=>{
-                                
-                                let saleID = transaction[0]
-                                let saleVal = transaction[1]
-                                
-                                document.getElementById('sales-list').innerHTML += `
-                                <li class="sale-record" id="${saleID}">
-                                    <div class="sale-time" style="flex: 4; text-align: left">${Day[0]}/${Month.key}/${year}</div>
-                                    <div class="sale-time" style="flex: 3; text-align: left">${saleVal.Time}</div>
-                                    <div class="sale-time" style="flex: 2; text-align: right">${saleVal.Method}</div>
-                                    <div class="sale-total" style="flex: 2"> $ ${saleVal.Total} </div>
-                                    <div class="sale-total" style="flex: 2" onclick="showSaleInfo('${saleID}','${Day[0]}','${Month.key}','${year}')"> info </div>
-
-                                </li>
-                                `
-
-                                salesTotal += saleVal.Total
-                                salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
-                                if(saleVal.Method == "cash"){
-                                    salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
-                                }
-                                else{
-                                    salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
-                                }
-
-                                groupByHour(saleVal.Time,saleVal.Total)
-                                groupByDate(Day[0],Month.key,year,saleVal.Total)
-                                getSaleItemsCat(saleVal.Items)
-                                console.log(salesbyDate)
-                                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-                                datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                                datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
-                                datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
-
-                                drawChart()
-
-                            })
-
-                        }
-
-
-
-                    })
+                else{
+                    salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
                 }
+                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
+                datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
+                datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
+                drawChart()
+
+
             })
         })
+
 
     }
 
-    
-    
+
 }
 
 function showSaleInfo(saleID,saleDay,saleMonth,saleYear){

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDE - Recetas</title>
     <script type="module" src="dbconfig.js"></script>
-
+    <script type="module" src="getrecipeitems.js"></script>
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript"></script>
@@ -43,8 +43,42 @@
         
     </section>
 
-    <div class="main-cont">
-        
+    <div class="main-cont" style="max-width: 400px;">
+        <b>Producto:</b>
+        <br>
+        <select name="" id="product-select" style="width: 69%; border-radius: 10px; height: 45px;">
+            <option value="">Selecciona un producto</option>
+            <option value="">Frappe natural</option>
+            <option value="">Frappe Moka</option>
+            <option value="">Americano</option>
+            <option value="">Capuchino</option>
+
+        </select>
+        <button id="save" style="width: 90px; margin-right: 4px;">Save</button>
+        <div id="avail-skus" style="height: 50px; display: flex; flex-direction: row; gap: 4px">
+            <butto class="sku-size">S</button>
+        </div>
+        <br>
+        <div style="height: 20px;"></div>
+        <b>Receta actual:</b>
+        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(246, 246, 246); height: 20vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+            <ul id="current-recipe" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
+                <li style="background-color: transparent; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
+                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">Vaso Tp16</div><div style="width: 30px;"></div><div style="text-align: right; padding: 0px; width: 120px;"><input type="text" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;"></div>
+                </li>
+
+                <li style="background-color: transparent; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
+                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">Tapa Tp16</div><div style="width: 30px;"></div><div style="text-align: right; padding: 0px; width: 120px;"><input type="text" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;"></div>
+                </li>
+            </ul>
+        </div>
+
+        <b>Insumos disponibles:</b>
+        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(246, 246, 246); height: 40vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+            <ul id="avail-items" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px;">
+            
+            </ul>
+        </div>
     </div>
 
 </body>

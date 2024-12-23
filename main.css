@@ -513,3 +513,11 @@ li{
     margin: 10px;
     padding: 10px;
 }
+
+.sku-size{
+    width: 50px;
+    background-color: transparent;
+    color: gray;
+    border: 1 px gray solid;
+    border-radius: 10px;
+}
