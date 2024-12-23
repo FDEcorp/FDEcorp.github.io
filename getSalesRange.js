@@ -399,7 +399,7 @@ function drawChart() {
     var horariosOptions = {
                     'height':'280',
                     'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.6,
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
@@ -414,13 +414,14 @@ function drawChart() {
                     },
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
+                    chartArea:{left:70,top:30,width:'90%',height:'70%'},
                     alwaysOutside: false
                 };
 
     var saleDatesOptions = {
                     'height':'260',
                     'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.6,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
                     'vAxis': {
@@ -432,7 +433,7 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#fff',
                     }, 
-                    chartArea:{left:70,top:30,width:'60%',height:'70%'}
+                    chartArea:{left:70,top:30,width:'90%',height:'70%'}
                 };
     
      // Instantiate and draw our chart, passing in some options.
