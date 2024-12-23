@@ -48,26 +48,24 @@
         <h3 style="margin: 0; text-align: center;">Rango de Fechas</h3>
         <br>
     
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; padding-inline: 20px;">
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; padding-inline: 20px;">
 
-            <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: left; text-align: left;">
+            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: left; text-align: left; width: 140px;">
                 <div style="flex: 1;  text-align: left; color: gray; font-size: 12px;"><span>Desde:</span></div>
                 <div>                
-                    <input type="date" id="from-date" class="date-selector">
+                    <input type="date" id="from-date" class="date-selector" style="width: 110px; height: 50px;">
                 </div>
             </div>
 
-            <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: left;">
+            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: left; width: 140px;">
                 <div style="text-align: left; color: gray; font-size: 12px;"><span>Hasta</span></div>
                 <div>
-                    <input type="date" id="to-date" class="date-selector">
+                    <input type="date" id="to-date" class="date-selector"  style="width: 110px; height: 50px;">
                 </div>
             </div>
 
-            <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
-                <div>
-                    <button id="search">Buscar</button>
-                </div>
+            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: right; width: 70px;">
+                    <button id="search" style="height: 50px; width: 8%; margin-top: 12px;">Buscar</button>
             </div>
         </div>
        
@@ -88,36 +86,6 @@
             <div style="height: 20px;"></div>
             <div id="chart_div2" style="flex-grow: 1; height: 250px; overflow: hidden; padding-top: 0; padding-bottom:0px; z-index: 0;"></div>
         </div>
-
-        <div style="transform: translateY(-0px);">
-            <h3>Cortes</h3>
-            <ul class="salesList" id="cortes-list" style="height: 200px;">
-
-            </ul>
-            <h3>Transacciones</h3>
-            <div style="height: 0px; display: flex; justify-content: center;">
-                <div id="sale-details" style="visibility: hidden; z-index: 2; width: 90vw; height: 45vh; border-radius: 10px; background-color: rgba(231, 231, 231, 0.99); display: flex; flex-direction: column;">
-                    
-                    <div style="text-align: right; justify-content: right;"><button onclick="document.getElementById('sale-details').style.visibility = 'hidden'" style="width: 30px; height: 30px; padding: 0px; padding-bottom: 4px; background-color: transparent; color: gray;">x</button></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Sale ID:</b> <span id="saleDetails-id"></span></div><br>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Hora: </b><span id="saleDetails-time"></span></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Monto:</b> <span id="saleDetails-monto"></span></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Metodo</b>: <span id="saleDetails-method"></span></div>
-                    <br>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Contenido:</b> <span id="saleDetails-items"></span><br>
-                        <ul id="saleDetails-list">
-
-                        </ul>
-                    </div>
-
-
-                </div>
-            </div>
-            <ul id="sales-list" class="salesList" style="height: 300px;">
-                
-            </ul>
-        </div>
-       
 
     </div>
 
