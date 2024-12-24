@@ -197,7 +197,7 @@ function getSales(){
                 else{
                     salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
                 }
-                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), Math.round(salesbyHour[hour])])
                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                 datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
 
@@ -206,6 +206,20 @@ function getSales(){
             datatoload2=datatoload2.sort((a, b) => a[0] - b[0])
             datatoload4=datatoload4.sort((a, b) => a[0] - b[0])
             drawChart()
+            document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
+
+              document.getElementById('sales-total-cash').innerHTML = Number(document.getElementById('sales-total-cash').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
+
+              document.getElementById('sales-total-card').innerHTML = Number(document.getElementById('sales-total-card').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
         })
 
 
@@ -282,12 +296,14 @@ function drawChart() {
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
-                        count: 5,
+                        count: 10,
                     },
                     baselineColor: '#fff',
                     gridlineColor: '#eee',
                     },
                     'hAxis': {format:"",
+                        gridlines: {
+                            count: 10,},
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     alwaysOutside: false,

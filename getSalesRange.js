@@ -178,12 +178,26 @@ function getSales(){
             })
             datatoload= datatoload.sort((a, b) => a[0] - b[0])
             datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
-            datatoload = datatoload.map(subarray => [subarray[0], subarray[1] / daysEval, subarray[2] / daysEval]);
+            datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
 
             datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
             datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
 
             drawChart()
+            document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
+
+              document.getElementById('sales-total-cash').innerHTML = Number(document.getElementById('sales-total-cash').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
+
+              document.getElementById('sales-total-card').innerHTML = Number(document.getElementById('sales-total-card').innerHTML).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
         })
     }
 
