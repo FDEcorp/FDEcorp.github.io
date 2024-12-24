@@ -208,7 +208,6 @@ function getSales(){
                     salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
                 }
                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-                datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                 datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
                 drawChart()
@@ -261,7 +260,6 @@ function drawChart() {
      // Create the data table.
     var data = new google.visualization.DataTable();
     var data2 = new google.visualization.DataTable();
-    var data3 = new google.visualization.DataTable();
     var data4 = new google.visualization.DataTable();
 
     data.addColumn('number', 'Hora');
@@ -270,15 +268,12 @@ function drawChart() {
     data2.addColumn('string', 'category');
     data2.addColumn('number', 'quantity');     
 
-    data3.addColumn('date', 'Fecha');
-    data3.addColumn('number', 'Sales');
 
     data4.addColumn('string', 'category');
     data4.addColumn('number', 'Sales');
 
     data.addRows(datatoload);
     data2.addRows(datatoload2);  
-    data3.addRows(datatoload3);  
     data4.addRows(datatoload4);  
 
     var formatter = new google.visualization.NumberFormat({
@@ -301,10 +296,7 @@ function drawChart() {
                     baselineColor: '#fff',
                     gridlineColor: '#eee',
                     },
-                    'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
-                        count: 12,
-                    
-                    },
+                    'hAxis': {format:"",
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     alwaysOutside: false
@@ -380,7 +372,6 @@ function drawChart() {
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
     var chart4 = new google.visualization.PieChart(document.getElementById('donutchart2'));
 
     var view = new google.visualization.DataView(data);
@@ -394,22 +385,11 @@ function drawChart() {
             role: "annotation"
         }]);   
         
-        var view3 = new google.visualization.DataView(data3);
 
-        view3.setColumns([0, //The "descr column"
-            1, //Downlink column
-            {
-                calc: "stringify",
-                sourceColumn: 1, // Create an annotation column with source column "1"
-                type: "string",
-                role: "annotation",
-                alwaysOutside: false,
-                fontSize: "8px"
-            }]);   
+        
 
     chart.draw(view, horariosOptions);
     chart2.draw(data2, categoryChartOptions);
-    chart3.draw(view3, saleDatesOptions);
     chart4.draw(data4, categoryChartOptions2);
     }, "500");
     

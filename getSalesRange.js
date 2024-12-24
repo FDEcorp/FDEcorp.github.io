@@ -199,10 +199,7 @@ function drawChart() {
                     baselineColor: '#fff',
                     gridlineColor: '#eee',
                     },
-                    'hAxis': {format:"",minValue: 8, maxValue: 24, gridlines: {
-                        count: 12,
-                    
-                    },
+                    'hAxis': {format:"",
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     chartArea:{left:70,top:30,width:'90%',height:'70%'},
@@ -224,12 +221,19 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#fff',
                     }, 
-                    chartArea:{left:70,top:30,width:'90%',height:'70%'}
+                    chartArea:{left:60,top:30,width:'80%',height:'70%'},
+                    trendlines:{
+                        0:{
+                            color:"#f0b400"
+                        }
+                    },
+                    curveType: 'function'
+
                 };
     
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+    var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
 
     var view = new google.visualization.DataView(data);
 
