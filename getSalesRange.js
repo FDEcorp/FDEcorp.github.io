@@ -17,6 +17,10 @@ window.datatoload2 = []
 window.datatoload3 = []
 window.datatoload4 = []
 
+window.avgperhour = 0;
+window.avgperdate = 0;
+window.daysEval = 0;
+
 var now = new Date();
 var dayForInput1 = ("0" + now.getDate()).slice(-2);
 var dayForInput2 = ("0" + now.getDate()).slice(-2);
@@ -48,6 +52,16 @@ function groupByHour(time,amount){
         salesbyHour[hours] = Number(salesbyHour[hours]) + amount
     }
 
+
+    let averageArray = Object.values(salesbyHour)
+    let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
+    window.avgperhour = avg;
+
+    document.getElementById('average-hour').innerText = (avgperhour/daysEval).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+    
 }
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -73,18 +87,29 @@ function groupByDate(day,month,year,amount){
     }else{
         salesbyDate[date] = salesbyDate[date] + amount
     }
+
     let averageArray = Object.values(salesbyDate)
     let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
+
+    window.avgperdate = avg;
+    window.daysEval = averageArray.length;
+
+    console.log(daysEval)
+
     window.latestDate = Object.keys(salesbyDate)
+
     console.log("prom:",latestDate[latestDate.length-1],avg)
+
     document.getElementById('average').innerText = avg.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
       })
+    
     document.getElementById('est-mens').innerText = (avg*30.43).toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
       });
+
 }
 
 function getSales(){
@@ -151,8 +176,13 @@ function getSales(){
                 })
                 
             })
-            datatoload=datatoload.sort((a, b) => a[0] - b[0])
+            datatoload= datatoload.sort((a, b) => a[0] - b[0])
+            datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
+            datatoload = datatoload.map(subarray => subarray.map(value => value / daysEval));
+
             datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
+            datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
+
             drawChart()
         })
     }
@@ -176,9 +206,11 @@ function drawChart() {
 
     data.addColumn('number', 'Hora');
     data.addColumn('number', 'Sales'); 
+    data.addColumn('number', 'Avg'); 
 
     data3.addColumn('date', 'Fecha');
     data3.addColumn('number', 'Sales');
+    data3.addColumn('number', 'Avg');
 
     data.addRows(datatoload);
     data3.addRows(datatoload3);  
@@ -191,7 +223,7 @@ function drawChart() {
      // Set chart options
     var horariosOptions = {
                     'height':'280',
-                    'colors': ['#e24848'],
+                    'colors': ['#e24848','#f0b400'],
                     'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
@@ -202,47 +234,42 @@ function drawChart() {
                     gridlineColor: '#eee',
                     },
                     'hAxis': {format:"",
+                    gridlines: {
+                            count: 5,},
                     baselineColor: '#fff',
-                    gridlineColor: '#fff',},
+                    gridlineColor: '#ddd',},
                     chartArea:{left:70,top:30,width:'90%',height:'70%'},
                     alwaysOutside: false,
-                    trendlines:{
-                        0:{
-                            color:"#f0b400"
-                        }
-                    },
+                    
                 };
 
     var saleDatesOptions = {
                     'height':'260',
-                    'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
+                    'colors': ['#e24848','#f0b400'],
+                    'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.6,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
                     'vAxis': {
                         format:"$ ",
-                        minValue: 0,
                         baselineColor: '#fff',
                         gridlineColor: '#eee',},
-                    'hAxis':{
+                    'hAxis':{ gridlines: {
+                        count: 5,},
                         baselineColor: '#fff',
-                        gridlineColor: '#fff',
+                        gridlineColor: '#ddd',
                     }, 
                     chartArea:{left:60,top:30,width:'80%',height:'70%'},
-                    trendlines:{
-                        0:{
-                            color:"#f0b400"
-                        }
-                    },
                     curveType: 'function'
 
                 };
     
      // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
     var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
 
     var view = new google.visualization.DataView(data);
+
 
     view.setColumns([0, //The "descr column"
         1, //Downlink column
@@ -251,7 +278,7 @@ function drawChart() {
             sourceColumn: 1, // Create an annotation column with source column "1"
             type: "string",
             role: "annotation"
-        }]);   
+        },2]);   
         
         var view3 = new google.visualization.DataView(data3);
 
@@ -264,7 +291,8 @@ function drawChart() {
                 role: "annotation",
                 alwaysOutside: false,
                 fontSize: "8px"
-            }]);   
+            },
+            2]);   
 
     chart.draw(view, horariosOptions);
     chart3.draw(view3, saleDatesOptions);

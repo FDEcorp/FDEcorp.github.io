@@ -260,7 +260,6 @@ function drawChart() {
     data2.addColumn('string', 'category');
     data2.addColumn('number', 'quantity');     
 
-
     data4.addColumn('string', 'category');
     data4.addColumn('number', 'Sales');
 
@@ -279,7 +278,7 @@ function drawChart() {
     var horariosOptions = {
                     'height':'280',
                     'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? '360':document.documentElement.clientWidth*0.5,
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? '360':document.documentElement.clientWidth*0.65,
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
