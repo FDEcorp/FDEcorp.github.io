@@ -86,17 +86,7 @@ function groupByDate(day,month,year,amount){
     }else{
         salesbyDate[date] = salesbyDate[date] + amount
     }
-    let averageArray = Object.values(salesbyDate)
-    let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
-    console.log("prom:",avg)
-    document.getElementById('average').innerText = avg.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      })
-    document.getElementById('est-mens').innerText = (avg*30.43).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      });
+    
 }
 
 function getSales(){
@@ -210,10 +200,12 @@ function getSales(){
                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                 datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
-                drawChart()
-
 
             })
+            datatoload=datatoload.sort((a, b) => a[0] - b[0])
+            datatoload2=datatoload2.sort((a, b) => a[0] - b[0])
+            datatoload4=datatoload4.sort((a, b) => a[0] - b[0])
+            drawChart()
         })
 
 
@@ -287,7 +279,7 @@ function drawChart() {
     var horariosOptions = {
                     'height':'280',
                     'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? '360':document.documentElement.clientWidth*0.5,
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
@@ -299,7 +291,8 @@ function drawChart() {
                     'hAxis': {format:"",
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
-                    alwaysOutside: false
+                    alwaysOutside: false,
+                    chartArea:{left:70,top:30,width:'80%',height:'70%'},
                 };
 
                
@@ -308,7 +301,7 @@ function drawChart() {
                     pieHole: 0.4,
                     height: '300',
                     colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? document.documentElement.clientWidth*1.1:'430',
                     pieStartAngle: 270,
                     'vAxis': {
                     baselineColor: '#fff',
@@ -348,7 +341,7 @@ function drawChart() {
                         },
                        
                     }, 
-                    chartArea:{left:25,top:0,width:'80%',height:'50%'}
+                    chartArea:{left:25,top:30,width:'80%',height:'50%'}
                 };
 
     var saleDatesOptions = {

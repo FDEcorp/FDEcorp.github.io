@@ -151,6 +151,8 @@ function getSales(){
                 })
                 
             })
+            datatoload=datatoload.sort((a, b) => a[0] - b[0])
+            datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
             drawChart()
         })
     }
@@ -203,7 +205,12 @@ function drawChart() {
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     chartArea:{left:70,top:30,width:'90%',height:'70%'},
-                    alwaysOutside: false
+                    alwaysOutside: false,
+                    trendlines:{
+                        0:{
+                            color:"#f0b400"
+                        }
+                    },
                 };
 
     var saleDatesOptions = {
