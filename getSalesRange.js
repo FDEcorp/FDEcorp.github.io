@@ -238,7 +238,7 @@ function drawChart() {
                             count: 10,},
                     baselineColor: '#eee',
                     gridlineColor: '#eee',},
-                    chartArea:{left:70,top:30,width:'90%',height:'60%'},
+                    chartArea:{left:70,top:30,width:'75%',height:'60%'},
                     alwaysOutside: false,
                     
                 };
@@ -258,7 +258,7 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#ddd',
                     }, 
-                    chartArea:{left:60,top:10,width:'80%',height:'70%'},
+                    chartArea:{left:70,top:10,width:'75%',height:'70%'},
                     curveType: 'function'
 
                 };
