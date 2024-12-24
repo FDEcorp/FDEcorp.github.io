@@ -278,7 +278,7 @@ function drawChart() {
     var horariosOptions = {
                     'height':'280',
                     'colors': ['#e24848'],
-                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? '360':document.documentElement.clientWidth*0.65,
+                    'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? '360':document.documentElement.clientWidth*0.5,
                     'bar': {groupWidth: "30"},
                     'legend': { position: "none" },
                     'vAxis': {format:"$ ",minValue: 1, maxValue: 0, gridlines: {
@@ -291,7 +291,7 @@ function drawChart() {
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     alwaysOutside: false,
-                    chartArea:{left:70,top:30,width:'80%',height:'70%'},
+                    chartArea:{left:70,top:30,width:'75%',height:'70%'},
                 };
 
                
@@ -315,7 +315,7 @@ function drawChart() {
                             fontSize: 14
                         },
                     }, 
-                    chartArea:{left:25,top:0,width:'80%',height:'50%'},
+                    chartArea:{left:25,top:0,width:'75%',height:'50%'},
                     'vAxis': {format:"$ "}
                 };
 
