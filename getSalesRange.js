@@ -178,7 +178,7 @@ function getSales(){
             })
             datatoload= datatoload.sort((a, b) => a[0] - b[0])
             datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
-            datatoload = datatoload.map(subarray => subarray.map(value => value / daysEval));
+            datatoload = datatoload.map(subarray => [subarray[0], subarray[1] / daysEval, subarray[2] / daysEval]);
 
             datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
             datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
@@ -234,11 +234,11 @@ function drawChart() {
                     gridlineColor: '#eee',
                     },
                     'hAxis': {format:"",
-                    gridlines: {
-                            count: 5,},
-                    baselineColor: '#fff',
-                    gridlineColor: '#ddd',},
-                    chartArea:{left:70,top:30,width:'90%',height:'70%'},
+                        gridlines: {
+                            count: 10,},
+                    baselineColor: '#eee',
+                    gridlineColor: '#eee',},
+                    chartArea:{left:70,top:30,width:'90%',height:'60%'},
                     alwaysOutside: false,
                     
                 };
@@ -258,7 +258,7 @@ function drawChart() {
                         baselineColor: '#fff',
                         gridlineColor: '#ddd',
                     }, 
-                    chartArea:{left:60,top:30,width:'80%',height:'70%'},
+                    chartArea:{left:60,top:10,width:'80%',height:'70%'},
                     curveType: 'function'
 
                 };
