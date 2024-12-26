@@ -132,26 +132,110 @@ function getSales(){
     let TimeDiff = Number(Time2)-Number(Time1)
     let DaysDiff = Math.round(Number(TimeDiff)/(1000 * 60 * 60 * 24))+1
     daysEval = DaysDiff
-    console.log(DaysDiff)
 
 
     let [year,month,day] = String(fromDateInput.value).split("-")
     let [year2,month2,day2] = String(toDateInput.value).split("-")
 
-    if(Number(year+month+day)>Number(year2+month2+day2)){
-    }
-    else{
-    }
     if(month != month2){
-        alert('Actualmente esta limitado a buscar dentro de un solo mes')
-      
-        location.reload()
-  
+
+            get(child(ref(db),`/businesses/${business}/sales/${year}/`)).then((Sales) => {
+                console.log(Sales)
+                window.test = Sales
+                //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
+                let startDate = new Date(fromDateInput.value)
+                let endDate = new Date(toDateInput.value)
+                let current = startDate
+
+                let startMonth= new Date(fromDateInput.value).getMonth()+1
+                let endMonth = new Date(toDateInput.value).getMonth()+1
+                let currentMonth = startMonth
+
+                while(currentMonth<=endMonth){
+                    currentMonth++
+                    let evalMonth = String(currentMonth).padStart(2,'0')
+                
+                    while (current<=endDate) {
+                        current = new Date(new Date(current).getTime()+(1000 * 60 * 60 * 24))
+                        
+                        let currentDay = String(new Date(current).getDate()).padStart(2,'0')
+                        let currentMonth = String(new Date(current).getMonth()+1).padStart(2,'0')
+                        let currentYear = String(new Date(current).getFullYear()).padStart(2,'0')
+                        let salesData;
+                        
+                        try {
+                            salesData = Sales.val()[currentMonth][currentDay]  
+                        } catch (error) {
+                            groupByDate(currentDay,currentMonth,currentYear,Number(0))
+                        }
+                        
+                        if(salesData == undefined){
+                        }else{
+                            Object.entries(salesData).forEach((transaction)=>{
+                                let saleID = String(transaction[0])
+                                let saleYear = saleID.substring(0,4)
+                                let saleMonth = saleID.substring(4,6)
+                                let saleDay = currentDay
+                                let saleVal = transaction[1]
+            
+                                if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
+            
+                                    salesTotal += saleVal.Total
+            
+                                    groupByHour(saleVal.Time,saleVal.Total)
+                                    groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
+                                    
+                                    salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                                    
+                                    if(saleVal.Method == "cash"){
+                                        salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
+                                    }
+                                    else{
+                                        salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
+                                    }
+            
+                                }
+            
+                                datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                                datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
+                            
+                            })
+                        }
+                        
+
+                        
+                    }
+                }   
+                datatoload= datatoload.sort((a, b) => a[0] - b[0])
+                datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
+                datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
+    
+                datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
+                datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
+    
+                drawChart()
+                document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })
+    
+                  document.getElementById('sales-total-cash').innerHTML = Number(document.getElementById('sales-total-cash').innerHTML).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })
+    
+                  document.getElementById('sales-total-card').innerHTML = Number(document.getElementById('sales-total-card').innerHTML).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })
+                  document.getElementById('average').innerText += ` (${daysEval} days)`
+    
+            })
+
         
     }
 
     if(month == month2){
-
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
             //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
             let startDate = new Date(fromDateInput.value)
