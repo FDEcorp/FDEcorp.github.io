@@ -435,12 +435,14 @@ function drawChart() {
                     'bar': {groupWidth: "20"},
                     'vAxis': {
                         format:"$ ",
+                        minValue: 0,
                         gridlines: {
                             count: 10
                         },
                         baselineColor: '#fff',
                         gridlineColor: '#eee',},
-                    'hAxis':{ gridlines: {
+                    'hAxis':{ 
+                        gridlines: {
                         count: 5,},
                         baselineColor: '#fff',
                         gridlineColor: '#ddd',
@@ -448,7 +450,7 @@ function drawChart() {
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
                     curveType: 'function',
                     series: {
-                        0: { type: 'area' }, // First series as AreaChart
+                        0: { type: 'line' }, // First series as AreaChart
                         1: { type: 'line' }  // Second series as LineChart
                       },
                       animation:{
