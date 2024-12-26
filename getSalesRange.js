@@ -144,7 +144,10 @@ function getSales(){
     }
     if(month != month2){
         alert('Actualmente esta limitado a buscar dentro de un solo mes')
-        return
+      
+        location.reload()
+  
+        
     }
 
     if(month == month2){
