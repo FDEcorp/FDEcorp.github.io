@@ -432,7 +432,7 @@ function drawChart() {
 
     var saleDatesOptions = {
                     'height':'260',
-                    'colors': ['#e24848','#e24848','#f0b400','#aaa'],
+                    'colors': ['#e24848','#e24848','#f0b400','#777'],
                     'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
@@ -453,7 +453,7 @@ function drawChart() {
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
                     curveType: 'function',
                     series: {
-                        0: { type: 'line' }, // First series as AreaChart
+                        0: { type: 'area' }, // First series as AreaChart
                         1: { type: 'scatter' }, // First series as AreaChart
                         2: { type: 'line' },  // Second series as LineChart
                         3: { type: 'line' }  // Second series as LineChart
