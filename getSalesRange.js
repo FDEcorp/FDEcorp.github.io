@@ -116,6 +116,7 @@ function groupByDate(day,month,year,amount){
 }
 
 getSales()
+
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
@@ -140,6 +141,10 @@ function getSales(){
     if(Number(year+month+day)>Number(year2+month2+day2)){
     }
     else{
+    }
+    if(month != month2){
+        alert('Actualmente esta limitado a buscar dentro de un solo mes')
+        return
     }
 
     if(month == month2){
