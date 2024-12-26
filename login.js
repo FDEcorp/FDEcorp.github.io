@@ -23,7 +23,13 @@ function checkCreds(emailField){
             localStorage.setItem("business", businessName);
             localStorage.setItem("username", username);
             localStorage.setItem("admin",admin);
+
+            document.getElementById('login-card').style.transform = 'scale(2)';
+            document.getElementById('login-card').style.opacity = '0.2';
+
+            setTimeout(()=>{
             location.href = "menu.html"
+            },'200')
         }
         else{
             alert('credenciales incorrectos')
@@ -33,5 +39,8 @@ function checkCreds(emailField){
 }
 
 submit.addEventListener('click',()=>{
-    checkCreds(emailField.value)
+   
+    setTimeout(()=>{
+        checkCreds(emailField.value)
+    },'00')
 })

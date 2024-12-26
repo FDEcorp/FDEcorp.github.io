@@ -32,25 +32,29 @@
 
     </style>
 </head>
-<body>
+<body style="background-color: rgb(245,245,245);">
    <header>
     <h1>            
         <img src="fdeicon.png" height="24px" alt="">
         FDE <span>V1.0.5</span></h1>
    </header> 
-    <div class="wrapper">
-        <h2>
-            Bienvenido:
-        </h2>
-    
-        <br>
-        <input type="text" placeholder="Correo" id="email-input">        
-        <input type="password" placeholder="Contraseña" id="password-input">
-        <br>
-        <button id="submit-login" class="">Continuar</button>
+
+    <div style="padding: 0; margin: 0;" class="login-flex">
+        <div class="wrapper" id="login-card" style="flex: 1; background-color: white; border: 1px solid rgb(242, 242, 242); border-radius: 20px; max-width: 370px; box-shadow: 0px 4px 4px 2px rgba(0,0,0,0.1);">
+            <h2>
+                Bienvenido:
+            </h2>
         
-        <br>
-        <h5>¿No tienes cuenta? <a href="register.html" id="login-link">Creala ahora</a></h5>
+            <br>
+            <input type="text" placeholder="Correo" id="email-input">        
+            <input type="password" placeholder="Contraseña" id="password-input">
+            <br>
+            <button id="submit-login" class="">Continuar</button>
+            
+            <br>
+            <h5>¿No tienes cuenta? <a href="register.html" id="login-link">Creala ahora</a></h5>
+        </div>
     </div>
+    
 </body>
 </html>

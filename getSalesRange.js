@@ -36,6 +36,15 @@ Search.addEventListener('click',()=>{
     getSales()
 })
 
+fromDateInput.addEventListener('change',()=>{
+    getSales()
+})
+
+
+toDateInput.addEventListener('change',()=>{
+    getSales()
+})
+
 window.salesbyHour = {}
 window.salesbyDate = {}
 
@@ -106,6 +115,7 @@ function groupByDate(day,month,year,amount){
 
 }
 
+getSales()
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
@@ -135,9 +145,68 @@ function getSales(){
     if(month == month2){
 
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
+            //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
+            let startDate = new Date(fromDateInput.value)
+            let endDate = new Date(toDateInput.value)
+            let current = startDate
+            
+            while (current<=endDate) {
+                current = new Date(new Date(current).getTime()+(1000 * 60 * 60 * 24))
+                console.log("iterating! ",current)
+                let currentDay = String(new Date(current).getDate()).padStart(2,'0')
+                let currentMonth = String(new Date(current).getMonth()+1).padStart(2,'0')
+                let currentYear = String(new Date(current).getFullYear()).padStart(2,'0')
+
+                let salesData = Sales.val()[currentDay]
+                console.log(salesData)       
+
+                if(salesData == undefined){
+                    groupByDate(currentDay,currentMonth,currentYear,Number(0))
+                }else{
+                    Object.entries(salesData).forEach((transaction)=>{
+                        let saleID = String(transaction[0])
+                        let saleYear = saleID.substring(0,4)
+                        let saleMonth = saleID.substring(4,6)
+                        let saleDay = currentDay
+                        let saleVal = transaction[1]
+    
+                        if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
+    
+                            salesTotal += saleVal.Total
+    
+                            let years = saleID.substring(0,4)
+                            let monthIndex = Number(saleID.substring(4,6))-1
+                            let day = saleID.substring(6,8)
+                            let hours = saleVal.Time.substring(0,2)
+                            let minutes = saleVal.Time.substring(3,5)
+                            let seconds = saleVal.Time.substring(6,8)
+                        
+                            groupByHour(saleVal.Time,saleVal.Total)
+                            groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
+                            
+                            salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
+                            
+                            if(saleVal.Method == "cash"){
+                                salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
+                            }
+                            else{
+                                salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
+                            }
+    
+                        }
+    
+                        datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
+                        datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
+                    
+                    })
+                }
+
+                
+            }
+
+            /*
             (Sales).forEach((Sale)=>{
                 
-                let Day = Sale.key
                 Object.entries(Sale.val()).forEach((transaction)=>{
                     let saleID = String(transaction[0])
                     let saleYear = saleID.substring(0,4)
@@ -174,7 +243,8 @@ function getSales(){
                     datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
                 })
                 
-            })
+            })*/
+
             datatoload= datatoload.sort((a, b) => a[0] - b[0])
             datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
             datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);

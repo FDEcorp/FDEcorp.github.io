@@ -45,6 +45,7 @@ search.addEventListener('click',()=>{
     getSales()
 })
 
+
 window.salesbyHour = {}
 window.salesbyDate = {}
 
@@ -88,7 +89,7 @@ function groupByDate(day,month,year,amount){
     }
     
 }
-
+getSales()
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
