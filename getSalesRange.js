@@ -450,7 +450,7 @@ function drawChart() {
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
                     curveType: 'function',
                     series: {
-                        0: { type: 'line' }, // First series as AreaChart
+                        0: { type: 'area' }, // First series as AreaChart
                         1: { type: 'line' }  // Second series as LineChart
                       },
                       animation:{
@@ -481,14 +481,14 @@ function drawChart() {
 
         view3.setColumns([0, //The "descr column"
             1, //Downlink column
-            {
+            /*{
                 calc: "stringify",
                 sourceColumn: 1, // Create an annotation column with source column "1"
                 type: "string",
                 role: "annotation",
                 alwaysOutside: false,
                 fontSize: "8px"
-            },
+            },*/
             2]);   
 
     chart.draw(view, horariosOptions);
