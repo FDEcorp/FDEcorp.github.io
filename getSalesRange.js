@@ -89,16 +89,10 @@ function groupByDate(day,month,year,amount){
     }
 
     let averageArray = Object.values(salesbyDate)
-    let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
+    let avg = averageArray.reduce((acc, c) => acc + c, 0) / daysEval;
 
     window.avgperdate = avg;
-    window.daysEval = averageArray.length;
-
-    console.log(daysEval)
-
     window.latestDate = Object.keys(salesbyDate)
-
-    console.log("prom:",latestDate[latestDate.length-1],avg)
 
     document.getElementById('average').innerText = avg.toLocaleString('en-US', {
         style: 'currency',
@@ -122,18 +116,23 @@ function getSales(){
     salesbyHour = {}
     salesbyDate = {}
     
+    let Time1 = new Date(fromDateInput.value).getTime()
+    let Time2 = new Date(toDateInput.value).getTime()
+    let TimeDiff = Number(Time2)-Number(Time1)
+    let DaysDiff = Math.round(Number(TimeDiff)/(1000 * 60 * 60 * 24))+1
+    daysEval = DaysDiff
+    console.log(DaysDiff)
+
+
     let [year,month,day] = String(fromDateInput.value).split("-")
     let [year2,month2,day2] = String(toDateInput.value).split("-")
 
     if(Number(year+month+day)>Number(year2+month2+day2)){
-        console.log("fecha FROM debe ser MENOR a TO")
     }
     else{
-        console.log("searching from: "+fromDateInput.value+" to:"+toDateInput.value)
     }
 
     if(month == month2){
-        console.log("scanning in month record")
 
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
             (Sales).forEach((Sale)=>{
@@ -198,9 +197,10 @@ function getSales(){
                 style: 'currency',
                 currency: 'USD',
               })
+              document.getElementById('average').innerText += ` (${daysEval} days)`
+
         })
     }
-
 }
 
  // Load the Visualization API and the piechart package.
