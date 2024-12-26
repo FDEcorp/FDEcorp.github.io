@@ -206,12 +206,13 @@ function getSales(){
                         
                     }
                 }   
+
                 datatoload= datatoload.sort((a, b) => a[0] - b[0])
                 datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
                 datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
     
                 datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
-                datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
+                datatoload3 = datatoload3.map(subarray2 => [...subarray2, subarray2[1], avgperdate, 0]);
     
                 drawChart()
                 document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
@@ -342,7 +343,7 @@ function getSales(){
             datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
 
             datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
-            datatoload3 = datatoload3.map(subarray2 => [...subarray2, avgperdate]);
+            datatoload3 = datatoload3.map(subarray2 => [...subarray2, subarray2[1], avgperdate,0]);
 
             drawChart()
             document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
@@ -386,7 +387,9 @@ function drawChart() {
 
     data3.addColumn('date', 'Fecha');
     data3.addColumn('number', 'Sales');
+    data3.addColumn('number', 'Sales');
     data3.addColumn('number', 'Avg');
+    data3.addColumn('number', 'base');
 
     data.addRows(datatoload);
     data3.addRows(datatoload3);  
@@ -429,7 +432,7 @@ function drawChart() {
 
     var saleDatesOptions = {
                     'height':'260',
-                    'colors': ['#e24848','#f0b400'],
+                    'colors': ['#e24848','#e24848','#f0b400','#aaa'],
                     'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
@@ -450,8 +453,10 @@ function drawChart() {
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
                     curveType: 'function',
                     series: {
-                        0: { type: 'area' }, // First series as AreaChart
-                        1: { type: 'line' }  // Second series as LineChart
+                        0: { type: 'line' }, // First series as AreaChart
+                        1: { type: 'scatter' }, // First series as AreaChart
+                        2: { type: 'line' },  // Second series as LineChart
+                        3: { type: 'line' }  // Second series as LineChart
                       },
                       animation:{
                         duration: 1000,
@@ -462,9 +467,7 @@ function drawChart() {
     
      // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-
     var chart3 = new google.visualization.ComboChart(document.getElementById('chart_div2'));
-
     var view = new google.visualization.DataView(data);
 
 
@@ -489,7 +492,7 @@ function drawChart() {
                 alwaysOutside: false,
                 fontSize: "8px"
             },*/
-            2]);   
+            2,3,4]);   
 
     chart.draw(view, horariosOptions);
     chart3.draw(view3, saleDatesOptions);
