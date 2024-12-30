@@ -48,6 +48,7 @@ toDateInput.addEventListener('change',()=>{
 window.salesbyHour = {}
 window.salesbyDate = {}
 
+
 function groupByHour(time,amount){
     let [hours,minutes,seconds] = String(time).split(":")
     let years = 2024
@@ -117,6 +118,55 @@ function groupByDate(day,month,year,amount){
 
 getSales()
 
+function getExcendts(){
+    window.diffsbydate = {}
+    let year = new Date(fromDateInput.value).getFullYear()
+    let month = String(new Date(fromDateInput.value).getMonth()+1).padStart(2,'0')
+    let Time1 = new Date(fromDateInput.value).getTime()+(1000 * 60 * 60 * 6)
+    let Time2 = new Date(toDateInput.value).getTime()+(1000 * 60 * 60 * 29)
+    let startDate = new Date(Time1)
+    let endDate = new Date(Time2)
+    let current = Time1
+
+    get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
+        console.log("api response",Cortes.val())
+        window.cortestest = Cortes.val();
+
+        while(current<=Time2){
+            let currentDay = String(new Date(current).getDate()).padStart(2,'0')
+                diffsbydate[currentDay] = 0; 
+
+                if(cortestest[currentDay]!= undefined && cortestest[currentDay]!= null){
+                    Object.entries(cortestest[currentDay]).forEach((corte)=>{
+                        
+                        diffsbydate[currentDay] =  Number(diffsbydate[currentDay]) + Number(corte[1].diff)
+                        
+                    })
+                }
+            
+            current = current+(1000 * 60 * 60 * 24)         
+        }
+
+        window.diffsbydateArr = Object.values(diffsbydate).sort((a, b) => a[0] - b[0])
+        console.log(diffsbydate)
+
+        let sumExcedent = Object.values(diffsbydate).sort((a, b) => a[0] - b[0]).reduce((acc, c) => acc + c, 0) ;
+        
+        document.getElementById('diff-mens').innerText = (sumExcedent).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        }); 
+    
+        
+    })
+
+            
+           
+    
+    
+}
+
+
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
@@ -138,9 +188,8 @@ function getSales(){
     let [year2,month2,day2] = String(toDateInput.value).split("-")
 
     if(month != month2){
-
             get(child(ref(db),`/businesses/${business}/sales/${year}/`)).then((Sales) => {
-                console.log(Sales)
+
                 window.test = Sales
                 //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
                 let startDate = new Date(fromDateInput.value)
@@ -162,8 +211,10 @@ function getSales(){
                         let currentMonth = String(new Date(current).getMonth()+1).padStart(2,'0')
                         let currentYear = String(new Date(current).getFullYear()).padStart(2,'0')
                         let salesData;
-                        
-                        try {
+                        groupByDate(currentDay,currentMonth,currentYear,Number(0))
+
+                        try { 
+                            //if no data
                             salesData = Sales.val()[currentMonth][currentDay]  
                         } catch (error) {
                             groupByDate(currentDay,currentMonth,currentYear,Number(0))
@@ -206,15 +257,19 @@ function getSales(){
                         
                     }
                 }   
+                getExcendts()
+                console.log("mode 1")
 
                 datatoload= datatoload.sort((a, b) => a[0] - b[0])
                 datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
                 datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
     
                 datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
+                
                 datatoload3 = datatoload3.map(subarray2 => [...subarray2, subarray2[1], avgperdate, 0]);
     
                 drawChart()
+
                 document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
@@ -237,6 +292,7 @@ function getSales(){
     }
 
     if(month == month2){
+        getExcendts()
         get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
             //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
             let startDate = new Date(fromDateInput.value)
@@ -245,13 +301,11 @@ function getSales(){
             
             while (current<=endDate) {
                 current = new Date(new Date(current).getTime()+(1000 * 60 * 60 * 24))
-                console.log("iterating! ",current)
                 let currentDay = String(new Date(current).getDate()).padStart(2,'0')
                 let currentMonth = String(new Date(current).getMonth()+1).padStart(2,'0')
                 let currentYear = String(new Date(current).getFullYear()).padStart(2,'0')
 
                 let salesData = Sales.val()[currentDay]
-                console.log(salesData)       
 
                 if(salesData == undefined){
                     groupByDate(currentDay,currentMonth,currentYear,Number(0))
@@ -297,70 +351,35 @@ function getSales(){
                 
             }
 
-            /*
-            (Sales).forEach((Sale)=>{
-                
-                Object.entries(Sale.val()).forEach((transaction)=>{
-                    let saleID = String(transaction[0])
-                    let saleYear = saleID.substring(0,4)
-                    let saleMonth = saleID.substring(4,6)
-                    let saleDay = Sale.key
-                    let saleVal = transaction[1]
-                    
-                    if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
-
-                        salesTotal += saleVal.Total
-
-                        let years = saleID.substring(0,4)
-                        let monthIndex = Number(saleID.substring(4,6))-1
-                        let day = saleID.substring(6,8)
-                        let hours = saleVal.Time.substring(0,2)
-                        let minutes = saleVal.Time.substring(3,5)
-                        let seconds = saleVal.Time.substring(6,8)
-                    
-                        groupByHour(saleVal.Time,saleVal.Total)
-                        groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
-                        
-                        salestotalDisp.innerText = Number(salestotalDisp.innerText) + Number(saleVal.Total)
-                        
-                        if(saleVal.Method == "cash"){
-                            salestotalDispCash.innerText = Number(salestotalDispCash.innerText) + Number(saleVal.Total)
-                        }
-                        else{
-                            salestotalDispCard.innerText = Number(salestotalDispCard.innerText) + Number(saleVal.Total)
-                        }
-
-                    }
-
-                    datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), salesbyHour[hour]])
-                    datatoload3 = Object.keys(salesbyDate).map((date,amount) => [new Date(String(date).split("/")[2],Number(String(date).split("/")[1])-1,String(date).split("/")[0]), salesbyDate[date]])
-                })
-                
-            })*/
+            
+            console.log("mode 2")
 
             datatoload= datatoload.sort((a, b) => a[0] - b[0])
             datatoload = datatoload.map(subarray => [...subarray, avgperhour]);
             datatoload = datatoload.map(subarray => [subarray[0], Math.round(subarray[1] / daysEval), Math.round(subarray[2] / daysEval)]);
 
             datatoload3=datatoload3.sort((a, b) => a[0] - b[0])
-            datatoload3 = datatoload3.map(subarray2 => [...subarray2, subarray2[1], avgperdate,0]);
 
+            datatoload3 = datatoload3.map((subarray2) => [...subarray2, 0, avgperdate, subarray2[1]+diffsbydate[String(new Date(subarray2[0]).getDate()).padStart(2,'0')]]);
+            console.log(datatoload3)
+  
             drawChart()
+
             document.getElementById('sales-total').innerHTML = Number(document.getElementById('sales-total').innerHTML).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
-              })
+            })
 
-              document.getElementById('sales-total-cash').innerHTML = Number(document.getElementById('sales-total-cash').innerHTML).toLocaleString('en-US', {
+            document.getElementById('sales-total-cash').innerHTML = Number(document.getElementById('sales-total-cash').innerHTML).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
-              })
+            })
 
-              document.getElementById('sales-total-card').innerHTML = Number(document.getElementById('sales-total-card').innerHTML).toLocaleString('en-US', {
+            document.getElementById('sales-total-card').innerHTML = Number(document.getElementById('sales-total-card').innerHTML).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
-              })
-              document.getElementById('average').innerText += ` (${daysEval} days)`
+            })
+            document.getElementById('average').innerText += ` (${daysEval} days)`
 
         })
     }
@@ -432,7 +451,7 @@ function drawChart() {
 
     var saleDatesOptions = {
                     'height':'260',
-                    'colors': ['#e24848','#e24848','#f0b400','#777'],
+                    'colors': ['#e24848','#e24848','#f0b400','#495'],
                     'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
@@ -451,10 +470,10 @@ function drawChart() {
                         gridlineColor: '#ddd',
                     }, 
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
-                    curveType: 'function',
+                    
                     series: {
                         0: { type: 'area' }, // First series as AreaChart
-                        1: { type: 'scatter' }, // First series as AreaChart
+                        1: { type: 'line' }, // First series as AreaChart
                         2: { type: 'line' },  // Second series as LineChart
                         3: { type: 'line' }  // Second series as LineChart
                       },
