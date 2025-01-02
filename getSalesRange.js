@@ -132,7 +132,7 @@ function getExcendts(){
 
     let Time1 = new Date(fromDateInput.value).getTime()+(1000 * 60 * 60 * 6)
     let Time2 = new Date(toDateInput.value).getTime()+(1000 * 60 * 60 * 29)
-    
+
     let startDate = new Date(Time1)
     let endDate = new Date(Time2)
     let current = Time1
@@ -417,7 +417,7 @@ function drawChart() {
     data3.addColumn('number', 'Sales');
     data3.addColumn('number', 'Sales');
     data3.addColumn('number', 'Avg');
-    data3.addColumn('number', 'base');
+    data3.addColumn('number', 'Sale+Excedent');
 
     data.addRows(datatoload);
     data3.addRows(datatoload3);  
