@@ -119,11 +119,20 @@ function groupByDate(day,month,year,amount){
 getSales()
 
 function getExcendts(){
+    document.getElementById('diff-mens').innerText = (0).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }); 
+
     window.diffsbydate = {}
-    let year = new Date(fromDateInput.value).getFullYear()
-    let month = String(new Date(fromDateInput.value).getMonth()+1).padStart(2,'0')
+    let year;
+    let month;
+    let day;
+    [year,month,day]=String(fromDateInput.value).split('-')
+
     let Time1 = new Date(fromDateInput.value).getTime()+(1000 * 60 * 60 * 6)
     let Time2 = new Date(toDateInput.value).getTime()+(1000 * 60 * 60 * 29)
+    
     let startDate = new Date(Time1)
     let endDate = new Date(Time2)
     let current = Time1
