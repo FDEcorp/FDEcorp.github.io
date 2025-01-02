@@ -44,3 +44,21 @@ submit.addEventListener('click',()=>{
         checkCreds(emailField.value)
     },'00')
 })
+
+passField.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    setTimeout(()=>{
+        checkCreds(emailField.value)
+    },'00')
+})
+
+emailField.addEventListener('keypress',function(e){
+    if(e.key != 'Enter'){
+        return
+    }
+    setTimeout(()=>{
+        checkCreds(emailField.value)
+    },'00')
+})
