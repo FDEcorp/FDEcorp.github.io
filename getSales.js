@@ -112,7 +112,7 @@ function getSales(){
     if(month == month2){
         console.log("scanning in month record")
 
-        get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
+        get(child(ref(db),`/businesses/${business}/Cortes/${year}/${Number(month)}/`)).then((Cortes) => {
             (Cortes).forEach((corte)=>{
 
                 let Day = corte.key
@@ -123,7 +123,7 @@ function getSales(){
                     let saleMonth = month
                     let saleDay = corte.key
                     let diff = corteRec[1].diff
-                 
+                
                     if(diff == undefined){
                         diff = 0;
                     }
@@ -166,7 +166,7 @@ function getSales(){
         })
 
 
-        get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
+        get(child(ref(db),`/businesses/${business}/sales/${year}/${Number(month)}/${day}`)).then((Sales) => {
             (Sales).forEach((transaction)=>{
                 let saleID = transaction.key
                 let saleYear = saleID.substring(0,4)

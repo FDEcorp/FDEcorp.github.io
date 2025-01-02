@@ -128,7 +128,7 @@ function getExcendts(){
     let endDate = new Date(Time2)
     let current = Time1
 
-    get(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/`)).then((Cortes) => {
+    get(child(ref(db),`/businesses/${business}/Cortes/${year}/${Number(month)}/`)).then((Cortes) => {
         console.log("api response",Cortes.val())
         window.cortestest = Cortes.val();
 
@@ -293,7 +293,7 @@ function getSales(){
 
     if(month == month2){
         getExcendts()
-        get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/`)).then((Sales) => {
+        get(child(ref(db),`/businesses/${business}/sales/${year}/${Number(month)}/`)).then((Sales) => {
             //TODO: for loop from START date to END date, if data doesnt exist add saleTotal record of 0 for correct graph
             let startDate = new Date(fromDateInput.value)
             let endDate = new Date(toDateInput.value)
@@ -383,14 +383,14 @@ function getSales(){
 
         })
     }
-}
+} 
 
  // Load the Visualization API and the piechart package.
- google.charts.load('current', {'packages':['bar']});
- google.charts.load('current', {'packages':['corechart']});
- google.charts.load('current', {'packages':['table']});
+google.charts.load('current', {'packages':['bar']});
+google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['table']});
  // Set a callback to run when the Google Visualization API is loaded.
- google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChart);
 
 
 function drawChart() {
