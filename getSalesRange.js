@@ -37,12 +37,12 @@ Search.addEventListener('click',()=>{
 })
 
 fromDateInput.addEventListener('change',()=>{
-    getSales()
+    //getSales()
 })
 
 
 toDateInput.addEventListener('change',()=>{
-    getSales()
+   //getSales()
 })
 
 window.salesbyHour = {}
@@ -108,8 +108,10 @@ function groupByDate(day,month,year,amount){
         style: 'currency',
         currency: 'USD',
       })
-    
-    document.getElementById('est-mens').innerText = (avg*30.43).toLocaleString('en-US', {
+
+    let numdays = daysInMonth(Number(month),Number(year))
+
+    document.getElementById('est-mens').innerText = (avg*numdays).toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
       });
@@ -389,6 +391,7 @@ function getSales(){
                 currency: 'USD',
             })
             document.getElementById('average').innerText += ` (${daysEval} days)`
+            document.getElementById('est-mens').innerText += ` (${daysInMonth(month,year)} days)`
 
         })
     }
@@ -418,6 +421,8 @@ function drawChart() {
     data3.addColumn('number', 'Sales');
     data3.addColumn('number', 'Avg');
     data3.addColumn('number', 'Sale+Excedent');
+
+    
 
     data.addRows(datatoload);
     data3.addRows(datatoload3);  
@@ -528,3 +533,9 @@ function drawChart() {
     }, "100");
 }
 
+
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+window.daysInMonth = daysInMonth
