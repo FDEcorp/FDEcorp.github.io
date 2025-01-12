@@ -522,6 +522,7 @@ li{
     border-radius: 10px;
 }
 
+
 .login-flex{
     display: flex;
     flex-direction: row;
@@ -542,3 +543,5 @@ li{
     }
 
 }
+
+

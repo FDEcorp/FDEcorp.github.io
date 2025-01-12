@@ -48,19 +48,18 @@
         <br>
         <select name="" id="product-select" style="width: 69%; border-radius: 10px; height: 45px;">
             <option value="">Selecciona un producto</option>
-            <option value="">Frappe natural</option>
-            <option value="">Frappe Moka</option>
-            <option value="">Americano</option>
-            <option value="">Capuchino</option>
-
+            
         </select>
         <button id="save" style="width: 90px; margin-right: 4px;">Save</button>
-        <div id="avail-skus" style="height: 50px; display: flex; flex-direction: row; gap: 4px">
-            <butto class="sku-size">S</button>
+        <div style="text-align: left; margin-top: 20px; padding-inline: 20px;">
+            <b>Seleccion de variantes</b>
+        </div>
+        <div id="avail-skus" style="height: 50px; display: flex; flex-direction: row; gap: 4px; padding: 10px;">
+            
         </div>
         <br>
         <div style="height: 20px;"></div>
-        <b>Receta actual:</b>
+        <b>Receta actual de: <span id="selected-item"></span></b>
         <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(246, 246, 246); height: 20vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
             <ul id="current-recipe" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
                 <li style="background-color: transparent; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
