@@ -45,7 +45,7 @@ function getProdRecipe(product){
     productSkus[product].forEach((size)=>{
         console.log(size[1].sizeLabel)
         availSkus.innerHTML += `
-            <button onclick="updateSel('${product}','${size[1].sizeLabel}','${size[0]}')" class="sku-size" style="border: 1px solid gray" onfocus="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(237, 237, 237)'" onblur="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(255, 255, 255)'" id="${size[1].sizeLabel}">${size[1].sizeLabel}</button>
+            <button onclick="updateSel('${product}','${size[1].sizeLabel}','${size[0]}')" class="sku-size" onfocus="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(237, 237, 237)'" onblur="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(255, 255, 255)'" id="${size[1].sizeLabel}">${size[1].sizeLabel}</button>
         `
     })
     

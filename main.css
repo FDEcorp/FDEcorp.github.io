@@ -518,7 +518,7 @@ li{
     width: 50px;
     background-color: transparent;
     color: gray;
-    border: 1 px gray solid;
+    border: 1 px rgb(127, 127, 127) solid;
     border-radius: 10px;
 }
 
