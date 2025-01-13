@@ -318,7 +318,7 @@ function drawChart() {
                     height: '300',
                     colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
                     'width': Number(document.documentElement.clientWidth)*1.1 < 600 ? document.documentElement.clientWidth*1.1:'430',
-                    pieStartAngle: 270,
+                    pieStartAngle: 360,
                     'vAxis': {
                     baselineColor: '#fff',
                     gridlineColor: '#eee',
@@ -332,7 +332,7 @@ function drawChart() {
                             fontSize: 14
                         },
                     }, 
-                    chartArea:{left:25,top:0,width:'75%',height:'50%'},
+                    chartArea:{left:35,top:0,width:'75%',height:'50%'},
                     'vAxis': {format:"$ "}
                 };
 
@@ -341,7 +341,7 @@ function drawChart() {
                     height: '300',
                     colors: ['#e24848','#e06161','#e97272','#e88c8c','#f09e9e','#f1b7b7','#f7caca','#f9e1e1','#fef6f6','#fefafa'],
                     'width': Number(document.documentElement.clientWidth)*1.1 < 430 ? document.documentElement.clientWidth*1.1:'430',
-                    pieStartAngle: 270,
+                    pieStartAngle: 360,
                     'vAxis': {
                     baselineColor: '#fff',
                     gridlineColor: '#eee',
@@ -357,7 +357,7 @@ function drawChart() {
                         },
                        
                     }, 
-                    chartArea:{left:25,top:30,width:'80%',height:'50%'}
+                    chartArea:{left:35,top:30,width:'80%',height:'50%'}
                 };
 
     var saleDatesOptions = {
