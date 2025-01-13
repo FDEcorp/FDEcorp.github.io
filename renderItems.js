@@ -56,7 +56,8 @@ window.order = {}
 window.orderArr = []
 window.total = 0
 
-let categorias = {}
+window.categorias = {}
+window.catList = []
 
 get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
     Items.forEach(
@@ -70,6 +71,8 @@ get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
             }
         })
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
+    catList = Object.keys(categorias)
+    catList = catList.reverse()
 })
 
 renderItems()
@@ -77,54 +80,63 @@ renderItems()
 function renderItems(filter = 'all',productSearch=false){
 
     prodList.innerHTML=""
+
     get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
+        
+        catList.forEach((cat) => {
+            console.log(cat)
+        
         Items.forEach(
             function(item){
                 
+                if(item.val().category == String(cat)){
+                    let image = Object.values(item.val())[2]
+
+                    if(filter == 'all' || (filter == item.val().category && productSearch==false) || (productSearch == true && String(item.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )|| (productSearch == true && String(item.val().vendor).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
     
-                let image = Object.values(item.val())[2]
-
-                if(filter == 'all' || (filter == item.val().category && productSearch==false) || (productSearch == true && String(item.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )|| (productSearch == true && String(item.val().vendor).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
-
-                if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
-                    console.log("resumen: ",localStorage.getItem('resumen'))
-                    prodList.innerHTML += `
-                <div class="item" id="${item.key}-card">
-                    <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
-                        
-                            <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
-                                <div style="height:20px; overflow: hidden" onclick="editProd('${item.key}')">
-                                    ${String(item.key).replaceAll('_',' ')}
-                                </div>
-                                <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${item.val().stock}</span>
-                                <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
-                            </div>
-                        
-                            <div style="height: 20px; font-size: 16px; text-align: right; padding-right:4px; padding-top: 2px; flex: 1">
-                                Order:
-                                <b id="${item.key}-order-qty">${item.val().orderQty}</b>
-                            </div>
+                    if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
+                        console.log("resumen: ",localStorage.getItem('resumen'))
+                        prodList.innerHTML += `
+                    <div class="item" id="${item.key}-card">
+                        <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
-                            <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
-                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
-                                <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
-                                <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(51, 153, 255)':'rgb(200,200,200)'}">0</button>
-                            </div>
-
-                        
-                    </div>
-                   
-                </div> 
-                `
+                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
+                                    <div style="height:20px; overflow: hidden" onclick="editProd('${item.key}')">
+                                        ${String(item.key).replaceAll('_',' ')}
+                                    </div>
+                                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${item.val().stock}</span>
+                                    <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
+                                </div>
+                            
+                                <div style="height: 20px; font-size: 16px; text-align: right; padding-right:4px; padding-top: 2px; flex: 1">
+                                    Order:
+                                    <b id="${item.key}-order-qty">${item.val().orderQty}</b>
+                                </div>
+                                
+                                <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
+                                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
+                                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
+                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(51, 153, 255)':'rgb(200,200,200)'}">0</button>
+                                </div>
+    
+                            
+                        </div>
+                       
+                    </div> 
+                    `
+                    }
+                    
+                    }
                 }
+    
                 
-                }
 
     
             }
     
             
         )
+        })
     })
 }
 

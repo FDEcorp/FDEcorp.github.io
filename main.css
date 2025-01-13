@@ -17,8 +17,7 @@ body{
     background-color: white;
     flex-direction: column;
     touch-action: manipulation;
-    height: 100vh;
-
+    height: 105vh;
 }
 
 header{
@@ -454,7 +453,7 @@ li{
     }
 
     #pos-cont{
-        height: 75dvh;
+        height: 80dvh;
         align-content: flex-end;
         flex-direction: column-reverse;
         flex: 1;
@@ -470,8 +469,9 @@ li{
    
 
     #products-window{
-        flex-grow: 1;
+        height: 60vh;
     }
+
     #subtotal{
         padding-left: 20px;
         flex-direction: column;
