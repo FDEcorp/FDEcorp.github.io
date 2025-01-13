@@ -31,6 +31,7 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
     catList = Object.keys(categorias)
+    catList = catList.reverse()
 })
 
 let filterSelect = document.getElementById('cat-filter') 
