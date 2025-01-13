@@ -14,7 +14,8 @@ window.order = {}
 window.orderArr = []
 window.total = 0
 
-let categorias = {}
+window.categorias = {}
+window.catList = []
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
@@ -27,8 +28,9 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
                 categorias[categoria] = Number(categorias[categoria]) + 1
             }
         })
-    //console.log(categorias)
+    
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
+    catList = Object.keys(categorias)
 })
 
 let filterSelect = document.getElementById('cat-filter') 
@@ -236,45 +238,54 @@ function getPrices(product){
 function renderItems(filter = 'all',productSearch=false){
     //console.log("filtrando por",filter)
     get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
-        Products.forEach(
-            function(product){
-                
-                //console.log(product.key,product.val().Sizes)
+
+        catList.forEach((cat) => {
+            console.log(cat)
+            Products.forEach(
+                function(product){
+                    
+                    if(product.val().category == String(cat)){
+                        
+                        let image = Object.values(product.val())[2]
     
-                let image = Object.values(product.val())[2]
-                //console.log(image)
-
-                if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
-
-
-                prodList.innerHTML += `
-                <div class="product" id="${product.key}-card">
-                    <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
-                        <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
-                        <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
-                        <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
-                        ${String(product.key).replaceAll('_',' ')}
-                        </div>
-                      
-                        <span style="font-size: 10px; color: rgb(150,150,150); font-weight: 800">Precios:</span>
-                        <span style="font-size: 14px; color: rgb(150,150,150); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
+                        if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
+    
+                        prodList.innerHTML += `
+                        <div class="product" id="${product.key}-card">
+                            <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
+                                <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
+                                <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
+                                <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
+                                ${String(product.key).replaceAll('_',' ')}
+                                </div>
+                            
+                                <span style="font-size: 10px; color: rgb(150,150,150); font-weight: 800">Precios:</span>
+                                <span style="font-size: 14px; color: rgb(150,150,150); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
+                                
+                                </div>
+                                
+                            </div>
                         
-                        </div>
-                        
-                    </div>
-                   
-                    <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
-                    getSizes(product)+
+                            <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
+                            getSizes(product)+
+                                `
+                            </div>
+                        </div> 
                         `
-                    </div>
-                </div> 
-                `
+                    }
+        
+                
+                    }
+        
                 }
+        
+                
+            )
+            //end of catList forEach
+        
+        })
     
-            }
-    
-            
-        )
+        //end of GET
     })
 }
 

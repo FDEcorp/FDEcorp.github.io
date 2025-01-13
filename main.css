@@ -325,7 +325,9 @@ a{
     padding: 20px;
 }
 @media (max-width: 600px) {
-   
+   #pos-cont{
+    height: 60dvh;
+   }
 }
 
 ul{
@@ -452,6 +454,7 @@ li{
     }
 
     #pos-cont{
+        height: 75dvh;
         align-content: flex-end;
         flex-direction: column-reverse;
         flex: 1;
