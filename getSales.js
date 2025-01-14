@@ -130,11 +130,11 @@ function getSales(){
                     let color = 'rgb(150,150,150)'
                             if(diff > 0){
                                 color = 'rgba(0,155,0,0.5)'
-                                diff = `+ ${diff}`
+                                diff = `+${diff}`
                             }
                             if(diff < 0){
                                 color = 'rgba(255,0,0,0.5)'
-                                diff = `- ${diff}`
+                                diff = `${diff}`
                             }
                             
 
