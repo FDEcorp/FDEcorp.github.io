@@ -61,6 +61,11 @@ function registerCorte(EfectivoEnCaja) {
                 
                 index2++
 
+                if(Number(totalSUM) == 0){
+                    alert('no has realizado ninguna venta')
+                    return
+                }
+
                 if(index2 == Sales.size){
                     set(ref(db,'businesses/'+business+'/Cortes/'+year+"/"+month+"/"+day+'/'+ index),{
                         card:cardSUM-previousCard,
