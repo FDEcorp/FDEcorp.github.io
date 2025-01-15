@@ -8,7 +8,12 @@ html{
 }
 *{
     touch-action: manipulation;
+    
 }
+*::-webkit-scrollbar {
+    display: none;
+  }
+  
 body{
     margin: 0;
     text-align: center;
