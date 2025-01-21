@@ -339,7 +339,7 @@ function pendingOrders(){
                         <div style="display: flex; flex-direction: row; gap: 4px; height: 120px; border: 0px solid rgb(206, 206, 206); background-color: rgb(245, 245, 245); border-radius: 10px;">
                             <div style="flex: 2; text-align: left; padding: 10px;">
                                 <div style="font-weight: bold;">${sale.val().Label}</div>
-                                <ul style="color: rgb(144, 144, 144); font-style: italic; height:74px; overflow: scroll">
+                                <ul style="background:rgb(255, 255, 255); color: rgb(144, 144, 144); font-style: italic; height:68px; overflow: scroll; padding: 4px; margin-top: 4px; border-radius: 4px">
                                     ${String(Object.entries(sale.val().Items).map((item,qty)=>`<li>${String(item).split(',')[1]} - ${String(item).replaceAll('_',' ').split(',')[0]}</li>`)).replaceAll(',','')}
                                 </ul>
                             </div>
