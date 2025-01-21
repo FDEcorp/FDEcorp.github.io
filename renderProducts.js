@@ -338,7 +338,7 @@ function pendingOrders(){
                             <div style="flex: 2; text-align: left; padding: 10px;">
                                 <div style="font-weight: bold;">${sale.val().Label}</div>
                                 <ul style="color: rgb(144, 144, 144); font-style: italic; height:74px; overflow: scroll">
-                                    ${String(Object.entries(sale.val().Items).map((item,qty)=>`<li>${String(item).split(',')[0]} - ${String(item).split(',')[1]}</li>`)).replaceAll(',','')}
+                                    ${String(Object.entries(sale.val().Items).map((item,qty)=>`<li>${String(item).replaceAll('_',' ').split(',')[0]} - ${String(item).split(',')[1]}</li>`)).replaceAll(',','')}
                                 </ul>
                             </div>
                             <div style="flex: 1;text-align: right; padding: 10px; font-weight: bold;">
