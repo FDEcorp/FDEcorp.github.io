@@ -94,7 +94,7 @@ select{
 @media (max-width: 600px) {
     input{
         display: flex;
-        height: 35px;
+        height: 25px;
     }
     
     header{
@@ -375,12 +375,13 @@ li{
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: bold;
     border-radius: 6px;
     height: 40px;
     background-color: rgb(240,240,240);
 }
 
-#hidden-pane-container{
+.hidden-pane-container{
     height: 0px;
     display: flex;
     text-align: center;
@@ -533,9 +534,12 @@ li{
     justify-items: left;
     text-align: left;
 }
+#login-card{
+    transition: 1s ease-in-out;
+}
 
 #login-card:hover{
-    transition: 0.5s;
+
     transform: scale(1.02);
 }
 
@@ -548,3 +552,11 @@ li{
 }
 
 
+#pending-orders-pane{
+    margin: 20px;
+    padding: 20px;
+    z-index: 1000;
+    background-color: rgba(239, 239, 239,1);
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.25);
+}

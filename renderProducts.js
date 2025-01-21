@@ -90,12 +90,14 @@ function registerSale(paymentMethod){
 
 function hideChangeCalc(){
     document.getElementById('change-calculator-pane').style.visibility = 'hidden'
+    document.getElementById('pos-cont').style.opacity = '1'
 }
 
 function showChangeCalc(){
     if(total <= 0){
         return
     }
+    document.getElementById('pos-cont').style.opacity = '0.2'
     document.getElementById('change-calculator-pane').style.visibility = 'visible'
     let listUl = document.getElementById('confirm-order-list')
     let totalDisp = document.getElementById('total-change-pane')
@@ -306,3 +308,100 @@ window.registerSale = registerSale
 window.hideChangeCalc = hideChangeCalc
 window.calcChange = calcChange
 window.showChangeCalc = showChangeCalc
+
+window.pendingOrders = pendingOrders
+window.newPendingOrder = newPendingOrder
+
+function pendingOrders(){
+    document.getElementById('pos-cont').style.opacity = '0.2'
+    let business = localStorage.getItem('business')
+    let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
+    let TimeStamp = String(new Date()).substring(16,24);
+    let sale_year = new Date().getFullYear();
+    let sale_month = (new Date().getMonth()+1);
+    let sale_day = String(new Date().getDate()).padStart(2,'0')
+
+    let total = 0
+    Object.values(order).forEach((productpair)=>{
+        total += productpair[0]*productpair[1]
+    })
+
+    console.log('sending to pending',order,total)
+    document.getElementById('open-orders').innerHTML = ''
+
+    get(child(ref(db),'businesses/'+business+'/pendingSales/'+sale_year+"/"+sale_month+"/"+sale_day)).then((pendingSales) => {
+        pendingSales.forEach((sale)=>{
+            document.getElementById('open-orders').innerHTML+=
+            `
+            <li style="margin-bottom: 8px;" id="${sale.key}">
+                        <div style="width: 99%; display: flex; flex-direction: row; gap: 4px; height: 120px; border: 0px solid rgb(206, 206, 206); background-color: rgb(245, 245, 245); border-radius: 10px;">
+                            <div style="flex: 2; text-align: left; padding: 10px;">
+                                <div style="font-weight: bold;">${sale.val().Label}</div>
+                                <ul style="color: rgb(144, 144, 144); font-style: italic; height:74px; overflow: scroll">
+                                    ${String(Object.entries(sale.val().Items).map((item,qty)=>`<li>${String(item).split(',')[0]} - ${String(item).split(',')[1]}</li>`)).replaceAll(',','')}
+                                </ul>
+                            </div>
+                            <div style="flex: 1;text-align: right; padding: 10px; font-weight: bold;">
+                                Total: <span style="font-weight:lighter;">$ ${sale.val().Total}</span>
+                                <div style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(122, 122, 122); color:rgb(240, 240, 240); padding: 6px; margin-top: 6px; border-radius: 4px;">Agregar</div>
+                                <div onclick="
+                                    localhost.setItem('order',${sale.val().Items});
+                                " style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(255, 73, 73); color:rgb(255, 255, 255); padding: 6px; margin-top: 6px; border-radius: 4px;">Cobrar</div>
+                            </div>
+                        </div>
+                    </li>
+            `
+        })
+    })
+
+    document.getElementById("pending-orders-pane").style.visibility = 'visible'
+    
+    
+}
+window.newPendingOrder = newPendingOrder;
+window.registerNewPendingOrder = registerNewPendingOrder;
+
+function newPendingOrder(){
+    document.getElementById('new-pending-order-pane').style.visibility = 'visible'
+    document.getElementById('new-pending-order-pane').style.height = '150px'
+}
+
+function registerNewPendingOrder(){
+    let business = localStorage.getItem('business')
+    let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
+    let TimeStamp = String(new Date()).substring(16,24);
+    let sale_year = new Date().getFullYear();
+    let sale_month = (new Date().getMonth()+1);
+    let sale_day = String(new Date().getDate()).padStart(2,'0')
+
+    let total = 0
+    Object.values(order).forEach((productpair)=>{
+        total += productpair[0]*productpair[1]
+    })
+
+    console.log('sending to pending',order,total)
+   
+
+    if(total>0){
+
+        document.getElementById('new-pending-order-pane').style.transition = '0.2s';
+        document.getElementById('new-pending-order-pane').style.visibility = 'hidden';
+        document.getElementById('new-pending-order-pane').style.transition = '1s';
+        document.getElementById('new-pending-order-pane').style.height = '0px'
+
+        set(ref(db,'businesses/'+business+'/pendingSales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ saleID),{
+            Time: TimeStamp,
+            Items: order,
+            Total: total,
+            Seller: localStorage.getItem('username'),
+            Label: document.getElementById('new-pending-order-label').value
+        }).then(()=>{
+            location.reload()
+        }); 
+    }else{
+        console.log('orden vacia')
+        location.reload()
+    }
+    
+   
+}

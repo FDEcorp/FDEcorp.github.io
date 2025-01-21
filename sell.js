@@ -131,3 +131,4 @@ function getSaleItemsCat(saleItems){
     //let qty = Object.entries(saleItems)[0][1]
     //console.log("items in order:",item,qty)
 }
+
