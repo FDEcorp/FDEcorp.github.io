@@ -32,7 +32,7 @@
         </script>
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
     </header> 
-    <section class="subnav">
+    <section class="subnav" id="subnav">
         <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
         
         <div style="display: flex; gap: 10px; flex: 4; justify-content: right;">
@@ -89,22 +89,19 @@
     </div>
 
     <div class="hidden-pane-container">
-        <div id="pending-orders-pane" style="height: 390px; visibility: hidden; display: flex; flex-direction: column; gap: 10px; z-index: 1000; overflow: hidden;">
+        <div id="pending-orders-pane" style="height: 390px; visibility: hidden; display: flex; flex-direction: column; gap: 6px; z-index: 1000; overflow: hidden; border-radius: 16px;">
             <div style="width: 310px; font-weight: bold; text-align: left; display: flex;">
-                <div style="flex: 3; font-size: 20px; color: rgb(91, 91, 91);">Pending Orders</div>
-                <div onclick="  document.getElementById('new-pending-order-pane').style.transition = '0s';
-                                document.getElementById('new-pending-order-pane').style.visibility = 'hidden';
-                                document.getElementById('new-pending-order-pane').style.height = '0px';
-                                document.getElementById('pending-orders-pane').style.visibility = 'hidden';
-                                document.getElementById('pos-cont').style.opacity = '1'
-                " style="background-color: rgb(227, 227, 227); border: 0px solid rgb(192, 192, 192); color: gray; border-radius: 4px; width: 40px; height: 24px; text-align: center; padding-bottom: 0px;">x</div>
+                <div style="flex: 3; font-size: 20px; color: rgb(91, 91, 91);">Ordenes pendientes</div>
+                <div    onclick="closePendingPane()" 
+                        style="background-color: rgba(227, 227, 227, 0.154); border: 0px solid rgb(192, 192, 192); color: gray; border-radius: 4px; width: 40px; height: 30px; text-align: right; font-size: 20px; padding: 0px;">x</div>
             </div>
 
-            <div style="text-align: right; display: flex; justify-content: right; margin-bottom: 10px;">
+            <div style="text-align: right; display: flex; justify-content: right; margin-bottom: 0px;">
                 <div style="height: 26px; text-align: center; 
-                            padding: 0px; padding-top: 6px; background-color: rgb(225, 225, 225); 
+                            padding: 0px; padding-top: 6px; background-color: rgb(72, 166, 242); 
                             border: 0px solid rgb(168, 168, 168); border-radius: 4px; 
-                            color: rgb(131, 131, 131); width: 120px;"
+                            color: rgb(255, 255, 255); width: 120px;
+                            font-weight: bold;"
                     onclick="
                     document.getElementById('new-pending-order-pane').style.transition = '1s';;newPendingOrder()"
                 >
@@ -114,27 +111,35 @@
             <div id="new-pending-order-pane" style="visibility: hidden; height: 0; transition: 1s; width: 100%; background-color: rgba(0, 0, 0, 0);">
                 <div style="text-align: right;">
                     <div style="width: 100%;">
-                        <input type="text" name="" id="new-pending-order-label" placeholder="Identificador, (e.g. Mesa 1)" style="width: 290px; height: 20px;">
+                        <input type="text" name="" id="new-pending-order-label" placeholder="Identificador, (e.g. Mesa 1)" style="width: 290px; height: 20px; border: 0;">
                     </div>
-                    <button onclick="
-                    document.getElementById('new-pending-order-pane').style.transition = '0.1s';
-                    document.getElementById('new-pending-order-pane').style.visibility = 'hidden';
-                    document.getElementById('new-pending-order-pane').style.transition = '1s';
-
-                    document.getElementById('new-pending-order-pane').style.height = '0px';
+                    <div style="display: flex; flex-direction: row; justify-content: right;">
+                        <div onclick="
+                        document.getElementById('new-pending-order-pane').style.transition = '0.1s';
+                        document.getElementById('new-pending-order-pane').style.visibility = 'hidden';
+                        document.getElementById('new-pending-order-pane').style.transition = '1s';
+                        document.getElementById('new-pending-order-pane').style.height = '0px';
+                            
+                        " style="height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
+                                margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: rgba(255, 92, 92, 0); color: rgb(119, 119, 119); font-weight: bold;">
+                                Cancelar</div>
                         
-                    " style="height: 30px; width: 90px; margin-top: 10px; margin-bottom: 20px; padding: 4px; border-radius: 4px; background-color: rgb(200,200,200);">Cancelar</button>
+                        <div onclick="
+                        registerNewPendingOrder()
+                        " 
+                        style=" height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
+                                margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: rgb(255, 92, 92); color: white; font-weight: bold;">
+                                Guardar
+                        </div>
+                    </div>
                     
                 
-                    <button onclick="
-                    registerNewPendingOrder()
-                        
-                    " style="height: 30px; width: 90px; margin-top: 10px; margin-bottom: 20px; padding: 4px; border-radius: 4px;">Guardar</button>
+                    
                     
                 </div>
             </div>
             <div>
-                <ul id="open-orders" style="overflow: scroll; border: 0px solid rgb(224, 224, 224); background-color: rgba(246, 246, 246, 0); height: 300px; border-radius: 4px;">
+                <ul id="open-orders" style="overflow: scroll; border: 0px solid rgb(224, 224, 224); background-color: rgb(255, 255, 255); height: 300px; border-radius: 12px; padding: 4px;">
                     
 
     
@@ -181,7 +186,7 @@
             <div id="payment">
                 <div onclick="clearOrder()" class="pay-option" style="background-color: rgb(231, 75, 75); color: white;">Clear</div>
                 <div onclick="undoAdd()" class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
-                <div onclick="pendingOrders()" class="pay-option" style="background-color: rgb(26, 26, 26); color: white;">Pend</div>
+                <div onclick="pendingOrders()" class="pay-option" style="background-color: rgb(57, 57, 57); color: white;">Pend</div>
                 <div class="pay-option" onclick="registerSale('card')">Card</div>
                 <div class="pay-option" style="background-color: rgb(110, 204, 98);" onclick="showChangeCalc()">Cash</div>
             </div>

@@ -314,6 +314,8 @@ window.newPendingOrder = newPendingOrder
 
 function pendingOrders(){
     document.getElementById('pos-cont').style.opacity = '0.2'
+    document.getElementById('subnav').style.opacity = '0.2'
+    document.getElementById('filter-bar').style.opacity = '0.2'
     let business = localStorage.getItem('business')
     let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
     let TimeStamp = String(new Date()).substring(16,24);
@@ -333,8 +335,8 @@ function pendingOrders(){
         pendingSales.forEach((sale)=>{
             document.getElementById('open-orders').innerHTML+=
             `
-            <li style="margin-bottom: 8px;" id="${sale.key}">
-                        <div style="width: 99%; display: flex; flex-direction: row; gap: 4px; height: 120px; border: 0px solid rgb(206, 206, 206); background-color: rgb(245, 245, 245); border-radius: 10px;">
+            <li style="margin-bottom: 4px;" id="${sale.key}">
+                        <div style="display: flex; flex-direction: row; gap: 4px; height: 120px; border: 0px solid rgb(206, 206, 206); background-color: rgb(245, 245, 245); border-radius: 10px;">
                             <div style="flex: 2; text-align: left; padding: 10px;">
                                 <div style="font-weight: bold;">${sale.val().Label}</div>
                                 <ul style="color: rgb(144, 144, 144); font-style: italic; height:74px; overflow: scroll">
@@ -364,7 +366,7 @@ window.pullPendingToCurrent = pullPendingToCurrent;
 
 function newPendingOrder(){
     document.getElementById('new-pending-order-pane').style.visibility = 'visible'
-    document.getElementById('new-pending-order-pane').style.height = '150px'
+    document.getElementById('new-pending-order-pane').style.height = '108px'
 }
 
 function pullPendingToCurrent(id){
@@ -397,6 +399,8 @@ function closePendingPane(){
                                 document.getElementById('new-pending-order-pane').style.height = '0px';
                                 document.getElementById('pending-orders-pane').style.visibility = 'hidden';
                                 document.getElementById('pos-cont').style.opacity = '1'
+                                document.getElementById('subnav').style.opacity = '1'
+                                document.getElementById('filter-bar').style.opacity = '1'
 }
 
 function registerNewPendingOrder(){
