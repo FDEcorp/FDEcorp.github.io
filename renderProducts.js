@@ -343,10 +343,10 @@ function pendingOrders(){
                             </div>
                             <div style="flex: 1;text-align: right; padding: 10px; font-weight: bold;">
                                 Total: <span style="font-weight:lighter;">$ ${sale.val().Total}</span>
-                                <div style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(122, 122, 122); color:rgb(240, 240, 240); padding: 6px; margin-top: 6px; border-radius: 4px;">Agregar</div>
+                                <div style="text-align:center; border: 0px solid rgb(200,200,200); background:rgba(122, 122, 122, 0); color:rgb(240, 240, 240); padding: 6px; margin-top: 6px; border-radius: 4px; height: 20px"></div>
                                 <div onclick="
-                                    localhost.setItem('order',${sale.val().Items});
-                                " style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(255, 73, 73); color:rgb(255, 255, 255); padding: 6px; margin-top: 6px; border-radius: 4px;">Cobrar</div>
+                                pullPendingToCurrent(${sale.key});
+                                " style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(255, 73, 73); color:rgb(255, 255, 255); padding: 6px; margin-top: 6px; border-radius: 4px;">Abrir</div>
                             </div>
                         </div>
                     </li>
@@ -360,10 +360,43 @@ function pendingOrders(){
 }
 window.newPendingOrder = newPendingOrder;
 window.registerNewPendingOrder = registerNewPendingOrder;
+window.pullPendingToCurrent = pullPendingToCurrent;
 
 function newPendingOrder(){
     document.getElementById('new-pending-order-pane').style.visibility = 'visible'
     document.getElementById('new-pending-order-pane').style.height = '150px'
+}
+
+function pullPendingToCurrent(id){
+    let business = localStorage.getItem('business')
+    let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
+    let TimeStamp = String(new Date()).substring(16,24);
+    let sale_year = new Date().getFullYear();
+    let sale_month = (new Date().getMonth()+1);
+    let sale_day = String(new Date().getDate()).padStart(2,'0')
+    console.log('pulling', id)
+    get(child(ref(db),'businesses/'+business+'/pendingSales/'+sale_year+"/"+sale_month+"/"+sale_day+"/"+id)).then((sale) => {
+        console.log(sale.key,sale.val().Items)
+        order = sale.val().Items
+        total = sale.val().Total
+        console.log('order',order)
+        renderOrder()
+        closePendingPane()
+        setTimeout(()=>{
+            remove(child(ref(db),'businesses/'+business+'/pendingSales/'+sale_year+"/"+sale_month+"/"+sale_day+"/"+id))
+        },1000)
+    })
+    
+}
+
+window.closePendingPane = closePendingPane
+
+function closePendingPane(){
+    document.getElementById('new-pending-order-pane').style.transition = '0s';
+    document.getElementById('new-pending-order-pane').style.visibility = 'hidden';
+                                document.getElementById('new-pending-order-pane').style.height = '0px';
+                                document.getElementById('pending-orders-pane').style.visibility = 'hidden';
+                                document.getElementById('pos-cont').style.opacity = '1'
 }
 
 function registerNewPendingOrder(){
