@@ -104,7 +104,7 @@ function updateSel(product,sku){
                     <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
                     <div style="width: 30px;"></div>
                     <div style="text-align: right; padding: 0px; width: 120px;">
-                        <input type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;">
+                        <input onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;">
                     </div>
                 </li>
             `
@@ -121,3 +121,17 @@ function updateSel(product,sku){
     })
 }
 window.updateSel = updateSel;
+window.udpateItemQty = udpateItemQty;
+
+function udpateItemQty(product,sku,item,newQty){
+    if(newQty == 0){
+        console.log('borrando articulo',item)
+        remove(child(ref(db),`/businesses/${business}/Recipes/${product}/${sku}/${item}`)) 
+    }else{
+        console.log(product,item,newQty)
+        set(ref(db,`/businesses/${business}/Recipes/${product}/${sku}/${item}`),{
+            cantidad: newQty,
+        })
+    }
+        
+}
