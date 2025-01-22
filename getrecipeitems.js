@@ -7,6 +7,8 @@ let prodSelect = document.getElementById('product-select')
 let business = localStorage.getItem('business')
 let productSkus = {}
 
+window.selectedprodandsku = ""
+
 get(child(ref(db),`/businesses/${business}/Products/`)).then((Prods) => {
     Prods.forEach((product)=>{
         prodSelect.innerHTML += String(
@@ -26,18 +28,47 @@ get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
             availItems.innerHTML += `
             <li id="${item.key}" style="background-color: white; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
                     <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
-                    </div><div style="text-align: right; padding: 0px; width: 100px;"><input type="text" placeholder="Cantidad" style="height: 16px; width: 80px; border-radius: 6px; border: 0px; text-align: right;"></div>
-                    <div style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px">+</button>
+                    </div><div style="text-align: right; padding: 0px; width: 100px;">
+                        <input id="${item.key}-input" type="text" placeholder="Cantidad" style="height: 16px; width: 80px; border-radius: 6px; border: 0px; text-align: right;">
+                    </div>
+                    <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px">+</button>
             </li>
             `
 
 })})
 
 prodSelect.addEventListener('change',()=>{
-    getProdRecipe(prodSelect.value)
+    getProdSkus(prodSelect.value)
 }) 
 
-function getProdRecipe(product){
+window.additemtorecipe = additemtorecipe
+
+function additemtorecipe(item){
+
+    
+    let PROD=String(selectedprodandsku).split('#')
+    if(PROD[0] == 'undefined' || PROD[0] == undefined || PROD[0] == '' || PROD[0] == null){
+        alert('debes seleccionar un producto y tamaño')
+        return
+    }
+
+    console.log(`adding ${item} to ${PROD[0]} recipe`)
+    set(ref(db,`/businesses/${business}/Recipes/${PROD[0]}/${PROD[1]}/${item}`),{
+        cantidad: Number(document.getElementById(item+'-input').value),
+    })
+    document.getElementById(item+'-input').value = ''
+    updateSel(PROD[0],PROD[1])
+}
+
+function getProdRecipe(product,sku){
+    let productName = String(product).replaceAll(' ','_')
+    console.log(`getting recipe for ${productName} at sku ${sku}`)
+}
+
+window.getProdRecipe = getProdRecipe
+window.getProdSkus = getProdSkus
+
+function getProdSkus(product){
     console.log('searching recipe of',product)
     currentRecipe.innerHTML = ""
     availSkus.innerHTML = ""
@@ -45,9 +76,8 @@ function getProdRecipe(product){
     console.log(`${product} has ${productSkus[product].length} skus`)
 
     productSkus[product].forEach((size)=>{
-        console.log(size[1].sizeLabel)
         availSkus.innerHTML += `
-            <button onclick="updateSel('${product}','${size[1].sizeLabel}','${size[0]}')" class="sku-size" onfocus="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(237, 237, 237)'" onblur="document.getElementById('${size[1].sizeLabel}').style.background = 'rgb(255, 255, 255)'" id="${size[1].sizeLabel}">${size[1].sizeLabel}</button>
+            <button id="${product}-${size[0]}" onclick="getProdRecipe('${product}','${size[0]}');updateSel('${product}','${size[1].sizeLabel}','${size[0]}');" class="sku-size" onfocus="document.getElementById('${product}-${size[0]}').style.background = 'rgb(237, 237, 237)'" onblur="document.getElementById('${product}-${size[0]}').style.background = 'rgb(255, 255, 255)'">${size[1].sizeLabel}</button>
         `
     })
     
@@ -57,18 +87,37 @@ function getProdRecipe(product){
     
 }
 
-
-function updateSel(product,size,sku){
+function updateSel(product,sku){
     currentRecipe.innerHTML = ""
+    let productName = String(product).replaceAll(' ','_')
+    window.selectedprodandsku = productName+"#"+sku
+    console.log(selectedprodandsku)
 
-    document.getElementById('selected-item').innerHTML = `${product} ${size}`
+    document.getElementById('selected-item').innerHTML = `${product} ${sku}`
 
-    get(child(ref(db),`/businesses/${business}/Recipes/${product}/${sku}`)).then((Product) => {
-        if(Product.exists()){
-            console.log(`recipe for ${product} found`)
+    get(child(ref(db),`/businesses/${business}/Recipes/${productName}/${sku}`)).then((Ingredients) => {
+        if(Ingredients.exists()){
+            console.log(`recipe for ${productName} found`)
+            
+            Ingredients.forEach((item)=>{
+                currentRecipe.innerHTML += `
+                <li style="background-color: transparent; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
+                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${item.key}</div>
+                    <div style="width: 30px;"></div>
+                    <div style="text-align: right; padding: 0px; width: 120px;">
+                        <input type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;">
+                    </div>
+                </li>
+            `
+            })
+
+
+            
         }
         else{
             console.log(`recipe for ${product} NOT found`)
+            
+
         }
     })
 }
