@@ -102,7 +102,7 @@ function updateSel(product,sku){
             Ingredients.forEach((item)=>{
                 currentRecipe.innerHTML += `
                 <li style="background-color: transparent; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
-                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${item.key}</div>
+                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${Strin(item.key).replaceAll('_',' ')}</div>
                     <div style="width: 30px;"></div>
                     <div style="text-align: right; padding: 0px; width: 120px;">
                         <input type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;">
