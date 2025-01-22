@@ -81,10 +81,9 @@ function getProdSkus(product){
         `
     })
     
-    
+    console.log(productSkus[product])
+    updateSel(product,productSkus[product][0][1].sizeLabel)
 
-    
-    
 }
 
 function updateSel(product,sku){
