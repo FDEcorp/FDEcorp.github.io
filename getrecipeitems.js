@@ -31,7 +31,7 @@ get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
                     </div><div style="text-align: right; padding: 0px; width: 100px;">
                         <input id="${item.key}-input" type="text" placeholder="Cantidad" style="height: 16px; width: 80px; border-radius: 6px; border: 0px; text-align: right;">
                     </div>
-                    <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px">+</button>
+                    <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px; background: rgb(255,96,96)">+</button>
             </li>
             `
 
@@ -44,7 +44,6 @@ prodSelect.addEventListener('change',()=>{
 window.additemtorecipe = additemtorecipe
 
 function additemtorecipe(item){
-
     
     let PROD=String(selectedprodandsku).split('#')
     if(PROD[0] == 'undefined' || PROD[0] == undefined || PROD[0] == '' || PROD[0] == null){
@@ -92,7 +91,7 @@ function updateSel(product,sku){
     window.selectedprodandsku = productName+"#"+sku
     console.log(selectedprodandsku)
 
-    document.getElementById('selected-item').innerHTML = `${product} ${sku}`
+    document.getElementById('selected-item').innerHTML = `${productName} ${sku}`
 
     get(child(ref(db),`/businesses/${business}/Recipes/${productName}/${sku}`)).then((Ingredients) => {
         if(Ingredients.exists()){
@@ -102,9 +101,13 @@ function updateSel(product,sku){
                 currentRecipe.innerHTML += `
                 <li style="margin-bottom: 4px;background-color: rgb(255, 255, 255); padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
                     <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
-                    <div style="width: 30px;"></div>
-                    <div style="text-align: right; padding: 0px; width: 120px;">
-                        <input onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 100px; border-radius: 6px; border: 0px; text-align: right;">
+                    
+                    <div style="text-align: right; padding: 0px; width: 60px;">
+                        <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 50px; border-radius: 6px; border: 0px; text-align: right;">
+                    </div>
+                    <div style="width: 100px; display: flex; flex-direction: row; gap: 4px; justify-content: right;">
+                        <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 50px; background: rgb(5, 161, 233) ; color: white; height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">All Var</div>
+                        <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 20px; background: rgb(255, 96, 96) ;color: white;height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">x</div>
                     </div>
                 </li>
             `
@@ -133,5 +136,18 @@ function udpateItemQty(product,sku,item,newQty){
             cantidad: newQty,
         })
     }
-        
+    updateSel(product,sku)
+}
+window.addToAllVariants = addToAllVariants;
+
+function addToAllVariants(product,item){
+
+    let qty = document.getElementById(item+'-qty-input').value
+
+    productSkus[product].forEach((size)=>{
+        set(ref(db,`/businesses/${business}/Recipes/${product}/${size[1].sizeLabel}/${item}`),{
+            cantidad: qty,
+        })
+    })
+
 }
