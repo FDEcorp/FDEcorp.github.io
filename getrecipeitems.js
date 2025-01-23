@@ -4,6 +4,13 @@ let availSkus = document.getElementById("avail-skus")
 import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 let prodSelect = document.getElementById('product-select')
 
+let filterSelect = document.getElementById('cat-filter') 
+let filterReset = document.getElementById('filter-reset') 
+let prodSearch = document.getElementById('prod-search') 
+let searchReset = document.getElementById('search-reset') 
+window.categorias = {}
+window.catList = []
+
 let business = localStorage.getItem('business')
 window.productSkus = {}
 
@@ -36,6 +43,8 @@ get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
             `
 
 })})
+
+
 
 prodSelect.addEventListener('change',()=>{
     getProdSkus(prodSelect.value)
@@ -180,4 +189,88 @@ function pasteFromMemory(){
     let recipe = JSON.parse(localStorage.getItem('recipe'))
     set(ref(db,`/businesses/${business}/Recipes/${prod}/${sku}/`),recipe)
     updateSel(prod,sku)
+}
+
+filterSelect.addEventListener('change',()=>{
+    availItems.innerHTML = ''
+    prodSearch.value = ''
+    renderItems(filterSelect.value)
+})
+filterReset.addEventListener('click',()=>{
+    availItems.innerHTML = ''
+    prodSearch.val = ''
+    filterSelect.value = 'all'
+    renderItems()
+})
+
+prodSearch.addEventListener('change',()=>{
+    availItems.innerHTML = ''
+    filterSelect.value = 'all'
+    renderItems(prodSearch.value,true)
+})
+searchReset.addEventListener('click',()=>{
+    availItems.innerHTML = ''
+    filterSelect.value = 'all'
+    prodSearch.value = ''
+    renderItems()
+})
+
+
+get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
+    Items.forEach(
+        function(item){ 
+            let categoria = String(item.val().category).toLowerCase()
+            if(categorias[categoria]==undefined){
+                categorias[categoria] = 1
+            }
+            else{
+                categorias[categoria] = Number(categorias[categoria]) + 1
+            }
+        })
+    document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
+    catList = Object.keys(categorias)
+    catList = catList.reverse()
+})
+
+function renderItems(filter = 'all',productSearch=false){
+
+    availItems.innerHTML=""
+
+    get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
+        
+        catList.forEach((cat) => {
+            console.log(cat)
+        
+        Items.forEach(
+            function(item){
+                
+                if(item.val().category == String(cat)){
+                    let image = Object.values(item.val())[2]
+
+                    if(filter == 'all' || (filter == item.val().category && productSearch==false) || (productSearch == true && String(item.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )|| (productSearch == true && String(item.val().vendor).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
+    
+                    if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
+                        console.log("resumen: ",localStorage.getItem('resumen'))
+                        availItems.innerHTML += `
+            <li id="${item.key}" style="background-color: white; padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
+                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
+                    </div><div style="text-align: right; padding: 0px; width: 100px;">
+                        <input id="${item.key}-input" type="text" placeholder="Cantidad" style="height: 16px; width: 80px; border-radius: 6px; border: 0px; text-align: right;">
+                    </div>
+                    <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px; background: rgb(255,96,96)">+</button>
+            </li>
+            `}
+                    
+                    }
+                }
+    
+                
+
+    
+            }
+    
+            
+        )
+        })
+    })
 }
