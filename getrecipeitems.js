@@ -5,7 +5,7 @@ import {set, get, update, remove, ref, child, getDatabase} from "https://www.gst
 let prodSelect = document.getElementById('product-select')
 
 let business = localStorage.getItem('business')
-let productSkus = {}
+window.productSkus = {}
 
 window.selectedprodandsku = ""
 
@@ -52,8 +52,13 @@ function additemtorecipe(item){
     }
 
     console.log(`adding ${item} to ${PROD[0]} recipe`)
+    let qty =  Number(document.getElementById(item+'-input').value)
+    if(qty==0 || qty==NaN){
+        qty = 1;
+    }
+    
     set(ref(db,`/businesses/${business}/Recipes/${PROD[0]}/${PROD[1]}/${item}`),{
-        cantidad: Number(document.getElementById(item+'-input').value),
+        cantidad: qty,
     })
     document.getElementById(item+'-input').value = ''
     updateSel(PROD[0],PROD[1])
@@ -143,11 +148,36 @@ window.addToAllVariants = addToAllVariants;
 function addToAllVariants(product,item){
 
     let qty = document.getElementById(item+'-qty-input').value
-
-    productSkus[product].forEach((size)=>{
+    let productName = String(product).replaceAll('_',' ')
+    console.log(productName,item)
+    productSkus[productName].forEach((size)=>{
         set(ref(db,`/businesses/${business}/Recipes/${product}/${size[1].sizeLabel}/${item}`),{
             cantidad: qty,
         })
     })
 
+}
+window.copyToMemory = copyToMemory
+window.pasteFromMemory =pasteFromMemory
+
+function copyToMemory(){
+    let [prod,sku] = selectedprodandsku.split('#')
+    let productName = String(prod).replaceAll(' ','_')
+    
+    get(child(ref(db),`/businesses/${business}/Recipes/${prod}/${sku}`)).then((Ingredients) => {
+        let recipe = Ingredients.val()
+
+        localStorage.recipe = JSON.stringify(recipe)
+        console.log(productName,sku,recipe)
+        alert(JSON.stringify(recipe))
+    })
+    
+}
+
+function pasteFromMemory(){
+    let [prod,sku] = selectedprodandsku.split('#')
+    let productName = String(prod).replaceAll(' ','_')
+    let recipe = JSON.parse(localStorage.getItem('recipe'))
+    set(ref(db,`/businesses/${business}/Recipes/${prod}/${sku}/`),recipe)
+    updateSel(prod,sku)
 }

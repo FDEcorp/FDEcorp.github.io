@@ -63,8 +63,10 @@
             
         </div>
         <div style="height: 0px;"></div>
-        <div style="text-align: left; padding-inline: 20px;">
-            Receta actual de: <span id="selected-item" style="font-weight: bold;"></span>
+        <div style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: center;">
+            Receta de: <div id="selected-item" style="font-weight: bold; width: 150px;"></div> 
+            <div onclick="copyToMemory()" style="width: 50px; background-color: rgb(5, 161, 233) ; padding: 4px; text-align: center; border-radius: 4px; color: white;">Copy</div>
+            <div onclick="pasteFromMemory()" style="width: 50px; background-color: rgb(5, 161, 233) ; padding: 4px; text-align: center; border-radius: 4px; color: white;">Paste</div>
         </div>
         <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(235, 235, 235); height: 20vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
             <ul id="current-recipe" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
