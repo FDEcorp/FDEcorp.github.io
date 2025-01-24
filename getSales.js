@@ -357,7 +357,7 @@ function drawChart() {
                         },
                        
                     }, 
-                    chartArea:{left:35,top:30,width:'80%',height:'50%'}
+                    chartArea:{left:35,top:30,width:'75%',height:'50%'}
                 };
 
     var saleDatesOptions = {

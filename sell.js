@@ -13,6 +13,7 @@ function setCorte(){
 
 }
 
+
 function registerCorte(EfectivoEnCaja) {
     let business = localStorage.getItem('business')
     let TimeStamp = String(new Date()).substring(16,24);

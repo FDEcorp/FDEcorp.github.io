@@ -106,8 +106,8 @@ function updateSel(product,sku){
                         <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 50px; border-radius: 6px; border: 0px; text-align: right;">
                     </div>
                     <div style="width: 100px; display: flex; flex-direction: row; gap: 4px; justify-content: right;">
-                        <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 50px; background: rgb(5, 161, 233) ; color: white; height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">All Var</div>
-                        <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 20px; background: rgb(255, 96, 96) ;color: white;height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">x</div>
+                        <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 50px; background: var(--primary-blue); color: white; height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">All Var</div>
+                        <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 20px; background: var(--primary-red-soft) ;color: white;height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">x</div>
                     </div>
                 </li>
             `
@@ -240,7 +240,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 </div><div style="text-align: right; padding: 0px; width: 100px;">
                                     <input id="${item.key}-input" type="text" placeholder="Cantidad" style="height: 16px; width: 80px; border-radius: 6px; border: 0px; text-align: right;">
                                 </div>
-                                <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px; background: rgb(255,96,96)">+</button>
+                                <div onclick="additemtorecipe('${item.key}')" style="width: 70px; text-align: right;"><button style="width: 30px; height: 30px; padding:0; padding-bottom:4px; background: var(--primary-red-soft)">+</button>
                         </li>
                         `
                     

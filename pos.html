@@ -128,7 +128,7 @@
                         registerNewPendingOrder()
                         " 
                         style=" height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
-                                margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: rgb(255, 92, 92); color: white; font-weight: bold;">
+                                margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: var(--primary-red-soft); color: white; font-weight: bold;">
                                 Guardar
                         </div>
                     </div>
@@ -184,11 +184,11 @@
          
             </div>
             <div id="payment">
-                <div onclick="clearOrder()" class="pay-option" style="background-color: rgb(231, 75, 75); color: white;">Clear</div>
+                <div onclick="clearOrder()" class="pay-option" style="background-color: var(--primary-red-soft); color: white;">Clear</div>
                 <div onclick="undoAdd()" class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
                 <div onclick="pendingOrders()" class="pay-option" style="background-color: rgb(57, 57, 57); color: white;">Pend</div>
                 <div class="pay-option" onclick="registerSale('card')">Card</div>
-                <div class="pay-option" style="background-color: rgb(110, 204, 98);" onclick="showChangeCalc()">Cash</div>
+                <div class="pay-option" style="background-color: rgb(110, 204, 98); color: white;" onclick="showChangeCalc()">Cash</div>
             </div>
 
         </div>

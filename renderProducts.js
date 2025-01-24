@@ -83,10 +83,106 @@ function registerSale(paymentMethod){
         Method: paymentMethod,
         Seller: localStorage.getItem('username')
     });
-
+    
+    deductInventory(order)
     alert('Success')
     clearOrder()
+    
 }
+
+window.deductInventory = deductInventory;
+
+get(child(ref(db),`/businesses/${business}/Recipes/`)).then((Recipes) => {
+    window.recipes = Recipes.val();
+    console.log(recipes)
+})
+/*
+function deductInventory(order){
+
+    Object.entries(order).forEach((item)=>{
+        let productName= String(item[0]).split(' ')[0];
+        let sku= String(item[0]).split(' ')[1];
+        let qty= item[1][0];
+        let price= item[1][1];
+        try{
+            Object.entries(recipes[productName]).forEach((variation)=>{
+                if(variation[0]==sku)
+                    Object.entries(variation[1]).forEach((item)=>{
+                        let itemName = item[0]
+                        let cantidad = item[1].cantidad
+                        
+                        get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
+                            let currentStock = Items.val()
+                            let currentItemStock = currentStock[itemName].stock
+
+                            console.log(`${productName}: Deduciendo ${cantidad} de ${itemName} ${qty} veces, actual stock es ${currentItemStock}: ${currentItemStock} - ${cantidad*qty} = ${currentItemStock - cantidad*qty}`)
+                        
+                            update(ref(db,`/businesses/${business}/Items/${itemName}`),{
+                                stock: currentItemStock - cantidad*qty
+                            })
+                        })
+                        setTimeout(()=>{console.log('proceeding')},'1000')
+
+                    })
+    
+            })
+        }catch(e){}
+        
+
+    })
+
+    
+
+    
+}
+*/
+
+async function deductInventory(order) {
+    try {
+        for (const [orderKey, orderValue] of Object.entries(order)) {
+            const productName = String(orderKey).split(' ')[0];
+            const sku = String(orderKey).split(' ')[1];
+            const qty = orderValue[0];
+            const price = orderValue[1];
+
+            if (!recipes[productName]) continue; // Skip if no recipe is found for the product
+
+            for (const [variationKey, variationValue] of Object.entries(recipes[productName])) {
+                if (variationKey === sku) {
+                    for (const [itemName, itemDetails] of Object.entries(variationValue)) {
+                        const cantidad = itemDetails.cantidad;
+
+                        try {
+                            // Fetch the current stock for all items
+                            const ItemsSnapshot = await get(child(ref(db), `/businesses/${business}/Items/`));
+                            const currentStock = ItemsSnapshot.val();
+                            const currentItemStock = currentStock[itemName]?.stock || 0;
+
+                            console.log(
+                                `${productName}(${qty}): Deduciendo ${cantidad*qty} de ${itemName}, ` +
+                                `actual stock es ${currentItemStock}: ${currentItemStock} - ${cantidad * qty} = ${currentItemStock - cantidad * qty}`
+                            );
+
+                            // Update the stock for the current item
+                            await update(ref(db, `/businesses/${business}/Items/${itemName}`), {
+                                stock: currentItemStock - cantidad * qty,
+                            });
+
+                        } catch (error) {
+                            console.error(`Error updating stock for item ${itemName}:`, error);
+                        }
+
+                        // Optional: Add a delay between each item update
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.error("An error occurred while deducting inventory:", e);
+    }
+}
+
 
 function hideChangeCalc(){
     document.getElementById('change-calculator-pane').style.visibility = 'hidden'
@@ -252,18 +348,18 @@ function renderItems(filter = 'all',productSearch=false){
                         let image = Object.values(product.val())[2]
     
                         if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
-    
-                        prodList.innerHTML += `
+                        try{
+                            prodList.innerHTML += `
                         <div class="product" id="${product.key}-card">
                             <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
-                                <div style="background-color:rgb(200,200,200); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
-                                <div class="wrap" style="font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
+                                <div style="background-color:var(--primary-base-mid); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
+                                <div class="wrap" style="font-weight:600; font-size: 16px; color: var(--primary-black); width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
                                 <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
                                 ${String(product.key).replaceAll('_',' ')}
                                 </div>
                             
-                                <span style="font-size: 10px; color: rgb(150,150,150); font-weight: 800">Precios:</span>
-                                <span style="font-size: 14px; color: rgb(150,150,150); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
+                                <span style="font-size: 10px; color: var(--primary-base-mid); font-weight: 800">Precios:</span>
+                                <span style="font-size: 14px; color: var(--primary-base-mid); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
                                 
                                 </div>
                                 
@@ -275,6 +371,10 @@ function renderItems(filter = 'all',productSearch=false){
                             </div>
                         </div> 
                         `
+                        }catch(e){
+
+                            }
+                        
                     }
         
                 
@@ -339,7 +439,7 @@ function pendingOrders(){
                         <div style="display: flex; flex-direction: row; gap: 4px; height: 120px; border: 0px solid rgb(206, 206, 206); background-color: rgb(245, 245, 245); border-radius: 10px;">
                             <div style="flex: 2; text-align: left; padding: 10px;">
                                 <div style="font-weight: bold;">${sale.val().Label}</div>
-                                <ul style="background:rgb(255, 255, 255); color: rgb(144, 144, 144); font-style: italic; height:68px; overflow: scroll; padding: 4px; margin-top: 4px; border-radius: 4px">
+                                <ul style="background:var(--primary-base-light); color: var(--primary-base-dark); font-style: italic; height:68px; overflow: scroll; padding: 4px; margin-top: 4px; border-radius: 4px">
                                     ${String(Object.entries(sale.val().Items).map((item,qty)=>`<li>${String(item).split(',')[1]} - ${String(item).replaceAll('_',' ').split(',')[0]}</li>`)).replaceAll(',','')}
                                 </ul>
                             </div>
@@ -348,7 +448,7 @@ function pendingOrders(){
                                 <div style="text-align:center; border: 0px solid rgb(200,200,200); background:rgba(122, 122, 122, 0); color:rgb(240, 240, 240); padding: 6px; margin-top: 6px; border-radius: 4px; height: 20px"></div>
                                 <div onclick="
                                 pullPendingToCurrent(${sale.key});
-                                " style="text-align:center; border: 0px solid rgb(200,200,200); background:rgb(255, 73, 73); color:rgb(255, 255, 255); padding: 6px; margin-top: 6px; border-radius: 4px;">Abrir</div>
+                                " style="text-align:center; border: 0px solid rgb(200,200,200); background:var(--primary-red-soft); color:rgb(255, 255, 255); padding: 6px; margin-top: 6px; border-radius: 4px;">Abrir</div>
                             </div>
                         </div>
                     </li>

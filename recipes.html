@@ -65,10 +65,10 @@
         <div style="height: 0px;"></div>
         <div style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: center;">
             Receta de: <div id="selected-item" style="font-weight: bold; width: 150px;"></div> 
-            <div onclick="copyToMemory()" style="width: 50px; background-color: rgb(5, 161, 233) ; padding: 4px; text-align: center; border-radius: 4px; color: white;">Copy</div>
-            <div onclick="pasteFromMemory()" style="width: 50px; background-color: rgb(5, 161, 233) ; padding: 4px; text-align: center; border-radius: 4px; color: white;">Paste</div>
+            <button onclick="copyToMemory()" style="width: 60px; padding: 8px; text-align: center; background-color: var(--primary-blue);">Copy</button>
+            <button onclick="pasteFromMemory()" style="width: 60px; padding: 8px; text-align: center;">Paste</button>
         </div>
-        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(235, 235, 235); height: 20vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+        <div style="border-radius: 14px; background-color: var(--primary-base-light); height: 20vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
             <ul id="current-recipe" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
                 
             </ul>
@@ -79,7 +79,7 @@
         </div>
         <div id="filter-bar" style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 0px;">
             <div style="width: 10px;"></div>
-            <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198);; background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;" id="filter-reset">X</button>
+            <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;" id="filter-reset">X</button>
             <select name="" id="cat-filter" style="margin: 0; border-radius: 0px 10px 10px 0px; border-left: 0; width: 140px;">
                 <option value="all">Categoria</option>
             </select>
@@ -87,7 +87,7 @@
             <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 0px 10px 10px 0px; padding-top: 9px;" id="search-reset">X</button>
     
         </div>
-        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: rgb(235, 235, 235); height: 40vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: var(--primary-base-light); height: 40vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
             <ul id="avail-items" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px;">
             
             </ul>

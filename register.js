@@ -100,7 +100,7 @@ function registerUser(email){
                         user: username,
                         password: registerPass.value,
                         business: businessname,
-                        name: registerNameField.value,
+                        name: String(registerNameField.value).toLowerCase(),
                         lastName: registerLastNameField.value,
                         admin: true,
                     });
