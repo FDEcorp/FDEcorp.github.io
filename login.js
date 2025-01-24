@@ -8,7 +8,7 @@ function checkCreds(emailField){
     let username = String(emailField).replace(/\W/g, '').toLowerCase()
     console.log(username)
     get(child(ref(db),`users/${username}`)).then((user)=>{
-        if(user.val().email != String(emailField).toLowerCase()){
+        if(String(user.val().email).toLowerCase() != String(emailField).toLowerCase()){
             alert('Correo incorrecto')
             return
         }
