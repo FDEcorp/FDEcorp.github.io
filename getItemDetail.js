@@ -65,6 +65,8 @@ function updateItem(){
         minStock: Number(document.getElementById('item-min').value),
         packQty: Number(document.getElementById('item-pack').value),
         vendor: String(document.getElementById('item-vendor').value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
+    }).then(()=>{
+        alert('actualizado')
     });
     
 }

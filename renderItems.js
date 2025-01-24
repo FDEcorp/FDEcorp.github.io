@@ -101,7 +101,7 @@ function renderItems(filter = 'all',productSearch=false){
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
-                                    <div style="height:20px; overflow: hidden" onclick="editProd('${item.key}')">
+                                    <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
                                     <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
@@ -170,6 +170,13 @@ function receiveItem(itemOBJ){
         }
     )
     
+}
+
+window.editItem = editItem;
+function editItem(item){
+    if(true){
+        location.href = `ItemDetails.html?prod=${item}`
+    }
 }
 
 function changeOrdQty(itemOBJ,increase){
