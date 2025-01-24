@@ -96,46 +96,6 @@ get(child(ref(db),`/businesses/${business}/Recipes/`)).then((Recipes) => {
     window.recipes = Recipes.val();
     console.log(recipes)
 })
-/*
-function deductInventory(order){
-
-    Object.entries(order).forEach((item)=>{
-        let productName= String(item[0]).split(' ')[0];
-        let sku= String(item[0]).split(' ')[1];
-        let qty= item[1][0];
-        let price= item[1][1];
-        try{
-            Object.entries(recipes[productName]).forEach((variation)=>{
-                if(variation[0]==sku)
-                    Object.entries(variation[1]).forEach((item)=>{
-                        let itemName = item[0]
-                        let cantidad = item[1].cantidad
-                        
-                        get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
-                            let currentStock = Items.val()
-                            let currentItemStock = currentStock[itemName].stock
-
-                            console.log(`${productName}: Deduciendo ${cantidad} de ${itemName} ${qty} veces, actual stock es ${currentItemStock}: ${currentItemStock} - ${cantidad*qty} = ${currentItemStock - cantidad*qty}`)
-                        
-                            update(ref(db,`/businesses/${business}/Items/${itemName}`),{
-                                stock: currentItemStock - cantidad*qty
-                            })
-                        })
-                        setTimeout(()=>{console.log('proceeding')},'1000')
-
-                    })
-    
-            })
-        }catch(e){}
-        
-
-    })
-
-    
-
-    
-}
-*/
 
 async function deductInventory(order) {
     try {
@@ -173,7 +133,7 @@ async function deductInventory(order) {
                         }
 
                         // Optional: Add a delay between each item update
-                        await new Promise(resolve => setTimeout(resolve, 100));
+                        await new Promise(resolve => setTimeout(resolve, 0));
                     }
                 }
             }
