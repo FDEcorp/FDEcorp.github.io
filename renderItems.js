@@ -97,14 +97,14 @@ function renderItems(filter = 'all',productSearch=false){
                     if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
                         console.log("resumen: ",localStorage.getItem('resumen'))
                         prodList.innerHTML += `
-                    <div class="item" id="${item.key}-card">
+                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>item.val().minStock?'var(--primary-base-light)':'var(--primary-red-light)'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
                                     <div style="height:20px; overflow: hidden" onclick="editProd('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
-                                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${item.val().stock}</span>
+                                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
                                     <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
                                 </div>
                             
