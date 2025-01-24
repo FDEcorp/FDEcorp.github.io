@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Nuevo Producto</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="getItemDetail.js"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 9; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Editar Item</h3>
+        </div>
+        <div style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid rgb(185, 185, 185);" onclick="location.href = 'newItem.html'">Nuevo</div>
+    </section>
+    
+    <div style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
+       <div style="display: flex; flex-direction: row; align-items: center;">
+        <select name="product-select" id="product-select" style="width:320px">
+            <option value="">Seleccionar</option>
+        </select>
+
+       </div>
+       <br>
+       <div style="display: flex; flex-wrap: wrap; margin-bottom: 20px; align-items: center; align-content: center; text-align: center; justify-content: center;">
+        <input type="text" id="item-cat" placeholder="category" style="width: 300px;">
+        <input type="text" id="item-stock" placeholder="stock" style="width: 300px;">
+        <input type="text" id="item-pack" placeholder="pack qty" style="width: 300px;">
+        <input type="text" id="item-min" placeholder="min qty" style="width: 300px;">
+        <input type="text" id="item-vendor" placeholder="stock" style="width: 300px;">
+
+       </div>
+
+       
+
+       <button id="save-button">SAVE</button>
+       <br>
+       <button style="background-color: white; color: rgb(104, 104, 104);" id="delete-product">Eliminar Producto</button>
+    </div>
+
+    <script>
+        setTimeout(()=>{
+            var url = new URL(location);
+            var prod = url.searchParams.get("prod");
+            console.log(prod)
+            if(prod!=undefined && prod!=""){
+                document.getElementById('product-select').value = prod
+                getDetails(document.getElementById('product-select').value)
+            }
+            
+        },'1000')
+        
+        
+    </script>
+</body>
+</html>
