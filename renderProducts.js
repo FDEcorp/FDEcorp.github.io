@@ -126,14 +126,14 @@ async function deductInventory(order) {
                             // Update the stock for the current item
                             await update(ref(db, `/businesses/${business}/Items/${itemName}`), {
                                 stock: currentItemStock - cantidad * qty,
-                            });
+                            }); 
 
                         } catch (error) {
                             console.error(`Error updating stock for item ${itemName}:`, error);
                         }
 
                         // Optional: Add a delay between each item update
-                        await new Promise(resolve => setTimeout(resolve, 0));
+                        await new Promise(resolve => setTimeout(resolve, 100));
                     }
                 }
             }

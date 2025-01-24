@@ -96,7 +96,7 @@ function registerUser(email){
                 }
                 else{
                     set(ref(db,'users/'+username),{
-                        email: registerEmailField.value,
+                        email: String(registerEmailField.value).toLowerCase(),
                         user: username,
                         password: registerPass.value,
                         business: businessname,
