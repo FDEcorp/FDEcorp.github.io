@@ -531,7 +531,7 @@ li{
     align-items: right;
     justify-content: center;
     text-align: right;
-    background-color: var(--primary-base-mid);
+    background-color: var(--primary-base-light);
     border-radius: 4px;
     margin: 10px;
     padding: 10px;
