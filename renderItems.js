@@ -97,7 +97,7 @@ function renderItems(filter = 'all',productSearch=false){
                     if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
                         console.log("resumen: ",localStorage.getItem('resumen'))
                         prodList.innerHTML += `
-                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>item.val().minStock?'var(--primary-base-light)':'var(--primary-red-light)'};">
+                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>item.val().minStock?'var(--primary-base-light)':'rgb(255, 203, 203);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
