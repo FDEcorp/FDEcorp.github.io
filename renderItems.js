@@ -116,7 +116,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
-                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'rgb(51, 153, 255)':'rgb(200,200,200)'}">0</button>
+                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}">0</button>
                                 </div>
     
                             

@@ -6,14 +6,14 @@
     --primary-blue: rgb(31, 166, 255);
     --primary-base: rgb(255, 255, 255);
     --primary-base-light: rgb(240,240,240);
-    --primary-base-mid: rgb(200, 200, 200);
+    --primary-base-mid: rgb(180, 180, 180);
     --primary-base-dark: rgb(150, 150, 150);
     --primary-base-darkest: rgb(28, 28, 28);
     --shadow: rgba(0,0,0,0.25)
 
 }
 
-h2,h3,h4,h5,h6,b,p,a{
+h2,h3,h4,h5,h6{
     color: var(--primary-black);
 }
 
