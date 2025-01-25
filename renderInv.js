@@ -113,22 +113,22 @@ function renderItems(filter = 'all',productSearch=false){
                                 </div>
 
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Pack
+                                    Pack<br>
                                     <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().packQty}</b>
                                 </div>
 
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Min
+                                    Min<br>
                                     <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().minStock}</b>
                                 </div>
                             
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Order
+                                    Order<br>
                                     <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().orderQty}</b>
                                 </div>
                                 
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; flex: 1; font-weight: bold;">
-                                    Stock
+                                    Stock<br>
                                     <input onchange="updateStock('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 10px; width: 50px; text-align: center; color: black; font-weight: bold;" value="${item.val().stock}">
                                 </div>
     
