@@ -1,4 +1,4 @@
-import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {set, get, update, remove, ref, child, getDatabase, onValue} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
 let business = localStorage.getItem('business')
 
@@ -22,6 +22,12 @@ resumenToggle.addEventListener('click',()=>{
     
     renderItems()
 })
+
+
+
+onValue(ref(db, `/businesses/${business}/Items`), (snapshot) => {
+ renderItems()
+});
 
 filterSelect.addEventListener('change',()=>{
     prodList.innerHTML = ''
@@ -97,7 +103,7 @@ function renderItems(filter = 'all',productSearch=false){
                     if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
                         console.log("resumen: ",localStorage.getItem('resumen'))
                         prodList.innerHTML += `
-                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
+                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
