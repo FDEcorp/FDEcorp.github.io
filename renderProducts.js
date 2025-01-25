@@ -120,12 +120,12 @@ async function deductInventory(order) {
 
                             console.log(
                                 `${productName}(${qty}): Deduciendo ${cantidad*qty} de ${itemName}, ` +
-                                `actual stock es ${currentItemStock}: ${currentItemStock} - ${cantidad * qty} = ${currentItemStock - cantidad * qty}`
+                                `actual stock es ${currentItemStock}: ${currentItemStock} - ${cantidad * qty} = ${currentItemStock>0?currentItemStock - cantidad * qty:0}`
                             );
 
                             // Update the stock for the current item
                             await update(ref(db, `/businesses/${business}/Items/${itemName}`), {
-                                stock: currentItemStock - cantidad * qty,
+                                stock: currentItemStock>0?currentItemStock - cantidad * qty:0,
                             }); 
 
                         } catch (error) {
