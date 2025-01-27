@@ -169,6 +169,10 @@ async function deductInventory(order) {
                                 stock: currentItemStock>0?Number(currentItemStock) - Number(cantidad) * Number(qty):0,
                                 lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
                             }); 
+                            await update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
+                                stock: currentItemStock>0?Number(currentItemStock) - Number(cantidad) * Number(qty):0,
+                                delta: -Number(cantidad) * Number(qty),
+                            }); 
 
                         } catch (error) {
                             console.error(`Error updating stock for item ${itemName}:`, error);

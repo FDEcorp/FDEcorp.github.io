@@ -169,6 +169,12 @@ function receiveItem(itemOBJ){
                 stock: Number(currentStock) + Number(currentOrder)*Number(pack),
                 orderQty: Number(0)
             });
+
+            update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
+                stock: Number(currentStock) + Number(currentOrder)*Number(pack),
+                delta: Number(currentOrder)*Number(pack),
+            }); 
+
             document.getElementById(itemName+"-order-qty").innerHTML = 0
             document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)*Number(pack)}`
             checkQty(itemName)
