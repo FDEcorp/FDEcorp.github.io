@@ -8,6 +8,12 @@ let filterSelect = document.getElementById('cat-filter')
 let filterReset = document.getElementById('filter-reset') 
 let prodSearch = document.getElementById('prod-search') 
 let searchReset = document.getElementById('search-reset') 
+
+let prodCost = document.getElementById('prod-cost')
+let prodPrice = document.getElementById('prod-price')
+
+prodCost.innerHTML = 0;
+
 window.categorias = {}
 window.catList = []
 
@@ -16,8 +22,12 @@ window.productSkus = {}
 
 window.selectedprodandsku = ""
 
+window.ItemsCost = {}
+window.ProdCost = {}
+
 get(child(ref(db),`/businesses/${business}/Products/`)).then((Prods) => {
     Prods.forEach((product)=>{
+        
         prodSelect.innerHTML += String(
         `
             <option value="${product.key}">${product.key}</option>
@@ -28,9 +38,6 @@ get(child(ref(db),`/businesses/${business}/Products/`)).then((Prods) => {
     })
     console.log(productSkus)
 })
-
-
-
 
 prodSelect.addEventListener('change',()=>{
     getProdSkus(prodSelect.value)
@@ -75,15 +82,17 @@ function getProdSkus(product){
     console.log(`${product} has ${productSkus[product].length} skus`)
 
     productSkus[product].forEach((size)=>{
+        ProdCost[String(product).replaceAll(' ','_')+' '+size[1].sizeLabel] = size[1].price
         availSkus.innerHTML += `
             <button id="${product}-${size[0]}" onclick="getProdRecipe('${product}','${size[0]}');updateSel('${product}','${size[1].sizeLabel}','${size[0]}');" class="sku-size" onfocus="document.getElementById('${product}-${size[0]}').style.background = 'rgb(237, 237, 237)'" onblur="document.getElementById('${product}-${size[0]}').style.background = 'rgb(255, 255, 255)'">${size[1].sizeLabel}</button>
         `
     })
-    
+    console.log(ProdCost)
     console.log(productSkus[product])
     updateSel(product,productSkus[product][0][1].sizeLabel)
 
 }
+
 
 function updateSel(product,sku){
     currentRecipe.innerHTML = ""
@@ -92,19 +101,23 @@ function updateSel(product,sku){
     console.log(selectedprodandsku)
 
     document.getElementById('selected-item').innerHTML = `${productName} ${sku}`
-
+    prodCost.innerHTML = 0;
     get(child(ref(db),`/businesses/${business}/Recipes/${productName}/${sku}`)).then((Ingredients) => {
         if(Ingredients.exists()){
             console.log(`recipe for ${productName} found`)
             
             Ingredients.forEach((item)=>{
+                prodCost.innerHTML = Number(prodCost.innerHTML) + item.val().cantidad*ItemsCost[item.key];
                 currentRecipe.innerHTML += `
                 <li style="margin-bottom: 4px;background-color: rgb(255, 255, 255); padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
-                    <div style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
-                    
+                    <div onclick="location.href = 'ItemDetails.html?prod=${item.key}'" style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
                     <div style="text-align: right; padding: 0px; width: 60px;">
-                        <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 50px; border-radius: 6px; border: 0px; text-align: right;">
+                        <span style="height: 10px; width: 50px; border-radius: 6px; border: 0px; text-align: right; color: var(--primary-base-mid)">(${ItemsCost[item.key]})</span>
                     </div>
+                    <div style="text-align: right; padding: 0px; width: 40px;">
+                        <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 30px; border-radius: 6px; border: 0px; text-align: right;">
+                    </div>
+                    
                     <div style="width: 100px; display: flex; flex-direction: row; gap: 4px; justify-content: right;">
                         <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 50px; background: var(--primary-blue); color: white; height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">All Var</div>
                         <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 20px; background: var(--primary-red-soft) ;color: white;height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">x</div>
@@ -112,9 +125,12 @@ function updateSel(product,sku){
                 </li>
             `
             })
-
-
-            
+            console.log(productName,sku)
+            prodPrice.innerHTML = `$ ${ProdCost[productName+' '+sku]}`
+            prodCost.innerHTML = `$ ${(Math.round(Number(prodCost.innerText) * 100) / 100).toFixed(2)}`
+            document.getElementById('prod-margin').innerText = `${
+                (Math.round((String(prodPrice.innerText).split(' ')[1]-String(prodCost.innerText).split(' ')[1])/String(prodPrice.innerText).split(' ')[1] * 100)).toFixed(0)
+            } %`
         }
         else{
             console.log(`recipe for ${product} NOT found`)
@@ -205,6 +221,11 @@ searchReset.addEventListener('click',()=>{
 get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
     Items.forEach(
         function(item){ 
+            let packPrice = item.val().packPrice || 0
+            let packQty = item.val().packQty || 0
+            let unitCost = Number(packPrice)/Number(packQty)
+            ItemsCost[item.key] = (Math.round(unitCost * 100) / 100).toFixed(2)
+
             let categoria = String(item.val().category).toLowerCase()
             if(categorias[categoria]==undefined){
                 categorias[categoria] = 1
@@ -216,6 +237,7 @@ get(child(ref(db),`/businesses/${business}/Items`)).then((Items) => {
     document.getElementById('cat-filter').innerHTML += Object.keys(categorias).map((cat)=>`<option value="${cat}">${cat}</option>`)
     catList = Object.keys(categorias)
     catList = catList.reverse()
+    console.log(ItemsCost)
 })
 
 function renderItems(filter = 'all',productSearch=false){

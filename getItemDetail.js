@@ -2,15 +2,20 @@ import {set, get, update, remove, ref, child, getDatabase} from "https://www.gst
 let business = localStorage.getItem('business')
 let ProductSelect = document.getElementById('product-select')
 let ProductSave = document.getElementById('save-button')
-
+let ItemsCost = {}
 
 get(child(ref(db),`/businesses/${business}/Items`)).then((Products) => {
     Products.forEach(
-        function(product){
+        function(item){
            ProductSelect.innerHTML += `
-            <option value="${product.key}">${String(product.key).replaceAll("_"," ")}</option>
+            <option value="${item.key}">${String(item.key).replaceAll("_"," ")}</option>
            `
+           let packPrice = item.val().packPrice || 0
+           let packQty = item.val().packQty || 0
+           let unitCost = Number(packPrice)/Number(packQty)
+           ItemsCost[item.key] = (Math.round(unitCost * 100) / 100).toFixed(2)
         })
+        console.log(ItemsCost)
 })
 
 ProductSelect.addEventListener('change',()=>{
@@ -27,7 +32,8 @@ function getDetails(selected){
         document.getElementById('item-pack').value = selected.val().packQty
         document.getElementById('item-min').value = selected.val().minStock
         document.getElementById('item-vendor').value = selected.val().vendor
-
+        document.getElementById('last-update').innerText = selected.val().lastUpdate
+        document.getElementById('item-pack-price').value = selected.val().packPrice || ' '
 
     })
 }
@@ -64,6 +70,7 @@ function updateItem(){
         stock: Number(document.getElementById('item-stock').value),
         minStock: Number(document.getElementById('item-min').value),
         packQty: Number(document.getElementById('item-pack').value),
+        packPrice:Number(document.getElementById('item-pack-price').value),
         vendor: String(document.getElementById('item-vendor').value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
     }).then(()=>{
         alert('actualizado')

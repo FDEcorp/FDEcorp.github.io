@@ -63,8 +63,14 @@
             
         </div>
         <div style="height: 0px;"></div>
-        <div style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: center;">
-            Receta de: <div id="selected-item" style="font-weight: bold; width: 150px;"></div> 
+        <div style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: end;">
+            <div style="width: 300px;">
+                Receta de: <span id="selected-item" style="font-weight: bold;"></span><br>
+                Precio: <span id="prod-price" style="font-weight: bold;"></span>
+                Costo: <span id="prod-cost" style="font-weight: bold;"></span><br>
+                Margen: <span id="prod-margin" style="font-weight: bold;"></span>
+
+            </div>
             <button onclick="copyToMemory()" style="width: 60px; padding: 8px; text-align: center; background-color: var(--primary-blue);">Copy</button>
             <button onclick="pasteFromMemory()" style="width: 60px; padding: 8px; text-align: center;">Paste</button>
         </div>
