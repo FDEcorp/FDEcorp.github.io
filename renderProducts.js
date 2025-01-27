@@ -62,7 +62,34 @@ searchReset.addEventListener('click',()=>{
     renderItems()
 })
 
+window.registerSalesOnMemory = {}
 
+checkIfSalesWritten(year,month,day)
+
+function checkIfSalesWritten(year,month,day){
+    console.log(year,month,day)
+    window.registerSalesOnDB = {}
+    get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
+
+        registerSalesOnDB = Sales.val()
+        console.log('sales found in DB',registerSalesOnDB)
+
+        Object.keys(registerSalesOnMemory).forEach(id=>{
+            if(registerSalesOnDB[id] == undefined){
+                console.log(id,'not found in BD',registerSalesOnDB[id])
+                set(ref(db,'businesses/'+business+'/sales/'+year+"/"+month+"/"+day+'/'+ id),registerSalesOnMemory[id])
+                deductInventory(registerSalesOnMemory[id].Items)
+            }else{
+                console.log(id,'found in DB',registerSalesOnDB[id].Total)
+                delete registerSalesOnMemory[id];
+                console.log(registerSalesOnMemory)
+            }
+
+        })
+        console.log('pending to write',registerSalesOnMemory)
+        localStorage.setItem(day,JSON.stringify(registerSalesOnMemory))
+    })    
+}
 
 function registerSale(paymentMethod){
     if(total <= 0){
@@ -83,10 +110,25 @@ function registerSale(paymentMethod){
         Seller: localStorage.getItem('username')
     });
     
+    registerSalesOnMemory = JSON.parse(localStorage.getItem(sale_day)) || {}
+    registerSalesOnMemory[saleID] = {
+        Time: TimeStamp,
+        Items: order,
+        Total: total,
+        Method: paymentMethod,
+        Seller: localStorage.getItem('username')
+    }
+    console.log('current sale', registerSalesOnMemory[saleID])
+    localStorage.setItem(sale_day,JSON.stringify(registerSalesOnMemory))
+    console.log(
+        'sales registed in Memory',
+        JSON.parse(localStorage.getItem(sale_day))
+    )
+
     deductInventory(order)
     alert('Success')
     clearOrder()
-    
+    checkIfSalesWritten(sale_year,sale_month,sale_day)
 }
 
 window.deductInventory = deductInventory;
