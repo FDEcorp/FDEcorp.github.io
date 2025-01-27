@@ -129,7 +129,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; flex: 1; font-weight: bold;">
                                     Stock<br>
-                                    <input onchange="updateStock('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 10px; width: 50px; text-align: center; color: black; font-weight: bold;" value="${item.val().stock}">
+                                    <input onchange="updateStock('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 10px; width: 50px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().stock * 100) / 100).toFixed(2)}">
                                 </div>
     
                             
