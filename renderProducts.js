@@ -1,4 +1,4 @@
-import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {set, get, update, remove, ref, child, getDatabase, onValue, query, orderByChild, equalTo} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
 let business = localStorage.getItem('business')
 let prodList = document.getElementById('products-window')
@@ -16,7 +16,6 @@ window.total = 0
 
 window.categorias = {}
 window.catList = []
-
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
         function(product){ 
@@ -92,7 +91,7 @@ function registerSale(paymentMethod){
 
 window.deductInventory = deductInventory;
 
-get(child(ref(db),`/businesses/${business}/Recipes/`)).then((Recipes) => {
+onValue(ref(db, `/businesses/${business}/Recipes`),(Recipes)=>{
     window.recipes = Recipes.val();
     console.log(recipes)
 })
@@ -280,9 +279,10 @@ function getSizes(product){
 
 function getPrices(product){
     let Size = product.val().Sizes
-    
+
+    console.log("sizes",product.key)
     window.test = Object.entries(Size)
-    //console.log("sizes",product.val(),test)
+   
     
     let Options = test.map((size,index)=>
         `
@@ -294,8 +294,50 @@ function getPrices(product){
     return String(Options).replaceAll(',','')
 }
 
+const ProdRef = ref(db, `/businesses/${business}/Products`);
+let myQuery = query(ProdRef, orderByChild("category"));
+
+onValue(ref(db, `/businesses/${business}/Products`),()=>renderItems())
+
+function renderItemsTEST(filter = 'all',productSearch=false){
+    prodList.innerHTML = ''
+    get(myQuery).then((Products) => {
+        Products.forEach((product)=>{
+            let image = Object.values(product.val())[2]
+
+            if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
+                prodList.innerHTML += `
+                        <div class="product" id="${product.key}-card">
+                            <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
+                                <div style="background-color:var(--primary-base-mid); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
+                                <div class="wrap" style="font-weight:600; font-size: 16px; color: var(--primary-black); width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
+                                <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
+                                ${String(product.key).replaceAll('_',' ')}
+                                </div>
+                            
+                                <span style="font-size: 10px; color: var(--primary-base-mid); font-weight: 800">Precios:</span>
+                                <span style="font-size: 14px; color: var(--primary-base-mid); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
+                                
+                                </div>
+                                
+                            </div>
+                        
+                            <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
+                            getSizes(product)+
+                                `
+                            </div>
+                        </div> 
+                        `
+            }
+
+        })
+
+    })
+}
+
 function renderItems(filter = 'all',productSearch=false){
     //console.log("filtrando por",filter)
+    prodList.innerHTML = ''
     get(child(ref(db),`/businesses/${business}/Products/`)).then((Products) => {
 
         catList.forEach((cat) => {
