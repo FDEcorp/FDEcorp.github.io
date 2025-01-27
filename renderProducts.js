@@ -64,6 +64,7 @@ searchReset.addEventListener('click',()=>{
 
 window.registerSalesOnMemory = {}
 
+window.checkIfSalesWritten = checkIfSalesWritten;
 checkIfSalesWritten(year,month,day)
 
 function checkIfSalesWritten(year,month,day){

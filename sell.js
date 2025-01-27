@@ -15,6 +15,7 @@ function setCorte(){
 
 
 function registerCorte(EfectivoEnCaja) {
+    
     let business = localStorage.getItem('business')
     let TimeStamp = String(new Date()).substring(16,24);
     let year = new Date().getFullYear();
@@ -33,8 +34,6 @@ function registerCorte(EfectivoEnCaja) {
             console.log("no records")
         }
         
-
-
         Cortes.forEach((corte)=>{
             console.log(index,corte.val())
             previousCard += corte.val().card
