@@ -237,7 +237,9 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
     
     get(child(ref(db),`/businesses/${business}/sales/${saleYear}/${Number(saleMonth)}/${saleDay}/${saleID}`)).then((sale) => {
         console.log(sale.val().Items)
+        
         document.getElementById('saleDetails-time').innerText = sale.val().Time;
+        document.getElementById('saleDetails-seller').innerText = sale.val().Seller;
 
         document.getElementById('saleDetails-method').innerText = sale.val().Method;
         document.getElementById('saleDetails-monto').innerText = sale.val().Total;

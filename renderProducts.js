@@ -157,7 +157,7 @@ async function deductInventory(order) {
                         try {
                             // Fetch the current stock for all items
                             const ItemsSnapshot = await get(child(ref(db), `/businesses/${business}/Items/`));
-                            const currentStock = ItemsSnapshot.val();
+                            const currentStock = Number(ItemsSnapshot.val());
                             const currentItemStock = currentStock[itemName]?.stock || 0;
 
                             console.log(
@@ -167,7 +167,7 @@ async function deductInventory(order) {
 
                             // Update the stock for the current item
                             await update(ref(db, `/businesses/${business}/Items/${itemName}`), {
-                                stock: currentItemStock>0?currentItemStock - cantidad * qty:0,
+                                stock: currentItemStock>0?Number(currentItemStock) - Number(cantidad) * Number(qty):0,
                             }); 
 
                         } catch (error) {

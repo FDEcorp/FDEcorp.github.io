@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Usuarios</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+<script type="module" src="getUsers.js"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 8; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Usuarios</h3>
+        </div>
+        <div style="flex: 4; padding: 8px; border-radius: 8px; border: 1px solid rgb(206, 206, 206); margin-right: 0px;">Usuario Nuevo</div>
+    </section>
+    
+    <div style="padding: 20px; text-align: center; height: 70vh;" id="content">
+        <ul id="users-list" style="display: flex; gap: 4px; flex-direction: column;"></ul>
+    </div>
+        
+        
+
+
+    </div>
+</body>
+</html>

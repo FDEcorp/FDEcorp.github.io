@@ -133,7 +133,7 @@ function udpateItemQty(product,sku,item,newQty){
     }else{
         console.log(product,item,newQty)
         set(ref(db,`/businesses/${business}/Recipes/${product}/${sku}/${item}`),{
-            cantidad: newQty,
+            cantidad: Number(newQty),
         })
     }
     updateSel(product,sku)

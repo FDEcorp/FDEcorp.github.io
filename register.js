@@ -113,7 +113,7 @@ function registerUser(email){
 
                     setTimeout(()=>{
                         location.href = 'menu.html'
-                    },'500')
+                    },'1000')
                 }
             })
 
