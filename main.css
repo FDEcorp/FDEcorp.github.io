@@ -442,9 +442,9 @@ li{
     padding: 0;
     flex: 1;
     height: 40px;
-    border: 1px solid rgb(216, 216, 216);
-    background-color: rgb(225, 225, 225);
-    color: gray;
+    border: 0px solid var(--primary-base-light);
+    background-color: var(--primary-base-mid);
+    color: var(--primary-base-darkest);
     font-weight: 800;
     border-radius: 10px;
     align-content: center;
@@ -454,7 +454,7 @@ li{
     margin: 0;
     flex: 1;
     height: 40px;
-    border: 1px solid rgb(216, 216, 216);
+    border: 1px solid var(--primary-base-dark);
     background-color: rgb(225, 225, 225);
     color: gray;
     font-weight: 800;
