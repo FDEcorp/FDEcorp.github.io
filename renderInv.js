@@ -159,6 +159,8 @@ window.updateStock = updateStock;
 function updateStock(item,qty){
     update(ref(db,'businesses/'+business+'/Items/'+item),{
         stock: Number(qty),
+        lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+
     });
     alert('Updated')
 }
