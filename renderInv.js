@@ -110,8 +110,8 @@ function renderItems(filter = 'all',productSearch=false){
                                     <div style="height:72px; overflow: hidden;" onclick="editItem('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
-                                    <div style="font-size: 12px; color: var(--primary-base-mid)">
-                                        Act: ${item.val().lastUpdate==undefined?'':item.val().lastUpdate}
+                                    <div style="font-size: 12px; color: var(--primary-base-dark)">
+                                        ${item.val().lastUpdate==undefined?'':item.val().lastUpdate}
                                     </div>
                                 </div>
 
