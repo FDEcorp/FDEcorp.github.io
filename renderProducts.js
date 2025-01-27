@@ -127,7 +127,6 @@ function registerSale(paymentMethod){
     )
 
     deductInventory(order)
-    alert('Success')
     clearOrder()
     checkIfSalesWritten(sale_year,sale_month,sale_day)
 }
