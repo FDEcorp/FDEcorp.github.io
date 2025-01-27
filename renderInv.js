@@ -106,9 +106,12 @@ function renderItems(filter = 'all',productSearch=false){
                     <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
-                                <div class="wrap" style="flex:3; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start; padding-top: 4px;">
-                                    <div style="height:60px; overflow: hidden;" onclick="editItem('${item.key}')">
+                                <div class="wrap" style="flex:3; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start; padding-top: 2px;">
+                                    <div style="height:72px; overflow: hidden;" onclick="editItem('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
+                                    </div>
+                                    <div style="font-size: 12px; color: var(--primary-base-mid)">
+                                        Act: ${item.val().lastUpdate==undefined?'':item.val().lastUpdate}
                                     </div>
                                 </div>
 
