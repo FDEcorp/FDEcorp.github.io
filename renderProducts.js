@@ -63,15 +63,19 @@ searchReset.addEventListener('click',()=>{
 })
 
 window.registerSalesOnMemory = {}
-
 window.checkIfSalesWritten = checkIfSalesWritten;
-checkIfSalesWritten(year,month,day)
+console.log('checking sales on load')
+checkIfSalesWritten(new Date().getFullYear(),String(new Date().getMonth()+1),day)
 
 function checkIfSalesWritten(year,month,day){
+    registerSalesOnMemory = JSON.parse(localStorage.getItem(day))
+    if(registerSalesOnMemory == null){
+        return
+    }
+    console.log('pending to write',registerSalesOnMemory)
     console.log(year,month,day)
     window.registerSalesOnDB = {}
     get(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}`)).then((Sales) => {
-
         registerSalesOnDB = Sales.val()
         console.log('sales found in DB',registerSalesOnDB)
 
@@ -79,15 +83,15 @@ function checkIfSalesWritten(year,month,day){
             if(registerSalesOnDB[id] == undefined){
                 console.log(id,'not found in BD',registerSalesOnDB[id])
                 set(ref(db,'businesses/'+business+'/sales/'+year+"/"+month+"/"+day+'/'+ id),registerSalesOnMemory[id])
-                //deductInventory(registerSalesOnMemory[id].Items)
+                deductInventory(registerSalesOnMemory[id].Items)
             }else{
                 console.log(id,'found in DB',registerSalesOnDB[id].Total)
-                //delete registerSalesOnMemory[id];
+                delete registerSalesOnMemory[id];
                 console.log(registerSalesOnMemory)
             }
 
         })
-        console.log('pending to write',registerSalesOnMemory)
+        
         localStorage.setItem(day,JSON.stringify(registerSalesOnMemory))
     })    
 }
@@ -111,7 +115,10 @@ function registerSale(paymentMethod){
         Seller: localStorage.getItem('username')
     });
     
-    registerSalesOnMemory = JSON.parse(localStorage.getItem(sale_day)) || {}
+    registerSalesOnMemory = JSON.parse(localStorage.getItem(sale_day))
+    if(registerSalesOnMemory == null){
+        registerSalesOnMemory = {}
+    }
     registerSalesOnMemory[saleID] = {
         Time: TimeStamp,
         Items: order,
