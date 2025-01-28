@@ -17,23 +17,27 @@ function checkCreds(emailField){
             if(user.val().admin==true){
                 admin = 'true'
             }
-            
+
             let businessName = user.val().business
-            let username = user.val().name +' '+ user.val().lastName
-            localStorage.setItem("business", businessName);
-            localStorage.setItem("username", username);
-            localStorage.setItem("email", String(emailField).replace(/\W/g, '').toLowerCase());
-            localStorage.setItem("admin",admin);
-
-            document.getElementById('login-card').style.transform = 'scale(2)';
-            document.getElementById('login-card').style.opacity = '0.2';
-            let TempKey = (Math.random() + 1).toString(36).substring(7)
-            localStorage.setItem('TempKey',TempKey)
-
-            update(ref(db,`users/${String(emailField).replace(/\W/g, '').toLowerCase()}`),{
-                lastLogin: new Date(),
-                sessionID: TempKey
+            get(child(ref(db),`businesses/${businessName}/users/${user.val().user}`)).then((userName)=>{
+                let username = user.val().name +' '+ user.val().lastName
+                localStorage.setItem("business", businessName);
+                localStorage.setItem("username", username);
+                localStorage.setItem("email", String(emailField).replace(/\W/g, '').toLowerCase());
+                localStorage.setItem("admin",userName.val().admin);
+    
+                document.getElementById('login-card').style.transform = 'scale(2)';
+                document.getElementById('login-card').style.opacity = '0.2';
+                let TempKey = (Math.random() + 1).toString(36).substring(7)
+                localStorage.setItem('TempKey',TempKey)
+    
+                update(ref(db,`users/${String(emailField).replace(/\W/g, '').toLowerCase()}`),{
+                    lastLogin: new Date(),
+                    sessionID: TempKey
+                })
             })
+
+            
 
             setTimeout(()=>{
             location.href = "menu.html"

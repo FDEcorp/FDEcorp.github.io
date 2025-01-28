@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Nuevo Producto</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../headerRender.js"></script>
+    <script type="module" src="../dbconfig.js"></script>
+    <script type="module" src="getTempKey.js"></script>
+    <script type="module" src="newUser.js"></script>
+    <script>
+        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+            location.href = 'Index.html'
+        }
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    
+    <section class="subnav">
+        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 9; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Usuario Nuevo</h3>
+        </div>
+        <div style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid rgb(185, 185, 185);" onclick="location.href = 'newItem.html'">Nuevo</div>
+    </section>
+    
+    <div style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
+       <div style="display: flex; flex-direction: row; align-items: center;">
+       
+       </div>
+       <br>
+       <div style="display: flex; flex-wrap: wrap; margin-bottom: 20px; align-items: center; align-content: center; text-align: center; justify-content: center; max-width: 400px;">
+        <div style=" max-width: 300px; text-align: left; color: var(--primary-base-mid); width: 90%;">Nombre Completo:</div>
+        <input type="text" id="user-first-last" placeholder="Jhon Doe" style="width: 300px;"><br>
+        <div style=" max-width: 300px; text-align: left; color: var(--primary-base-mid); width: 90%;">Correo:</div>
+        <input type="text" id="user-email" placeholder="ejemplo@email.com" style="width: 300px;"><br>
+        <div style=" max-width: 300px; text-align: left; color: var(--primary-base-mid); width: 90%;">Contraseña:</div>
+        <input type="password" id="user-pass" placeholder="*********" style="width: 300px;"><br>
+        <div style=" max-width: 300px; text-align: left; color: var(--primary-base-mid); width: 90%;">Confirmar:</div>
+        <input type="password" id="user-confirm" placeholder="*********" style="width: 300px;"><br>
+  
+      
+       </div>
+
+       <br>
+
+       <button id="save-button">Crear</button>
+    </div>
+
+  
+</body>
+</html>

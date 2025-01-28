@@ -7,33 +7,37 @@ function getUsers(){
     UsersList.innerHTML=''
 get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
     Users.forEach((user)=>{
-        console.log(user.val())
-        UsersList.innerHTML +=  
-       `<div class="item" id="${user.key}-card">
-        <div style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
+        get(child(ref(db),`users/${user.key}`)).then((Users)=>{
             
-                <div class="wrap" style="flex:5; font-weight:600; alig font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding: 10px; display: flex; flex-direction: column;">
-                    <div>
-                        ${String(user.key).replaceAll('_',' ')}
+        const userData = user.val();
+        const isAdmin = !!userData.admin; // Ensure boolean value
+        
+        UsersList.innerHTML += `
+            <div class="item" id="${user.key}-card">
+                <div style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
+                    <div class="wrap" style="flex: 5; font-size: 16px; color: Black; width: 100px; text-align: left; padding: 10px; display: flex; flex-direction: column;">
+                        <div>
+                            <b>${Users.val().name} ${Users.val().lastName}</b> <br>
+                            ${String(Users.val().email).replaceAll('_', ' ')}
+                        </div>
                     </div>
-                
-                </div>
-                <div style="display: flex; align-content: center; align-items: center;gap: 10px;">
-                    <div> 
-                        Admin: ${user.val().admin}      
+                    <div style="display: flex; align-content: center; align-items: center; gap: 10px;">
+                        <div> 
+                            Admin    
+                        </div>
+                        <input 
+                            onchange="changeAdminStatus('${user.key}', this.checked)" 
+                            type="checkbox" 
+                            id="${user.key}-check" 
+                            style="margin: 10px; height: 20px; width: 20px; text-align: center; color: black; font-weight: bold; border-radius: 10px;" 
+                            ${isAdmin ? 'checked' : ''}
+                        >
                     </div>
-
-
-                    <input onchange="changeAdminStatus('${user.key}',this.checked)" type="checkbox" id="${user.key}-check" style="margin: 10px; height: 20px; width: 20px; text-align: center; color: black; font-weight: bold; border-radius: 10px;">
                 </div>
-        </div>
+            </div>`;
+        })
        
-    </div> 
-    `    
-        setTimeout(()=>{
-            document.getElementById(user.key+'-check').value = String(user.val().admin)
-            document.getElementById(user.key+'-check').checked = String(user.val().admin)
-        },'200')
+        
     
     })
 })
