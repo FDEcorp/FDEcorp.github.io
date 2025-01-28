@@ -13,7 +13,7 @@ function uploadItem(){
     
     for(let i=0; i < numberOfOptions.value; i++){
         let sizeName = document.getElementById('item-size-'+i).value
-        let price = document.getElementById('item-price-'+i).value
+        let price = Number(String(document.getElementById('item-price-'+i).value).replace(/\D/g,''))
 
         console.log(
             item.value,
