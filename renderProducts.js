@@ -269,9 +269,9 @@ function renderOrder(){
         
         orderList.innerHTML +=`
         <li class="ordered-items">
-            <div style="flex: 12; text-align: left;">${String(item).replaceAll('_',' ')} ${size}</div>                         
-            <div style="flex: 2; text-align: left;">x${qty}</div>
-            <div style="flex: 3; text-align: right; padding-right: 10px">$ ${price}</div>
+            <div style="flex: 11; text-align: left;">${String(item).replaceAll('_',' ')} ${size}</div>                         
+            <div style="flex: 1; text-align: left;">x${qty}</div>
+            <div style="flex: 5; text-align: right; padding-right: 10px">$ ${price}</div>
         </li>
         `
     })
