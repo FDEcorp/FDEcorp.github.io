@@ -31,22 +31,23 @@ Selector.addEventListener('change',()=>{
 function getData(item){
     console.log(item)
     get(ref(db,`/businesses/${business}/Consumo/${item}`)).then(snapshot=>{
-        if(!snapshot.exists()){
-            update(ref(db, `/businesses/${business}/Consumo/${item}/${new Date()}`), 
+        update(ref(db, `/businesses/${business}/Consumo/${item}/${new Date()}`), 
             {
                 stock: CurrentStock[item],
             })
-            .then(()=>{getData(item);console.log('created first record')}); 
-        }else{
-            Consumos = []; // Clear the array to avoid duplicates
+            .then(()=>{
+                Consumos = []; // Clear the array to avoid duplicates
 
-            snapshot.forEach((record) => {
-                Consumos.push([new Date(record.key), record.val().stock]); // Add each record
-            });
-
-            let ConsumosSorted = Consumos.sort((a, b) => a[0] - b[0]);    
-            drawChart(ConsumosSorted);
-        }
+                snapshot.forEach((record) => {
+                    Consumos.push([new Date(record.key), record.val().stock]); // Add each record
+                });
+    
+                let ConsumosSorted = Consumos.sort((a, b) => a[0] - b[0]);    
+                drawChart(ConsumosSorted);
+            }); 
+        
+            
+        
 
 })}
 
