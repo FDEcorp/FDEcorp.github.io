@@ -79,10 +79,10 @@ function checkIfSalesWritten(year,month,day){
             if(registerSalesOnDB[id] == undefined){
                 console.log(id,'not found in BD',registerSalesOnDB[id])
                 set(ref(db,'businesses/'+business+'/sales/'+year+"/"+month+"/"+day+'/'+ id),registerSalesOnMemory[id])
-                deductInventory(registerSalesOnMemory[id].Items)
+                //deductInventory(registerSalesOnMemory[id].Items)
             }else{
                 console.log(id,'found in DB',registerSalesOnDB[id].Total)
-                delete registerSalesOnMemory[id];
+                //delete registerSalesOnMemory[id];
                 console.log(registerSalesOnMemory)
             }
 
