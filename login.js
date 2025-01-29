@@ -34,11 +34,12 @@ async function checkCreds(emailField){
                 update(ref(db,`users/${String(emailField).replace(/\W/g, '').toLowerCase()}`),{
                     lastLogin: new Date(),
                     sessionID: TempKey
-                }).then(()=>{
-                    location.href = "menu.html"
                 })
             })
  
+            setTimeout(()=>{
+                location.href = "menu.html"
+            },'500')
         }
         else{
             alert('credenciales incorrectos')
