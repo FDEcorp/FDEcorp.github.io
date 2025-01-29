@@ -16,7 +16,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
             <div class="item" id="${user.key}-card">
                 <div style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                     <div class="wrap" style="flex: 4; font-size: 16px; color: Black; width: 100px; text-align: left; padding: 10px; display: flex; flex-direction: column;">
-                        <div>
+                        <div style="overflow: hidden">
                             <b>${Users.val().name} ${Users.val().lastName}</b> <br>
                             ${String(Users.val().email).replaceAll('_', ' ')}<br>
                             <p style="margin:0; padding:0; color: gray;">(${String(Users.val().active)=='true'?'Active':'Inactive'})</p>
@@ -35,9 +35,9 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                             ${isAdmin ? 'checked' : ''}
                         ></div>
                     </div>
-                    <div style="display: flex; flex: 1; align-content: center; align-items: center; gap: 10px; margin-right: 10px;">
-                        <div>
-                        <a href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Cancel':'Resume'}</a>
+                    <div style="display: flex; flex: 2; align-content: center; align-items: center; gap: 10px; margin-right: 10px;">
+                        <div style="padding: 10px; padding-inline: 10px; border-radius: 4px; background: var(--primary-red); color: white;">
+                        <a style="color: white; text-decoration: none" href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Cancel':'Resume'}</a>
                         </div>
                     </div>
                 </div>
