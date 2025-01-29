@@ -36,7 +36,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                         ></div>
                     </div>
                     <div style="display: flex; flex: 2; align-content: center; align-items: center; gap: 10px; margin-right: 10px;">
-                        <div style="padding: 10px; width: 70px; padding-inline: 10px; border-radius: 4px; background: ${String(Users.val().active)=='true'?'var(--primary-red)':'var(--primary-blue)'}; color: white;">
+                        <div style="padding: 10px; width: 70px; padding-inline: 10px; border-radius: 4px; background: ${String(Users.val().active)=='true'?'var(--primary-base-mid)':'var(--primary-blue)'}; color: white;">
                             <a style="color: white; text-decoration: none" href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Pausar':'Resumir'}</a>
                         </div>
                     </div>
