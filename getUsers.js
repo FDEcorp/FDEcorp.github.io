@@ -19,7 +19,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                         <div>
                             <b>${Users.val().name} ${Users.val().lastName}</b> <br>
                             ${String(Users.val().email).replaceAll('_', ' ')}<br>
-                            ${Users.val().stripeSubscriptionId}
+                            <p style="margin:0; padding:0; color: gray;">${Users.val().stripeSubscriptionId!=undefined?Users.val().stripeSubscriptionId:'Not Subbed'} (${String(Users.val().active)=='true'?'Active':'Inactive'})</p>
                         </div>
                     </div>
                     <div style="display: flex; flex: 2; flex-direction:column; align-content: center; align-items: center; gap: 4px;">
@@ -35,9 +35,9 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                             ${isAdmin ? 'checked' : ''}
                         ></div>
                     </div>
-                    <div style="display: flex; flex: 1; align-content: center; align-items: center; gap: 10px;">
+                    <div style="display: flex; flex: 1; align-content: center; align-items: center; gap: 10px; margin-right: 10px;">
                         <div>
-                        <a href="https://checkout-three-ruddy.vercel.app/cancel-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">Cancel</a>
+                        <a href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Cancel':'Resume'}</a>
                         </div>
                     </div>
                 </div>
