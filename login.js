@@ -30,7 +30,8 @@ async function checkCreds(emailField){
                 document.getElementById('login-card').style.opacity = '0.2';
                 let TempKey = (Math.random() + 1).toString(36).substring(7)
                 localStorage.setItem('TempKey',TempKey)
-    
+                console.log(TempKey)
+
                 update(ref(db,`users/${String(emailField).replace(/\W/g, '').toLowerCase()}`),{
                     lastLogin: new Date(),
                     sessionID: TempKey
