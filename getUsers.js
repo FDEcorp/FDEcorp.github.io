@@ -15,7 +15,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
         UsersList.innerHTML += `
             <div class="item" id="${user.key}-card">
                 <div style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
-                    <div class="wrap" style="flex: 4; font-size: 16px; color: Black; width: 100px; text-align: left; padding: 10px; display: flex; flex-direction: column;">
+                    <div class="wrap" style="flex: 4; font-size: 14px; color: Black; width: 100px; text-align: left; padding: 10px; display: flex; flex-direction: column;">
                         <div style="overflow: hidden">
                             <b>${Users.val().name} ${Users.val().lastName}</b> <br>
                             ${String(Users.val().email).replaceAll('_', ' ')}<br>
@@ -23,7 +23,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                         </div>
                     </div>
                     <div style="display: flex; flex: 2; flex-direction:column; align-content: center; align-items: center; gap: 4px;">
-                        <div style="margin-top:16px; padding:0;"> 
+                        <div style="margin-top:14px; padding:0; font-size: 14px"> 
                             Admin    
                         </div>
                          <div> 
@@ -36,8 +36,8 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                         ></div>
                     </div>
                     <div style="display: flex; flex: 2; align-content: center; align-items: center; gap: 10px; margin-right: 10px;">
-                        <div style="padding: 10px; padding-inline: 10px; border-radius: 4px; background: ${String(Users.val().active)=='true'?'var(--primary-red)':'rgb(39, 169, 39)'}; color: white;">
-                        <a style="color: white; text-decoration: none" href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Cancel':'Resume'}</a>
+                        <div style="padding: 10px; width: 70px; padding-inline: 10px; border-radius: 4px; background: ${String(Users.val().active)=='true'?'var(--primary-red)':'var(--primary-blue)'}; color: white;">
+                            <a style="color: white; text-decoration: none" href="https://checkout-three-ruddy.vercel.app/${String(Users.val().active)=='true'?'cancel':'resume'}-subscription?sub_id=${Users.val().stripeSubscriptionId}&username=${Users.val().user}">${String(Users.val().active)=='true'?'Cancel':'Resume'}</a>
                         </div>
                     </div>
                 </div>
