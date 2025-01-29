@@ -22,7 +22,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                             <p style="margin:0; padding:0; color: ${String(Users.val().active)=='true'?'rgb(39, 169, 39)':'var(--primary-red)'};">${String(Users.val().active)=='true'?'Activo':'Inactivo'}</p>
                         </div>
                     </div>
-                    <div style="display: flex; flex: 2; flex-direction:column; align-content: center; align-items: center; gap: 4px;">
+                    <div style="display: flex; flex: 1; flex-direction:column; align-content: center; align-items: center; gap: 4px;">
                         <div style="margin-top:14px; padding:0; font-size: 14px"> 
                             Admin    
                         </div>
