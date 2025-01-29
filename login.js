@@ -4,7 +4,7 @@ const emailField = document.getElementById('email-input');
 const passField = document.getElementById('password-input');
 const submit = document.getElementById('submit-login');
 
-function checkCreds(emailField){
+async function checkCreds(emailField){
     let username = String(emailField).replace(/\W/g, '').toLowerCase()
     console.log(username)
     get(child(ref(db),`users/${username}`)).then((user)=>{
@@ -34,14 +34,11 @@ function checkCreds(emailField){
                 update(ref(db,`users/${String(emailField).replace(/\W/g, '').toLowerCase()}`),{
                     lastLogin: new Date(),
                     sessionID: TempKey
+                }).then(()=>{
+                    location.href = "menu.html"
                 })
             })
-
-            
-
-            setTimeout(()=>{
-            location.href = "menu.html"
-            },'200')
+ 
         }
         else{
             alert('credenciales incorrectos')
