@@ -8,6 +8,8 @@ async function checkCreds(emailField){
     let username = String(emailField).replace(/\W/g, '').toLowerCase()
     console.log(username)
     get(child(ref(db),`users/${username}`)).then((user)=>{
+        localStorage.setItem("active",String(user.val().active)=='true'?'true':'false');
+
         if(String(user.val().email).toLowerCase() != String(emailField).toLowerCase()){
             alert('Correo incorrecto')
             return

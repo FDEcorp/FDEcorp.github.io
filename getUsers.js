@@ -19,7 +19,7 @@ get(child(ref(db),`businesses/${business}/users`)).then((Users)=>{
                         <div style="overflow: hidden">
                             <b>${Users.val().name} ${Users.val().lastName}</b> <br>
                             ${String(Users.val().email).replaceAll('_', ' ')}<br>
-                            <p style="margin:0; padding:0; color: gray;">(${String(Users.val().active)=='true'?'Active':'Inactive'})</p>
+                            <p style="margin:0; padding:0; color: ${String(Users.val().active)=='true'?'rgb(39, 169, 39)':'var(--primary-red)'};">${String(Users.val().active)=='true'?'Activo':'Inactivo'}</p>
                         </div>
                     </div>
                     <div style="display: flex; flex: 2; flex-direction:column; align-content: center; align-items: center; gap: 4px;">
