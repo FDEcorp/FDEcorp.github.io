@@ -6,7 +6,7 @@ let filterSelect = document.getElementById('cat-filter')
 let filterReset = document.getElementById('filter-reset') 
 let prodSearch = document.getElementById('prod-search') 
 let searchReset = document.getElementById('search-reset') 
-let prodList = document.getElementById('products-window')
+let prodList = document.getElementById('items-window')
 
 let resumenToggle = document.getElementById('resumen-button')
 localStorage.setItem('resumen',false)
@@ -103,7 +103,7 @@ function renderItems(filter = 'all',productSearch=false){
                     if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
                         console.log("resumen: ",localStorage.getItem('resumen'))
                         prodList.innerHTML += `
-                    <div class="item" id="${item.key}-card" style="margin:0; padding:0; height:20px; width:80vw;">
+                    <div id="${item.key}-card" style="margin:0; padding:0; height:30px;">
                         <div ondblclick="editProd('${item.key}')" style="display: flex; flex-direction: row; gap: 0px; flex: 1;">
                             
                                 <div class="wrap" style="flex:3; font-weight:600; height: 30px; font-size: 14px; background-color:white; border:1px solid var(--primary-base-mid); border-right:0; color: Black; text-align: left; width: 60%; padding-left: 4px; align-items: center; align-content: center; justify-content: left; text-align: left;">
