@@ -492,11 +492,7 @@ li{
         flex-direction: column-reverse;
         flex: 1;
     }
-    #pos-cont-table{
-        align-content: flex-end;
-        flex-direction: column-reverse;
-        flex: 1;
-    }
+   
     #order-details{
         flex-direction: row-reverse;
         flex: 0.2;
