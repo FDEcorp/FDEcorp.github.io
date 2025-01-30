@@ -135,6 +135,9 @@ select{
     #pos-cont{
         height: 60vh;
     }
+    #table-cont{
+        height: 60vh;
+    }
 }
 div{
     touch-action: manipulation;
@@ -485,6 +488,11 @@ li{
 
     #pos-cont{
         height: 80dvh;
+        align-content: flex-end;
+        flex-direction: column-reverse;
+        flex: 1;
+    }
+    #pos-cont-table{
         align-content: flex-end;
         flex-direction: column-reverse;
         flex: 1;
