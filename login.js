@@ -1,12 +1,19 @@
 import {set, get, update, remove, ref, child} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {getDatabase, goOnline, goOffline, } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
 const emailField = document.getElementById('email-input');
 const passField = document.getElementById('password-input');
 const submit = document.getElementById('submit-login');
 
+// something like this
+const db = getDatabase()
+goOffline(db);
+
 async function checkCreds(emailField){
+    
     let username = String(emailField).replace(/\W/g, '').toLowerCase()
     console.log(username)
+   
     get(child(ref(db),`users/${username}`)).then((user)=>{
         localStorage.setItem("active",String(user.val().active)=='true'?'true':'false');
 
@@ -49,29 +56,32 @@ async function checkCreds(emailField){
             return
         }
     })
+    
 }
 
 submit.addEventListener('click',()=>{
-   
+    goOnline(db)
     setTimeout(()=>{
         checkCreds(emailField.value)
-    },'00')
+    },'1000')
 })
 
 passField.addEventListener('keypress',function(e){
+    goOnline(db)
     if(e.key != 'Enter'){
         return
     }
     setTimeout(()=>{
         checkCreds(emailField.value)
-    },'00')
+    },'1000')
 })
 
 emailField.addEventListener('keypress',function(e){
+    goOnline(db)
     if(e.key != 'Enter'){
         return
     }
     setTimeout(()=>{
         checkCreds(emailField.value)
-    },'00')
+    },'1000')
 })
