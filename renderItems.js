@@ -24,10 +24,10 @@ resumenToggle.addEventListener('click',()=>{
 })
 
 
-
+/*
 onValue(ref(db, `/businesses/${business}/Items`), (snapshot) => {
  renderItems()
-});
+}) ; */
 
 filterSelect.addEventListener('change',()=>{
     prodList.innerHTML = ''
