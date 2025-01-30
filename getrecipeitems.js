@@ -109,18 +109,18 @@ function updateSel(product,sku){
             Ingredients.forEach((item)=>{
                 prodCost.innerHTML = Number(prodCost.innerHTML) + item.val().cantidad*ItemsCost[item.key];
                 currentRecipe.innerHTML += `
-                <li style="margin-bottom: 4px;background-color: rgb(255, 255, 255); padding-inline: 8px; width: auto; display: flex; flex-direction: row; gap: 8px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
+                <li style="margin-bottom: 4px;background-color: rgb(255, 255, 255); padding-inline: 4px; width: auto; display: flex; flex-direction: row; gap: 0px; align-items: center; border: 0px solid rgb(220,220,220); border-radius: 10px;">
                     <div onclick="location.href = 'ItemDetails.html?prod=${item.key}'" style="text-align: left; flex-grow: 1; font-weight: bold; padding-left: 4px;">${String(item.key).replaceAll('_',' ')}</div>
-                    <div style="text-align: right; padding: 0px; width: 60px;">
-                        <span style="height: 10px; width: 50px; border-radius: 6px; border: 0px; text-align: right; color: var(--primary-base-mid)">(${ItemsCost[item.key]})</span>
+                    <div style="text-align: right; padding: 0px; width: 70px;">
+                        <span style="height: 10px; border-radius: 6px; border: 0px; text-align: right; color: var(--primary-base-mid)">$ ${ItemsCost[item.key]} x</span>
                     </div>
-                    <div style="text-align: right; padding: 0px; width: 40px;">
-                        <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 30px; border-radius: 6px; border: 0px; text-align: right;">
+                    <div style="text-align: left; padding: 0px;">
+                        <input id="${item.key}-qty-input" onchange="udpateItemQty('${productName}','${sku}','${item.key}',this.value)" type="text" value="${item.val().cantidad}" placeholder="Cantidad" style="height: 16px; width: 40px; border-radius: 8px; border: 1px solid var(--primary-base-mid); text-align: center;">
                     </div>
                     
-                    <div style="width: 100px; display: flex; flex-direction: row; gap: 4px; justify-content: right;">
-                        <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 50px; background: var(--primary-blue); color: white; height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">All Var</div>
-                        <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 20px; background: var(--primary-red-soft) ;color: white;height: 20px; border: 0px solid rgb(100,100,100); padding: 4px; border-radius: 8px">x</div>
+                    <div style="width: 100px; display: flex; flex-direction: row; gap: 4px; justify-content: right; font-weight: bold; font-size: 16px;">
+                        <div onclick="addToAllVariants('${productName}','${item.key}')" style="width: 80px; background: var(--primary-base-light); color: var(--primary-base-mid); border: 0px solid rgb(100,100,100); padding: 6px; border-radius: 8px">All Var</div>
+                        <div onclick="udpateItemQty('${productName}','${sku}','${item.key}',0)" style="width: 30px; background: var(--primary-red); color: white; border: 0px solid rgb(100,100,100); padding: 6px; border-radius: 8px;">x</div>
                     </div>
                 </li>
             `
