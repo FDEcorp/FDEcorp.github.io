@@ -451,7 +451,7 @@ function drawChart() {
                             count: 10,},
                     baselineColor: '#eee',
                     gridlineColor: '#eee',},
-                    chartArea:{left:70,top:30,width:'75%',height:'60%'},
+                    chartArea:{left:70,top:10,width:'75%',height:'60%'},
                     alwaysOutside: false,
                     series: {
                         0: { type: 'bars' }, // First series as AreaChart

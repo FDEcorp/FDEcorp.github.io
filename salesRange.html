@@ -82,7 +82,7 @@
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; justify-content: left;">
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; justify-content: left; max-width: 400px; margin-inline: auto;">
             <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Diario: <span id="average">0</span></div>
             <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Hora: <span id="average-hour">0</span></div>
             <div style="height: 12px; text-align: left; margin-inline: 20px; width: 300px;">Est. Mensual: <span id="est-mens">0</span></div><br>
@@ -92,11 +92,10 @@
         </div>
         <h3 style="margin-bottom: 0px; margin-top: 10px; padding: 0; z-index: -1;">Venta Promedio por horario</h2>
         
-        <div style="display: flex; flex-direction: column; flex-wrap: wrap; align-items: start; row-gap: 0px; justify-content: center; justify-items: center; text-align: center;">
-            <div id="chart_div" style="flex-grow: 1; height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
-            <div style="height: 20px;"></div>
-            <div id="chart_div2" style="flex-grow: 1; height: 250px; overflow: hidden; padding-top: 0; padding-bottom:0px; z-index: 0;"></div>
-        </div>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; justify-content: center; row-gap: 0px; margin-top: 10px;">
+                <div id="chart_div" style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
+                <div id="chart_div2" style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
+            </div>
 
     </div>
 

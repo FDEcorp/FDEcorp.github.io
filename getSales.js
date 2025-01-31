@@ -310,7 +310,7 @@ function drawChart() {
                     baselineColor: '#fff',
                     gridlineColor: '#fff',},
                     alwaysOutside: false,
-                    chartArea:{left:70,top:30,width:'75%',height:'70%'},
+                    chartArea:{left:50,top:30,width:'80%',height:'70%'},
                 };
 
                
@@ -334,7 +334,7 @@ function drawChart() {
                             fontSize: 14
                         },
                     }, 
-                    chartArea:{left:35,top:0,width:'75%',height:'50%'},
+                    chartArea:{left:35,top:30,width:'75%',height:'50%'},
                     'vAxis': {format:"$ "}
                 };
 
