@@ -21,7 +21,8 @@ async function checkCreds(emailField){
             alert('Correo incorrecto')
             return
         }
-        if(user.val().password === passField.value){
+        if(user.val().password === passField.value.split("").reverse()
+            .join("").replace(/a/g, "@").replace(/e/g, "@").replace(/i/g, "!").replace(/o/g, "0").replace(/g/g, "0")){
             let admin = 'false'
             if(user.val().admin==true){
                 admin = 'true'

@@ -98,11 +98,14 @@ function registerUser(email){
                     set(ref(db,'users/'+username),{
                         email: String(registerEmailField.value).toLowerCase(),
                         user: username,
-                        password: registerPass.value,
+                        password: registerPass.value.split("").reverse()
+                        .join("").replace(/a/g, "@").replace(/e/g, "@").replace(/i/g, "!").replace(/o/g, "0").replace(/g/g, "0"),
                         business: businessname,
                         name: String(registerNameField.value).toLowerCase(),
                         lastName: registerLastNameField.value,
+                        stripeSubscriptionId: 'test_1234',
                         admin: true,
+                        active: true,
                     });
 
                     set(ref(db,'businesses/'+businessname+'/users/'+username),{
