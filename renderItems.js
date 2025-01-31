@@ -114,15 +114,15 @@ function renderItems(filter = 'all',productSearch=false){
                                     <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
                                 </div>
                             
-                                <div style="height: 20px; font-size: 16px; text-align: right; padding-right:4px; padding-top: 2px; flex: 1">
-                                    Order:
-                                    <b id="${item.key}-order-qty">${item.val().orderQty}</b>
+                                <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
+                                    <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p>
+                                    <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}">
                                 </div>
                                 
                                 <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
-                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}">0</button>
+                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}; font-weight: bold; font-size: 18x; padding-top: 0px;">↓</button>
                                 </div>
     
                             
@@ -148,7 +148,7 @@ function renderItems(filter = 'all',productSearch=false){
 
 function checkQty(item){
     console.log("checking qty")
-    if(Number(document.getElementById(item+"-order-qty").innerText) > 0){
+    if(Number(document.getElementById(item+"-order-qty").value) > 0){
         document.getElementById(item+"-receive").style.backgroundColor = 'rgb(51, 153, 255)'
     }
     else{
@@ -175,7 +175,7 @@ function receiveItem(itemOBJ){
                 delta: Number(currentOrder)*Number(pack),
             }); 
 
-            document.getElementById(itemName+"-order-qty").innerHTML = 0
+            document.getElementById(itemName+"-order-qty").value = 0;
             document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)*Number(pack)}`
             checkQty(itemName)
         
@@ -202,19 +202,28 @@ function changeOrdQty(itemOBJ,increase){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
                 orderQty: current+1
             });
-            document.getElementById(itemName+"-order-qty").innerHTML = Number(document.getElementById(itemName+"-order-qty").innerHTML)+1
+            document.getElementById(itemName+"-order-qty").value++;
             checkQty(itemName)
         }
         if(!increase && Number(document.getElementById(itemName+"-order-qty").innerHTML)>0){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
                 orderQty: current-1
             });
-            document.getElementById(itemName+"-order-qty").innerHTML = Number(document.getElementById(itemName+"-order-qty").innerHTML)-1
+            document.getElementById(itemName+"-order-qty").value--;
             checkQty(itemName)
         }
         }
     )
     
+}
+
+window.updateOrder = updateOrder;
+function updateOrder(item,qty){
+    update(ref(db,'businesses/'+business+'/Items/'+item),{
+        orderQty: Number(qty),
+        lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+    });
+    alert('Updated')
 }
 
 window.checkQty = checkQty;
