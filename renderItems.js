@@ -205,7 +205,7 @@ function changeOrdQty(itemOBJ,increase){
             document.getElementById(itemName+"-order-qty").value++;
             checkQty(itemName)
         }
-        if(!increase && Number(document.getElementById(itemName+"-order-qty").innerHTML)>0){
+        if(!increase && Number(document.getElementById(itemName+"-order-qty").value)>0){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
                 orderQty: current-1
             });
