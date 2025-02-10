@@ -78,7 +78,9 @@ button{
     background-color: white;
     margin: 0px;
     border-radius: 20px;
-    padding-bottom: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-bottom: 0px;
 }
 
 #marquee{
@@ -132,7 +134,7 @@ button{
     }
 }
 footer{
-    margin-top: 40px;
+    margin-top: 0px;
     background-color: var(--primary-base-darkest);
     color: white;
     padding: 20px;
