@@ -35,9 +35,9 @@ get(ref(db,`/temp_users/${tempUser}`)).then((tempUser)=>{
 
 onValue(ref(db, `/users/${localStorage.getItem('USER')}/`), (USER) => {
     if(USER.val().TempKey != localStorage.getItem('TempKey')){
-        alert(`Temp key from DB: ${USER.val().TempKey} does not match local Temp key ${localStorage.getItem('TempKey')}`)
+        console.log(`Temp key from DB: ${USER.val().TempKey} does not match local Temp key ${localStorage.getItem('TempKey')}`)
     }else{
-        alert(`Temp key from DB: ${USER.val().TempKey} does match local Temp key ${localStorage.getItem('TempKey')}`)
+        console.log(`Temp key from DB: ${USER.val().TempKey} does match local Temp key ${localStorage.getItem('TempKey')}`)
     }
 })
 
