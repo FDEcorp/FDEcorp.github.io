@@ -1,4 +1,4 @@
-import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {set, get, update, remove, ref, child, getDatabase, onValue} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 var url = new URL(location);
 var tempUser = url.searchParams.get("id");
 
@@ -33,8 +33,19 @@ get(ref(db,`/temp_users/${tempUser}`)).then((tempUser)=>{
     
 })
 
+onValue(ref(db, `/users/${localStorage.getItem('USER')}/`), (USER) => {
+    if(USER.val().TempKey != localStorage.getItem('TempKey')){
+        alert(`Temp key from DB: ${USER.val().TempKey} does not match local Temp key ${localStorage.getItem('TempKey')}`)
+    }else{
+        alert(`Temp key from DB: ${USER.val().TempKey} does match local Temp key ${localStorage.getItem('TempKey')}`)
+    }
+})
+
 setTimeout(()=>{
     if(localStorage.business == null){
         location.href = 'https://checkout-three-ruddy.vercel.app/login'
     }
+
+    
+    
 },'1000')
