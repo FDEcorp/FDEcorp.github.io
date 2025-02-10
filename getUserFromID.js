@@ -37,4 +37,4 @@ setTimeout(()=>{
     if(localStorage.business == null){
         location.href = 'https://checkout-three-ruddy.vercel.app/login'
     }
-},'500')
+},'1000')

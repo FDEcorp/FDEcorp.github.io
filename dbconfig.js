@@ -16,7 +16,6 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig);
 
-
   // Initialize Realtime Database and get a reference to the service
   window.db = getDatabase(app);
 
