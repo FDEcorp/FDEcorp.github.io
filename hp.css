@@ -1,0 +1,120 @@
+:root{
+
+    --primary-black: rgb(0, 0, 0);
+    --primary-red: rgb(237, 59, 59);
+    --primary-red-soft: rgb(237, 59, 59);
+    --primary-red-light: rgb(255, 203, 203);
+    --primary-blue: rgb(31, 166, 255);
+    --primary-base: rgb(255, 255, 255);
+    --primary-base-light: rgb(240,240,240);
+    --primary-base-superlight: rgb(250,250,250);
+
+    --primary-base-mid: rgb(180, 180, 180);
+    --primary-base-dark: rgb(150, 150, 150);
+    --primary-base-darkest: rgb(28, 28, 28);
+    --shadow: rgba(0,0,0,0.25)
+
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
+*{
+    touch-action: manipulation;
+    font-family: helvetica;
+}
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    background-color: var(--primary-base-light);
+}
+
+header{
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 10px;
+    padding-left: 20px;
+    background-color: var(--primary-base-light);
+}
+
+button{
+    background-color: var(--primary-red);
+    padding: 18px;
+    margin: 4px;
+    padding-inline: 26px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: 0;
+    border-radius: 8px;
+}
+
+.secondary-cta{
+    background-color: var(--primary-base-darkest);
+}
+
+.terciary-cta{
+    background-color: var(--primary-base-darkest);
+    color: var(--primary-base-superlight);
+    padding: 12px;
+    padding-inline: 18px;
+}
+
+.ghost-cta{
+    background-color: transparent;
+    border: 1px solid var(--primary-base-mid);
+    color: var(--primary-base-dark);
+}
+
+#main-cont{
+    background-color: white;
+    margin: 0px;
+    border-radius: 20px;
+    padding-bottom: 20px;
+}
+
+#marquee{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-inline: 10px;
+}
+
+#mockup{
+    border: 0px solid red;
+    width: 90%;
+    height: 500px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items:center;
+    background-image:  linear-gradient(to bottom, #ffffff00,
+    rgba(255, 255, 255, 0.0)),
+    url('Shot Overlaps.png'); 
+    background-size: cover;   
+    background-repeat:no-repeat;
+}
+
+@media (max-width: 600px) {
+    #mockup{
+        background-image:  linear-gradient(to bottom, #ffffff00,
+        rgba(255, 255, 255, 0.0)),
+        url('Shot Hero.png'); 
+    }
+}
+footer{
+    margin-top: 40px;
+    background-color: var(--primary-base-darkest);
+    color: white;
+    padding: 10px;
+}
