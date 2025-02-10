@@ -117,5 +117,6 @@ footer{
     margin-top: 40px;
     background-color: var(--primary-base-darkest);
     color: white;
-    padding: 10px;
+    padding: 20px;
+    padding-bottom: 50px;
 }
