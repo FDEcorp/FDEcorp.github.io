@@ -93,7 +93,7 @@ button{
     border: 0px solid red;
     width: 90%;
     height: 500px;
-    border-radius: 20px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-items: center;
