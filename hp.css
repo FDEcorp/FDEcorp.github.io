@@ -151,7 +151,7 @@ button{
 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     #mockup{
         height: 70vh;
         background-attachment: scroll;
