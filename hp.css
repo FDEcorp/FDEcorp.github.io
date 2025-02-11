@@ -144,9 +144,10 @@ button{
     background-image:  linear-gradient(to bottom, rgba(255,255,255,1), 0%,
     rgba(255, 255, 255, 0)),
     url('iPad Mockup Light.png'); 
+    background-attachment: fixed;
     background-size: cover;   
     background-repeat:no-repeat;
-    background-position: 0px 0vh;
+    background-position: 0px 100px;
 
 }
 
@@ -171,6 +172,7 @@ button{
     }
     #mockup3{
         height: 400px;
+        background-attachment: scroll;
         background-position: 0px 0px;
         border-radius:0px;
         background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
