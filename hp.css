@@ -35,13 +35,18 @@ body{
 }
 
 header{
+    position: fixed;
+    left: 0;      /* ADDED */
+    top: 0;       /* ADDED */
+    width: 100%;  /* ADDED */
+    z-index: 99;
     margin: 0;
     padding: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding-inline: 10px;
-    padding-left: 20px;
+    padding-inline: 20px;
+    padding-right: 10vw;
     background-color: var(--primary-base-light);
 }
 
@@ -100,12 +105,13 @@ button{
     flex-direction: column;
     justify-items: center;
     align-items:center;
-    background-image:  linear-gradient(to bottom, rgba(255,255,255,1), 2%,
+    background-image:  linear-gradient(to bottom, rgba(255,255,255,0), 2%,
     rgba(255, 255, 255, 0)),
-    url('Shot Overlaps.png'); 
+    url('3D mockup.png'); 
+    background-attachment: fixed;
     background-size: cover;   
     background-repeat:no-repeat;
-    background-position: center;
+    background-position: center 0px;
 }
 
 #mockup2{
@@ -119,18 +125,57 @@ button{
     align-items:center;
     background-image:  linear-gradient(to bottom, rgba(255,255,255,1), 0%,
     rgba(255, 255, 255, 0)),
+    url('Shot Overlaps.png'); 
+    background-size: cover;   
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+#mockup3{
+    border: 0px solid red;
+    width: 100%;
+    height: 900px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items:center;
+    background-image:  linear-gradient(to bottom, rgba(255,255,255,1), 0%,
+    rgba(255, 255, 255, 0)),
     url('iPad Mockup Light.png'); 
     background-size: cover;   
     background-repeat:no-repeat;
+    background-position: 0px 0vh;
 
 }
 
 @media (max-width: 600px) {
     #mockup{
+        height: 70vh;
+        background-attachment: scroll;
+        background-position: 0px 0px;
         border-radius:20px;
         background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
-        rgba(255, 255, 255, 0.0),100%,rgba(255,255,255,1)),
+        rgba(255, 255, 255, 0.0),50%,rgba(255,255,255,1)),
         url('Shot Hero.png'); 
+    }
+    #mockup2{
+        height: 50vh;
+        background-attachment: scroll;
+        background-position: center;
+        border-radius:0px;
+        background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
+        rgba(255, 255, 255, 0.0),100%,rgba(255,255,255,1)),
+        url('Shot Overlaps.png'); 
+    }
+    #mockup3{
+        height: 400px;
+        background-position: 0px 0px;
+        border-radius:0px;
+        background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
+        rgba(255, 255, 255, 0.0),100%,rgba(255,255,255,1)),
+        url('iPad Mockup Light.png'); 
     }
 }
 footer{
