@@ -18,7 +18,7 @@ get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
     })
     
     Items.forEach(item=>{
-        getData(item.key)
+
     })
 })
 console.log('currentStock',CurrentStock)
