@@ -350,6 +350,8 @@ function hideChangeCalc(){
 }
 
 function showChangeCalc(method){
+    document.getElementById('change-ammount').innerText = ""
+
     if(total <= 0){
         return
     }
