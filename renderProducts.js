@@ -5,6 +5,37 @@ let prodList = document.getElementById('products-window')
 let orderList = document.getElementById('items-ordered-ul')
 let orderTotalDisp = document.getElementById('subtotal-qty')
 
+let cashPercentage = document.getElementById('cash-percentage')
+let cashToPay = document.getElementById('cash-to-pay')
+let cardToPay = document.getElementById('card-to-pay')
+
+orderTotalDisp.addEventListener('change',()=>{
+    cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+})
+
+cashPercentage.addEventListener('change',()=>{
+    cashToPay.value = Math.round( Number(String(orderTotalDisp.innerText).split(' ')[1])*Number(cashPercentage.value)/100 )
+    cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cashToPay.value)
+    console.log(`Total: ${String(orderTotalDisp.innerText).split(' ')[1]} - CashPercentage: ${cashPercentage.value} %`)
+})
+
+cashToPay.addEventListener('change',()=>{
+    if(cashToPay.value > Number(String(orderTotalDisp.innerText).split(' ')[1])){
+        cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+    }
+    cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cashToPay.value)
+    cashPercentage.value = 100*Number(cashToPay.value) / Number(String(orderTotalDisp.innerText).split(' ')[1])
+
+})
+cardToPay.addEventListener('change',()=>{
+    if(cardToPay.value > Number(String(orderTotalDisp.innerText).split(' ')[1])){
+        cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+    }
+    cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cardToPay.value)
+    cashPercentage.value = 100*Number(cashToPay.value) / Number(String(orderTotalDisp.innerText).split(' ')[1])
+})
+
+
 let month = String(new Date().getMonth()+1).padStart(2, '0')
 let date = String(new Date()).split(" ")
 let day = String(new Date().getDate()).padStart(2,'0')
@@ -106,7 +137,7 @@ function registerSale(paymentMethod){
     let sale_year = new Date().getFullYear();
     let sale_month = (new Date().getMonth()+1);
     let sale_day = String(new Date().getDate()).padStart(2,'0')
-
+    
     set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ saleID),{
         Time: TimeStamp,
         Items: order,
@@ -136,6 +167,118 @@ function registerSale(paymentMethod){
     deductInventory(order)
     clearOrder()
     checkIfSalesWritten(sale_year,sale_month,sale_day)
+}
+window.registerSaleMixed = registerSaleMixed;
+function registerSaleMixed(){
+    if(total <= 0){
+        return
+    }
+    let business = localStorage.getItem('business')
+    let saleID = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
+    let TimeStamp = String(new Date()).substring(16,24);
+    let sale_year = new Date().getFullYear();
+    let sale_month = (new Date().getMonth()+1);
+    let sale_day = String(new Date().getDate()).padStart(2,'0')
+    let totalcard = Number(cardToPay.value)
+    let totalcash = Number(cashToPay.value)
+
+    registerSalesOnMemory = JSON.parse(localStorage.getItem(sale_day))
+    if(registerSalesOnMemory == null){
+        registerSalesOnMemory = {}
+    }
+
+    if(totalcash>0 && totalcard>0){
+        console.log('chargin mixed')
+        set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ `${saleID}-cash`),{
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcash,
+            Method: "cash",
+            Seller: localStorage.getItem('username')
+        });
+        set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ `${saleID}-card`),{
+            Time: TimeStamp,
+            Total: totalcard,
+            Method: "card",
+            Seller: localStorage.getItem('username')
+        });
+        registerSalesOnMemory[saleID+"-cash"] = {
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcash,
+            Method: "cash",
+            Seller: localStorage.getItem('username')
+        }
+        registerSalesOnMemory[saleID+"-card"] = {
+            Time: TimeStamp,
+            Total: totalcard,
+            Method: "card",
+            Seller: localStorage.getItem('username')
+        }
+        localStorage.setItem(sale_day,JSON.stringify(registerSalesOnMemory))
+        console.log(
+            'sales registed in Memory',
+            JSON.parse(localStorage.getItem(sale_day))
+        )
+        checkIfSalesWritten(sale_year,sale_month,sale_day)
+
+    }
+    if(totalcash>0 && totalcard == 0){
+        console.log('chargin only cash')
+        set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ `${saleID}`),{
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcash,
+            Method: "cash",
+            Seller: localStorage.getItem('username')
+        });
+
+        registerSalesOnMemory[saleID] = {
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcash,
+            Method: "cash",
+            Seller: localStorage.getItem('username')
+        }
+
+        localStorage.setItem(sale_day,JSON.stringify(registerSalesOnMemory))
+        console.log(
+            'sales registed in Memory',
+            JSON.parse(localStorage.getItem(sale_day))
+        )
+        checkIfSalesWritten(sale_year,sale_month,sale_day)
+
+    }
+    if(totalcard>0 && totalcash == 0){
+        console.log('chargin only card')
+        set(ref(db,'businesses/'+business+'/sales/'+sale_year+"/"+sale_month+"/"+sale_day+'/'+ `${saleID}`),{
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcard,
+            Method: "card",
+            Seller: localStorage.getItem('username')
+        });
+        registerSalesOnMemory[saleID] = {
+            Time: TimeStamp,
+            Items: order,
+            Total: totalcard,
+            Method: "card",
+            Seller: localStorage.getItem('username')
+        }
+        localStorage.setItem(sale_day,JSON.stringify(registerSalesOnMemory))
+        console.log(
+            'sales registed in Memory',
+            JSON.parse(localStorage.getItem(sale_day))
+        )
+        checkIfSalesWritten(sale_year,sale_month,sale_day)
+
+    }
+    
+    
+   
+
+    deductInventory(order)
+    clearOrder()
 }
 
 window.deductInventory = deductInventory;
@@ -202,9 +345,19 @@ function hideChangeCalc(){
     document.getElementById('pos-cont').style.opacity = '1'
 }
 
-function showChangeCalc(){
+function showChangeCalc(method){
     if(total <= 0){
         return
+    }
+    if(method == 'cash'){
+        cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+        cardToPay.value = 0
+        cashPercentage.value = 100
+    }
+    if(method == 'card'){
+        cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+        cashToPay.value = 0
+        cashPercentage.value = 0
     }
     document.getElementById('pos-cont').style.opacity = '0.2'
     document.getElementById('change-calculator-pane').style.visibility = 'visible'
@@ -597,4 +750,8 @@ function registerNewPendingOrder(){
     }
     
    
+}
+
+function calcPaymentSplit(){
+
 }

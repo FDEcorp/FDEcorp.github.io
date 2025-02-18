@@ -408,6 +408,9 @@ function drawChart() {
 }
 
 function getSaleItemsCat(saleItems){
+    if(saleItems == null || saleItems == undefined || saleItems==""){
+        return
+    }
     Object.entries(saleItems).forEach((item)=>{
         let itemName = String(item[0]).split(" ")[0]
         let qty = item[1][0]

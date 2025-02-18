@@ -126,7 +126,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 </div>
                             
                                 <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Order<br>
+                                    %<br>
                                     <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().orderQty}</b>
                                 </div>
                                 
