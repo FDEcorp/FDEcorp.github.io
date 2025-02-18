@@ -38,12 +38,11 @@
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
     </header> 
     <section class="subnav">
-        <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
-    
-        <div style="display: flex; gap: 10px; flex: 4; justify-content: right;">
-          
+        <div style="max-width: 150px; flex: 1; padding: 10px; border-radius: 8px;" onclick="location.href='compras.html'">Back</div>
+        <div style="flex-grow: 1; justify-content: center;">
+            <h3 style="margin: 0px; padding: 8px;">Historial de Stock</h3>
         </div>
-        
+        <div style="flex:1"></div>
     </section>
 
     <div class="main-cont" id="main-cont">
@@ -53,6 +52,9 @@
             </select>
         </div>
         <div id="chart_div" style="width: 100%; height: 300px;"></div>
+        <div id="products-window" style="padding-inline: 10px;">
+            
+        </div> 
     </div>
 
 </body>
