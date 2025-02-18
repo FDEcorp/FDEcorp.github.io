@@ -16,10 +16,6 @@ get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
         Selector.innerHTML += `<option value="${item.key}">${String(item.key).replaceAll('_',' ')}</option>`
         CurrentStock[item.key] = item.val().stock
     })
-    
-    Items.forEach(item=>{
-
-    })
 })
 console.log('currentStock',CurrentStock)
 
