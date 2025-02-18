@@ -17,6 +17,8 @@ cashPercentage.addEventListener('change',()=>{
     cashToPay.value = Math.round( Number(String(orderTotalDisp.innerText).split(' ')[1])*Number(cashPercentage.value)/100 )
     cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cashToPay.value)
     console.log(`Total: ${String(orderTotalDisp.innerText).split(' ')[1]} - CashPercentage: ${cashPercentage.value} %`)
+    document.getElementById('change-ammount').innerText = ""
+
 })
 
 cashToPay.addEventListener('change',()=>{
@@ -25,7 +27,7 @@ cashToPay.addEventListener('change',()=>{
     }
     cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cashToPay.value)
     cashPercentage.value = 100*Number(cashToPay.value) / Number(String(orderTotalDisp.innerText).split(' ')[1])
-
+    document.getElementById('change-ammount').innerText = ""
 })
 cardToPay.addEventListener('change',()=>{
     if(cardToPay.value > Number(String(orderTotalDisp.innerText).split(' ')[1])){
@@ -33,6 +35,8 @@ cardToPay.addEventListener('change',()=>{
     }
     cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cardToPay.value)
     cashPercentage.value = 100*Number(cashToPay.value) / Number(String(orderTotalDisp.innerText).split(' ')[1])
+    document.getElementById('change-ammount').innerText = ""
+
 })
 
 
@@ -382,8 +386,8 @@ function showChangeCalc(method){
 
 function calcChange(receivedBill){
     
-    if(receivedBill > total){
-    document.getElementById('change-ammount').innerText = Number(receivedBill) - Number(total) }
+    if(receivedBill > Number(cashToPay.value)){
+    document.getElementById('change-ammount').innerText = Number(receivedBill) - Number(cashToPay.value) }
     else{
     document.getElementById('change-ammount').innerText =  "not enough"
 

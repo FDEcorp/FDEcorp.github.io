@@ -84,7 +84,7 @@
             </div>
         </div-->
 
-        <div id="change-calculator-pane" style="visibility: hidden; border-radius: 16px;height: 380px; text-align: center; justify-content: center;">
+        <div id="change-calculator-pane" style="visibility: hidden; border-radius: 16px;height: 390px; text-align: center; justify-content: center;">
             <div style="text-align: right; height: 0px;">
                 <button class="close-button" onclick="hideChangeCalc()">X</button>
             </div>
@@ -117,10 +117,21 @@
                     <input type="number" id="cash-to-pay" style="width: 50px;">
                 </div>
             </div>
-            <br>
-            <div style="text-align: right;">
-                <button class="confirm-purchase" onclick="registerSaleMixed(); hideChangeCalc()">Cobrar</button>
+            <div style="padding: 0; display: flex; justify-content: center; gap: 4px;">
+                <div class="pay-bill" onclick="calcChange('50');">50</div>
+                <div class="pay-bill" onclick="calcChange('100')">100</div>
+                <div class="pay-bill" onclick="calcChange('200')">200</div>
+                <div class="pay-bill" onclick="calcChange('500')">500</div>
+                <input type="number" placeholder="Otro" style="padding: 0; width: 100px; text-align: center; justify-content: center; background-color: rgb(245, 245, 245);" class="pay-bill-input" onfocus="calcChange(this.value)" onchange="calcChange(this.value)">
             </div>
+         
+            <div style="display: flex; justify-content: right; align-items: center; align-content: center; margin-top: 4px;">
+                <div style="flex: 1; text-align: left; font-weight: bold;">Cambio: $ <span style="width: 100px; text-align: left; font-weight: normal;" id="change-ammount"></span></div>
+                <div style="flex: 1; text-align: right;">
+                    <button class="confirm-purchase" onclick="registerSaleMixed(); hideChangeCalc()">Cobrar</button>
+                </div>
+            </div>
+           
         </div>
         
     </div>
