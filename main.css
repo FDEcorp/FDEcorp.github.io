@@ -80,6 +80,7 @@ input{
     display: flex;
     height: 36px;
     caret-color: var(--primary-red);
+    caret-shape:block;
 }
 
 select{
