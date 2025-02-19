@@ -10,8 +10,8 @@
     --primary-base-mid: rgb(180, 180, 180);
     --primary-base-dark: rgb(150, 150, 150);
     --primary-base-darkest: rgb(28, 28, 28);
-    --shadow: rgba(0,0,0,0.25)
-
+    --shadow: rgba(0,0,0,0.25);
+    accent-color: var(--primary-red);
 }
 
 h2,h3,h4,h5,h6{
