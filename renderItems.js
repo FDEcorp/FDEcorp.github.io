@@ -115,7 +115,7 @@ function renderItems(filter = 'all',productSearch=false){
                                         <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
                                     </did>
                                     
-                                    <span style="font-size: 12px; color: gray; font-weight: 100">${item.val().lastUpdate}</span>
+                                    <span style="font-size: 12px; color: gray; font-weight: 100; margin-top: 4px">${item.val().lastUpdate}</span>
                                 </div>
                             
                                 <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
