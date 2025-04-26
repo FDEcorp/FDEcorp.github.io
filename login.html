@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="dbconfig.js"></script>
+    <script type="module" src="login.js"></script>
+   
+
+    <title>FDE - Iniciar Sesión</title>
+    <style>
+
+    html{
+            background-color: rgba(0,0,0);
+            
+        }
+
+        body{
+            height: 100vh;
+        }
+    
+    @media (max-width: 600px) {
+            
+        
+        
+        body{
+            height: 90vh;
+        }
+    }
+
+
+    </style>
+</head>
+<body>
+   <header>
+    <h1>            
+        <img src="fdeicon.png" height="24px" alt="">
+        FDE <span></span></h1>
+   </header> 
+
+    <div style="padding: 0; height: 100vh; margin: 0; align-items: center; background: linear-gradient(0deg, rgb(221, 221, 221) 50%, rgb(243, 243, 243) 100%);" class="login-flex">
+        <div    class="wrapper" 
+                id="login-card" 
+                style=" flex: 1; background-color: rgb(255, 255, 255); 
+                        border-radius: 20px; max-width: 370px; 
+                        box-shadow: 0px 4px 4px 2px rgba(0,0,0,0.1); 
+                        height: 200px; transition: 0.5s;">
+            <h2 id="welcome" style="opacity: 0; transition: 1s;">
+                Bienvenido:
+            </h2>
+        
+            <div style="height: 10px; padding-inline: 0px; color: gray; text-align: left; width: 300px;">Correo</div>
+            <input type="text" placeholder="ejemplo@email.com" id="email-input" style="width: 300px;">     
+            <div style="height: 10px; padding-inline: 0px; color: gray; text-align: left; width: 300px;">Contraseña</div>
+   
+            <input type="password" placeholder="*******" id="password-input" style="width: 300px;">
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: right; flex-direction: row;">
+                <div id="spacer" style="flex: 2; transition: 0.5s; width: 0px;"></div>
+                <button id="submit-login" style="width: 100px; align-self: right; transition: 0.5s; opacity: 0;" class="">Continuar</button>
+            </div>
+            
+            <br>
+            <h5 id="new" style="opacity: 0; transition: 1s;">¿No tienes cuenta? <a href="https://checkout-three-ruddy.vercel.app/" id="login-link">Creala ahora</a></h5>
+        </div>
+        
+    </div>
+    <div style="text-align: right; color: rgb(42, 42, 42); margin-inline: 20px;">Version: 2.0</div>
+
+    <br>
+
+</body>
+<script>
+setTimeout(()=>{    document.getElementById("login-card").style.height = '400px'
+},100)
+    setTimeout(()=>{ 
+        document.getElementById("spacer").style.width = '220px'
+        document.getElementById("submit-login").style.opacity = '100'
+
+        document.getElementById("welcome").style.opacity = '100'
+        document.getElementById("new").style.opacity = '100'
+    },800)
+</script>
+
+</html>

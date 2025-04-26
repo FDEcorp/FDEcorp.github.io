@@ -10,7 +10,6 @@ function setCorte(){
     else{
         registerCorte(EfectivoEnCaja)
     }
-
 }
 
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDE - Margins</title>
+    <script type="module" src="dbconfig.js"></script>
+    <script type="module" src="getTempKey.js"></script>
+    <script type="module" src="getMargins.js"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+    <header id="header">
+        <h1>
+            <img src="../fdeicon.png" height="24px" alt="">
+            FDE: <span id="business"></span></h1>
+        <script>
+                document.getElementById('business').innerText = localStorage.getItem('business')
+        </script>
+        <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
+    </header> 
+    <section class="subnav">
+        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;" onclick="location.href='menu.html'">Back</div>
+
+        <div style="margin-top: 10px; flex: 2;">
+            <h3 style="margin: 0; text-align: center;">Utilidades</h3>
+        </div>
+
+        <div style="flex: 1">
+        </div>
+    </section>
+<br>
+    <div class="main-cont" style="max-width: 400px;">
+        <select name="" id="cat-select" style="width: 69%; border-radius: 10px; height: 45px;">
+            <option value="">Selecciona una categoria</option>
+        </select>
+       
+        <div>
+            <script>
+                //pull all products (by size) and render with placeholders
+                //get their unit cost (from recipes code)
+                //get their prices form /products/size/price
+                //switch placeholders with actual data
+            </script>
+
+        </div>
+       
+    
+        
+    </div>
+
+</body>
+</html>

@@ -3,83 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
-    <script type="module" src="dbconfig.js"></script>
-    <script type="module" src="login.js"></script>
+    <title>FDE Sales</title>
+    <link rel="stylesheet" href="hp.css">
    
-
-    <title>FDE - Iniciar Sesión</title>
-    <style>
-
-    html{
-            background-color: rgba(0,0,0);
-            
-        }
-
-        body{
-            height: 100vh;
-        }
-    
-    @media (max-width: 600px) {
-            
-        
-        
-        body{
-            height: 90vh;
-        }
-    }
-
-
-    </style>
 </head>
 <body>
-   <header>
-    <h1>            
-        <img src="fdeicon.png" height="24px" alt="">
-        FDE <span></span></h1>
-   </header> 
-
-    <div style="padding: 0; height: 100vh; margin: 0; align-items: center; background: linear-gradient(0deg, rgb(221, 221, 221) 50%, rgb(243, 243, 243) 100%);" class="login-flex">
-        <div    class="wrapper" 
-                id="login-card" 
-                style=" flex: 1; background-color: rgb(255, 255, 255); 
-                        border-radius: 20px; max-width: 370px; 
-                        box-shadow: 0px 4px 4px 2px rgba(0,0,0,0.1); 
-                        height: 200px; transition: 0.5s;">
-            <h2 id="welcome" style="opacity: 0; transition: 1s;">
-                Bienvenido:
-            </h2>
-        
-            <div style="height: 10px; padding-inline: 0px; color: gray; text-align: left; width: 300px;">Correo</div>
-            <input type="text" placeholder="ejemplo@email.com" id="email-input" style="width: 300px;">     
-            <div style="height: 10px; padding-inline: 0px; color: gray; text-align: left; width: 300px;">Contraseña</div>
-   
-            <input type="password" placeholder="*******" id="password-input" style="width: 300px;">
-            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: right; flex-direction: row;">
-                <div id="spacer" style="flex: 2; transition: 0.5s; width: 0px;"></div>
-                <button id="submit-login" style="width: 100px; align-self: right; transition: 0.5s; opacity: 0;" class="">Continuar</button>
-            </div>
-            
-            <br>
-            <h5 id="new" style="opacity: 0; transition: 1s;">¿No tienes cuenta? <a href="https://checkout-three-ruddy.vercel.app/" id="login-link">Creala ahora</a></h5>
+    <header>
+        <img src="fdeicon.png" style="width: 30px; height: 24px; margin: 0; padding: 0; filter: invert();" alt="">
+        <h1 style="color: var(--primary-red); text-align: left; padding: 0;">FDE Sales</h1>
+        <div style="text-align: right; flex-grow: 1; padding-right: 30px;">
+            <button onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'" class="terciary-cta">Inicia sesión</button><br>
         </div>
-        
+    </header>
+    <div style="height: 100px;"></div>
+   <div id="main-cont" style="text-align: center;">
+    <div id="marquee">
+        <h1 style="margin: 0; margin-top: 30px;" onclick="location.href='https://checkout-three-ruddy.vercel.app/'">
+            Toma <span style="color: var(--primary-red);">control</span> de tu negocio.
+        </h1>
+        <p style="max-width: 900px; padding-inline: 10px; text-align: center;">Por solo <b>$200 MXN</b>* al mes, disfruta de un sistema todo-en-uno con <b>Punto de Venta, Gestión de Inventarios, Recetas, Análisis de Ventas y Compras.</b> Accede en tiempo real, con múltiples usuarios y desde cualquier dispositivo. <br><b>¡Optimiza tu negocio sin complicaciones!</b> 🚀</p>
+        <div style="margin-block: 20px;">
+            <button onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'" class="ghost-cta">Inicia sesión</button>
+            <button onclick="location.href = 'https://checkout-three-ruddy.vercel.app/'">Regístrate ahora</button>
+        </div>
+  
     </div>
-    <div style="text-align: right; color: rgb(42, 42, 42); margin-inline: 20px;">Version: 2.0</div>
-
-    <br>
-
+    <div id="mockup">
+    </div>
+    <div id="mockup2">
+    </div>
+    <div id="mockup3">
+    </div>
+    <div id="last-cta" style=" height: 300px; max-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h1 style="margin: 0; margin-top: 30px;" onclick="location.href='https://checkout-three-ruddy.vercel.app/'">
+            Toma <span style="color: var(--primary-red);">control</span> de tu negocio.
+        </h1>
+        <br>
+        <button onclick="location.href = 'https://checkout-three-ruddy.vercel.app/'">Regístrate ahora</button>
+    </div>
+   </div>
+   <div id="whatsapp">
+    <img src="whatsapp-white-icon.png" height="20px" alt="" srcset="">
+    <a class="w-link" href="https://wa.me/+524496061487?text=Me%20gustaria%20saber%20mas%20sobre%20FDE">Más información</a></div>
+   <footer>
+    *Costo mensual por usuario. Cada usuario puede acceder a un dispositivo simultaneamente. <br> Precio sujeto a cambio con previo aviso. <br>
+    2025 © FDE Corp
+   </footer>
 </body>
-<script>
-setTimeout(()=>{    document.getElementById("login-card").style.height = '400px'
-},100)
-    setTimeout(()=>{ 
-        document.getElementById("spacer").style.width = '220px'
-        document.getElementById("submit-login").style.opacity = '100'
 
-        document.getElementById("welcome").style.opacity = '100'
-        document.getElementById("new").style.opacity = '100'
-    },800)
-</script>
 
 </html>
