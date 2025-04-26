@@ -106,12 +106,16 @@ function renderItems(filter = 'all',productSearch=false){
                     <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
-                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
+                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; height: 60px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
                                     <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
-                                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
-                                    <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
+                                    <did style="display: flex; flex-direction: row; gap: 10px; margin-botton: 20px;">
+                                        <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
+                                        <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
+                                    </did>
+                                    
+                                    <span style="font-size: 12px; color: gray; font-weight: 100">${item.val().lastUpdate}</span>
                                 </div>
                             
                                 <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
