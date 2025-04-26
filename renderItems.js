@@ -110,11 +110,11 @@ function renderItems(filter = 'all',productSearch=false){
                                     <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
-                                    <did style="display: flex; flex-direction: row; gap: 10px; margin-botton: 10px;">
+                                    <did style="display: flex; flex-direction: row; gap: 4px; margin-botton: 10px;">
                                         <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
                                         <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
                                     </did>
-                                    
+            
                                     <span style="font-size: 12px; color: gray; font-weight: 100;">${item.val().lastUpdate}</span>
                                 </div>
                             
