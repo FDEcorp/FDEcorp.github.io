@@ -171,7 +171,9 @@ function receiveItem(itemOBJ){
 
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
                 stock: Number(currentStock) + Number(currentOrder)*Number(pack),
-                orderQty: Number(0)
+                orderQty: Number(0),
+                lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+
             });
 
             update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
@@ -204,14 +206,17 @@ function changeOrdQty(itemOBJ,increase){
 
         if(increase){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                orderQty: current+1
+                orderQty: current+1,
+                lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
             });
             document.getElementById(itemName+"-order-qty").value++;
             checkQty(itemName)
         }
         if(!increase && Number(document.getElementById(itemName+"-order-qty").value)>0){
             update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                orderQty: current-1
+                orderQty: current-1,
+                lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+
             });
             document.getElementById(itemName+"-order-qty").value--;
             checkQty(itemName)
