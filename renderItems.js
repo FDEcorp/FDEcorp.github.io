@@ -108,7 +108,7 @@ function renderItems(filter = 'all',productSearch=false){
                         console.log("resumen: ",localStorage.getItem('resumen'))
                         console.log(item.val().orderQty||0,item.val().packPrice||0,Number(item.val().orderQty||0)*Number(item.val().packPrice||0))
                        
-                        orderTotal.innerText = Number(orderTotal.innerText) + Number(item.val().orderQty||0) * Number(item.val().packPrice||0)
+                        orderTotal.innerText = Math.round(Number(orderTotal.innerText) + Number(item.val().orderQty||0) * Number(item.val().packPrice||0)).toFixed(2)
                         prodList.innerHTML += `
                     <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
