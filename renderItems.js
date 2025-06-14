@@ -7,6 +7,8 @@ let filterReset = document.getElementById('filter-reset')
 let prodSearch = document.getElementById('prod-search') 
 let searchReset = document.getElementById('search-reset') 
 let prodList = document.getElementById('products-window')
+let orderTotal = document.getElementById('order-total')
+window.ItemsCost = {}
 
 let resumenToggle = document.getElementById('resumen-button')
 localStorage.setItem('resumen',false)
@@ -94,7 +96,9 @@ function renderItems(filter = 'all',productSearch=false){
         
         Items.forEach(
             function(item){
-                
+                let packPrice = item.val().packPrice || 0
+                ItemsCost[item.key] = packPrice
+                document.getElementById(orderTotal).innerHTML = Number(document.getElementById(orderTotal).innerText) + Number(item.val().orderQty)*Number(item.val().packPrice)
                 if(item.val().category == String(cat)){
                     let image = Object.values(item.val())[2]
 
@@ -238,3 +242,4 @@ function updateOrder(item,qty){
 window.checkQty = checkQty;
 window.changeOrdQty = changeOrdQty;
 window.receiveItem = receiveItem;
+
