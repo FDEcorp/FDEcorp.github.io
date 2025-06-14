@@ -87,7 +87,7 @@ renderItems()
 
 
 function renderItems(filter = 'all',productSearch=false){
-
+    orderTotal.innerText = 0
     prodList.innerHTML=""
 
     get(child(ref(db),`/businesses/${business}/Items/`)).then((Items) => {
