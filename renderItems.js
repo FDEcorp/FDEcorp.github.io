@@ -105,8 +105,8 @@ function renderItems(filter = 'all',productSearch=false){
     
                     if((localStorage.getItem('resumen')=="true" && item.val().orderQty > 0)||localStorage.getItem('resumen')=="false"){
                         console.log("resumen: ",localStorage.getItem('resumen'))
-                        document.getElementById(orderTotal).innerHTML += Number(item.val().orderQty)*Number(packPrice)
-                        
+                        orderTotal.innerHTML += Number(item.val().orderQty)*Number(packPrice)
+
                         prodList.innerHTML += `
                     <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
