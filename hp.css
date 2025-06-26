@@ -152,15 +152,16 @@ button{
 
 }
 
-@media (max-width: 800px) {
+@media (max-width: 500px) {
     #mockup{
         height: 70vh;
         background-attachment: scroll;
-        background-position: 0px 0px;
+        background-position:center;
         border-radius:20px;
         background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
         rgba(255, 255, 255, 0.0),50%,rgba(255,255,255,1)),
         url('Shot Hero.png'); 
+        background-size: cover;   
     }
     #mockup2{
         height: 60vh;
@@ -170,6 +171,7 @@ button{
         background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
         rgba(255, 255, 255, 0.0),90%,rgba(255,255,255,1)),
         url('Shot Overlaps.png'); 
+        background-size: cover;   
     }
     #mockup3{
         height: 400px;
@@ -179,6 +181,7 @@ button{
         background-image:  linear-gradient(to bottom, rgba(255, 255, 255, 1), 0%,
         rgba(255, 255, 255, 0.0),100%,rgba(255,255,255,1)),
         url('iPad Mockup Light2.png'); 
+        background-size: cover;   
     }
 }
 footer{

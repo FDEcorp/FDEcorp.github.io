@@ -90,6 +90,23 @@ function groupByDate(day,month,year,amount){
     
 }
 getSales()
+
+function deleteCorte(year,month,day,id){
+    if(localStorage.getItem('admin')=='true'){
+        if(confirm('Estas seguro de borrar este registro? No se podra recuperar, ten cuidado si es de algun dia previo.')){
+            remove(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/${day}/${id}`)) 
+            
+            setTimeout(()=>{
+                getSales()
+            },500)
+
+        }
+    }
+    
+}
+
+window.deleteCorte = deleteCorte;
+
 function getSales(){
     salestotalDisp.innerText = 0 
     salestotalDispCash.innerText = 0
@@ -144,6 +161,8 @@ function getSales(){
                             <div style="display: flex; flex-direction: column; flex: 1; align-content: start">
                                 <div style="text-align: left; font-weight: 800">${Day}/${month}/${year}</div>
                                 <div style="text-align: left; color: gray;">${corteRec[1].TimeStamp}</div>
+                                <br>
+                                <div style="text-align: left; color: rgb(252, 43, 43); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
                             </div>
 
                             <div style="display: flex; flex-direction: column; flex: 4;">
