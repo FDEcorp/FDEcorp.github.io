@@ -105,7 +105,24 @@ function deleteCorte(year,month,day,id){
     
 }
 
+
+function deleteSale(year,month,day,id){
+    if(localStorage.getItem('admin')=='true'){
+        if(confirm('Estas seguro de borrar este registro? No se podra recuperar, ten cuidado si es de algun dia previo.')){
+            remove(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}/${id}`)) 
+            
+            setTimeout(()=>{
+                getSales()
+            },500)
+
+        }
+    }
+    
+}
+
+
 window.deleteCorte = deleteCorte;
+window.deleteSale = deleteSale;
 
 function getSales(){
     salestotalDisp.innerText = 0 
@@ -267,6 +284,9 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
             (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]} @ $ ${String(item).split(',')[2]}</li>`
         )).replaceAll(',','').replaceAll('_',' ')
 
+        document.getElementById('deleteSale').addEventListener('click',()=>{
+            deleteSale(saleYear,saleMonth,saleDay,saleID)
+        }) 
     })
     
     
