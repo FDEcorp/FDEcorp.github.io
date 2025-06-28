@@ -108,12 +108,11 @@ function deleteCorte(year,month,day,id){
 
 function deleteSale(year,month,day,id){
     if(localStorage.getItem('admin')=='true'){
-        if(confirm('Estas seguro de borrar este registro? No se podra recuperar, ten cuidado si es de algun dia previo.')){
+        if(confirm(`Estas seguro de borrar este registro ${id}? No se podra recuperar, ten cuidado si es de algun dia previo.`)){
             remove(child(ref(db),`/businesses/${business}/sales/${year}/${month}/${day}/${id}`)) 
-            
             setTimeout(()=>{
                 getSales()
-            },500)
+            },1000)
 
         }
     }
@@ -270,6 +269,15 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
     document.getElementById('sale-details').style.visibility = 'visible'
     console.log(saleID)
     document.getElementById('saleDetails-id').innerText = saleID
+
+    const element = document.getElementById('deleteSale');
+    const clonedElement = element.cloneNode(true); // true for deep clone (including children)
+    element.parentNode.replaceChild(clonedElement, element);
+
+    document.getElementById('deleteSale').addEventListener('click',()=>{
+            console.log(saleYear,saleMonth,saleDay,saleID)
+            deleteSale(saleYear,Number(saleMonth),saleDay,saleID);
+    }) 
     
     get(child(ref(db),`/businesses/${business}/sales/${saleYear}/${Number(saleMonth)}/${saleDay}/${saleID}`)).then((sale) => {
         console.log(sale.val().Items)
@@ -284,9 +292,7 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
             (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]} @ $ ${String(item).split(',')[2]}</li>`
         )).replaceAll(',','').replaceAll('_',' ')
 
-        document.getElementById('deleteSale').addEventListener('click',()=>{
-            deleteSale(saleYear,saleMonth,saleDay,saleID)
-        }) 
+        
     })
     
     
