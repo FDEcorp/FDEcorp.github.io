@@ -119,9 +119,35 @@ function deleteSale(year,month,day,id){
     
 }
 
+function toggleMethod(year,month,day,id){
+    if(localStorage.getItem('admin')=='true'){
+                get(child(ref(db),`/businesses/${business}/sales/${year}/${Number(month)}/${day}/${id}`)).then((transaction) => {
+                    console.log(transaction.val().Method)
+                    if(transaction.val().Method=='cash'){
+                            document.getElementById('saleDetails-method').innerText = 'card';
+
+                            update(ref(db, `/businesses/${business}/sales/${year}/${Number(month)}/${day}/${id}`), {
+                                Method: 'card'
+                            }); 
+                    }
+                    else{
+                            document.getElementById('saleDetails-method').innerText = 'cash';
+
+                            update(ref(db, `/businesses/${business}/sales/${year}/${Number(month)}/${day}/${id}`), {
+                                Method: 'cash'
+                            }); 
+                    }
+                    setTimeout(()=>{
+                        getSales()
+                    },500)
+                })
+    }
+    
+}
 
 window.deleteCorte = deleteCorte;
 window.deleteSale = deleteSale;
+window.toggleMethod = toggleMethod;
 
 function getSales(){
     salestotalDisp.innerText = 0 
@@ -277,6 +303,15 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
     document.getElementById('deleteSale').addEventListener('click',()=>{
             console.log(saleYear,saleMonth,saleDay,saleID)
             deleteSale(saleYear,Number(saleMonth),saleDay,saleID);
+    }) 
+
+    const element2 = document.getElementById('toggleMethod');
+    const clonedElement2 = element2.cloneNode(true); // true for deep clone (including children)
+    element2.parentNode.replaceChild(clonedElement2, element2);
+
+    document.getElementById('toggleMethod').addEventListener('click',()=>{
+            console.log(saleYear,saleMonth,saleDay,saleID)
+            toggleMethod(saleYear,Number(saleMonth),saleDay,saleID);
     }) 
     
     get(child(ref(db),`/businesses/${business}/sales/${saleYear}/${Number(saleMonth)}/${saleDay}/${saleID}`)).then((sale) => {
