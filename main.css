@@ -33,6 +33,7 @@ html{
 
 body{
     margin: 0;
+    margin-top: 120px;
     text-align: center;
     font-family: helvetica;
     max-width: 100svw;
@@ -47,11 +48,19 @@ header{
     align-items: center;
     justify-content: left;
     padding: 10px;
-    padding-inline: 40px;
-    margin: 0;
+    padding-inline: 20px;
+    margin: 20px;
     justify-content: left;
-    background-color: var(--primary-base-lighter);
+    border-radius: 10px;
+    background-color: var(--primary-base-light);
     color: var(--primary-red) !important;
+    position: fixed;
+    top: 10px;
+    flex-grow: 1;
+}
+
+#icon{
+    filter: invert();
 }
 
 .wrapper{
@@ -187,7 +196,7 @@ button:hover{
 #logout{
     margin-left: auto;
     display: inline-block;
-    color: white;
+    color: rgb(68, 68, 68);
     width: 100px;
 }
 
