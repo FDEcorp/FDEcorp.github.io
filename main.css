@@ -6,6 +6,7 @@
     --primary-red-light: rgb(255, 203, 203);
     --primary-blue: rgb(31, 166, 255);
     --primary-base: rgb(255, 255, 255);
+    --primary-base-lighter: rgb(250,250,250);
     --primary-base-light: rgb(240,240,240);
     --primary-base-mid: rgb(180, 180, 180);
     --primary-base-dark: rgb(150, 150, 150);
@@ -49,7 +50,7 @@ header{
     padding-inline: 40px;
     margin: 0;
     justify-content: left;
-    background-color: var(--primary-base-darkest);
+    background-color: var(--primary-base-lighter);
     color: var(--primary-red) !important;
 }
 
