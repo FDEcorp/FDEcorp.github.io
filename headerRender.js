@@ -5,11 +5,10 @@ document.getElementById('header').innerHTML = `
     
     <div id="logout" onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'">Cerrar Sesión</div>
 `
-/*
+
 window.addEventListener("scroll", function () {
     let header = document.getElementById("header");
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    header.style.background = `rgba(0,0,0,${1 - Math.min(scrollTop / 1000,0.4)})`
-
- });*/
+    header.style.opacity = `${1 - Math.min(scrollTop / 50,1)}`
+ });
