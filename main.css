@@ -138,7 +138,7 @@ select{
         padding-left: 24px;
         flex: 1;
         flex-grow: 1;
-        height: 70dvh;
+        height: 80dvh;
     }
 
     #filter-bar{
