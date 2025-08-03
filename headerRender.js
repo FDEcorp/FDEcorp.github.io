@@ -23,8 +23,8 @@ header.style.width = `${window.innerWidth - 70}px`
             
             let prodWindow = document.getElementById("products-window");
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            prodWindow.style.height = `${(1 + Math.min(scrollTop / 50,0.5))*500}px`
-            console.log("trying to adjust to 500*1+",Math.min(scrollTop / 50,0.5))
+            prodWindow.style.height = `${(1 + Math.min(scrollTop / 20,1))*70}dvh`
+            console.log("trying to adjust to 70*1+",Math.min(scrollTop / 20,1))
         }
         catch(e){
 
