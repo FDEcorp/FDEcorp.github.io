@@ -11,4 +11,16 @@ window.addEventListener("scroll", function () {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
     header.style.opacity = `${1 - Math.min(scrollTop / 20,1)}`
+
+
+        try{
+            
+            let prodWindow = document.getElementById("products-window");
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            prodWindow.style.height = `${(1 + Math.min(scrollTop / 50,1))*50}vh`
+            console.log("trying to adjust to 70*1+",Math.min(scrollTop / 50,0.7))
+        }
+        catch(e){
+
+        }
  });
