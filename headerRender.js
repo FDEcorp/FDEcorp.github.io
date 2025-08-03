@@ -10,7 +10,7 @@ window.addEventListener("scroll", function () {
     let header = document.getElementById("header");
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    header.style.opacity = `${1 - Math.min(scrollTop / 20,1)}`
+    header.style.opacity = `${1 - Math.min(scrollTop / 50,1)}`
 
 
         try{
