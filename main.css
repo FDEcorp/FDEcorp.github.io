@@ -52,6 +52,7 @@ header{
     padding: 10px;
     padding-inline: 20px;
     margin: 20px;
+    margin-bottom: 40px;
     justify-content: left;
     border-radius: 10px;
     background-color: var(--primary-base-light);

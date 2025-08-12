@@ -17,7 +17,13 @@ header.style.width = `${window.innerWidth - 70}px`
     
 
     header.style.opacity = `${1 - Math.min(scrollTop / 50,1)}`
-    
+    console.log(scrollTop)
+    if(scrollTop>=50){
+        header.style.visibility = 'hidden'
+    }
+    else{
+        header.style.visibility = 'visible'
+    }
 
         try{
             
