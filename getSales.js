@@ -262,6 +262,11 @@ function getSales(){
                 datatoload = Object.keys(salesbyHour).map((hour,amount) => [Number(hour), Math.round(salesbyHour[hour])])
                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                 datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
+                console.log(prodCatSum)
+
+            document.getElementById('cat-list').innerHTML = String(Object.entries(prodCatSum).map(
+            (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]}</li>`
+            )).replaceAll(',','').replaceAll('_',' ')
 
             })
             datatoload=datatoload.sort((a, b) => a[0] - b[0])
