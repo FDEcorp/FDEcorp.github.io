@@ -18,6 +18,9 @@ window.datatoload4 = []
 let productCategories = {}
 window.prodCatSum = {}
 window.prodCatSumMoney = {}
+
+window.prodSum = {}
+window.prodSumMoney = {}
 window.totalCatItems = 0;
 
 var now = new Date();
@@ -265,16 +268,27 @@ function getSales(){
                 datatoload2 = Object.keys(prodCatSum).map((cat)=>[cat,prodCatSum[cat]])
                 datatoload4 = Object.keys(prodCatSumMoney).map((cat)=>[cat,prodCatSumMoney[cat]])
                 console.log(prodCatSum)
+                console.log(prodSum)
 
-            document.getElementById('cat-list').innerHTML = String(Object.entries(prodCatSum).map(
-            (item,quant)=>`
-            <li style="display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
-                <div style="flex: 1">${String(item).split(',')[0]}</div> 
-                <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodCatSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}</div></li>`
-            )).replaceAll(',','').replaceAll('_',' ')
+                document.getElementById('cat-list').innerHTML = String(Object.entries(prodCatSum).map(
+                (item,quant)=>`
+                <li style="display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
+                    <div style="flex: 1">${String(item).split(',')[0]}</div> 
+                    <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodCatSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                })}</div></li>`
+                )).replaceAll(',','').replaceAll('_',' ')
+
+                document.getElementById('prod-list').innerHTML = String(Object.entries(prodSum).map(
+                (item,quant)=>`
+                <li style="display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
+                    <div style="flex: 1">${String(item).split(',')[0]}</div> 
+                    <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                })}</div></li>`
+                )).replaceAll(',','').replaceAll('_',' ')
 
             })
             datatoload=datatoload.sort((a, b) => a[0] - b[0])
@@ -507,11 +521,12 @@ function getSaleItemsCat(saleItems){
     
 
     Object.entries(saleItems).forEach((item)=>{
-        let itemName = String(item[0]).split(" ")[0]
+        let itemName = String(item[0])
+        console.log('item name test',item[0])
         let qty = item[1][0]
         let value = item[1][1]
         console.log("check this",item[1][0],item[1][1])
-        let cat = productCategories[itemName]
+        let cat = productCategories[itemName.split(" ")[0]]
         totalCatItems = totalCatItems + Number(qty)
         console.log('total items',totalCatItems)
 
@@ -527,6 +542,20 @@ function getSaleItemsCat(saleItems){
         }
         else{
             prodCatSumMoney[cat] = Number(prodCatSumMoney[cat])+Number(qty)*Number(value)
+        }
+        //by product
+        if(prodSum[itemName.replaceAll('_',' ')]==undefined){
+            prodSum[itemName.replaceAll('_',' ')] = Number(qty)
+        }
+        else{
+            prodSum[itemName.replaceAll('_',' ')] = Number(prodSum[itemName.replaceAll('_',' ')])+Number(qty)
+        }
+
+        if(prodSumMoney[itemName.replaceAll('_',' ')]==undefined){
+            prodSumMoney[itemName.replaceAll('_',' ')] = Number(qty)*Number(value)
+        }
+        else{
+            prodSumMoney[itemName.replaceAll('_',' ')] = Number(prodSumMoney[itemName.replaceAll('_',' ')])+Number(qty)*Number(value)
         }
     })
     //let item = String(Object.entries(saleItems)[0]).split(" ")[0]
