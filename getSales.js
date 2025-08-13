@@ -18,6 +18,7 @@ window.datatoload4 = []
 let productCategories = {}
 window.prodCatSum = {}
 window.prodCatSumMoney = {}
+window.totalCatItems = 0;
 
 var now = new Date();
 var dayForInput1 = ("0" + now.getDate()).slice(-2);
@@ -154,6 +155,7 @@ function getSales(){
     salestotalDispCash.innerText = 0
     salestotalDispCard.innerText = 0
     let salesTotal = 0
+    totalCatItems = 0
 
     document.getElementById('sales-list').innerHTML = ''
     document.getElementById('cortes-list').innerHTML = ''
@@ -265,7 +267,13 @@ function getSales(){
                 console.log(prodCatSum)
 
             document.getElementById('cat-list').innerHTML = String(Object.entries(prodCatSum).map(
-            (item,quant)=>`<li>${String(item).split(',')[0]} x ${String(item).split(',')[1]}</li>`
+            (item,quant)=>`
+            <li style="display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
+                <div style="flex: 1">${String(item).split(',')[0]}</div> 
+                <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodCatSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}</div></li>`
             )).replaceAll(',','').replaceAll('_',' ')
 
             })
@@ -496,12 +504,16 @@ function getSaleItemsCat(saleItems){
     if(saleItems == null || saleItems == undefined || saleItems==""){
         return
     }
+    
+
     Object.entries(saleItems).forEach((item)=>{
         let itemName = String(item[0]).split(" ")[0]
         let qty = item[1][0]
         let value = item[1][1]
         console.log("check this",item[1][0],item[1][1])
         let cat = productCategories[itemName]
+        totalCatItems = totalCatItems + Number(qty)
+        console.log('total items',totalCatItems)
 
         if(prodCatSum[cat]==undefined){
             prodCatSum[cat] = Number(qty)
