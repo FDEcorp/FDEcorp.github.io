@@ -274,7 +274,7 @@ function getSales(){
 
                 document.getElementById('cat-list').innerHTML = String(Object.entries(prodCatSum).sort((a, b) => a[0].localeCompare(b[0])).map(
                 (item,quant)=>`
-                <li style="font-size: 14px; display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
+                <li style="font-size: 14px; display: flex; justify-content: center; text-align: left; padding-inline: 10px; max-width: 330px; margin-inline: auto;">
                     <div style="flex: 1">${String(item).split(',')[0]}</div> 
                     <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodCatSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
                     style: 'currency',
@@ -284,7 +284,7 @@ function getSales(){
 
                 document.getElementById('prod-list').innerHTML = String(Object.entries(prodSum).sort((a, b) => a[0].localeCompare(b[0])).map(
                 (item,quant)=>`
-                <li style="font-size: 14px; display: flex; justify-content: center; text-align: left; padding-inline: 40px; max-width: 330px; margin-inline: auto;">
+                <li style="font-size: 14px; display: flex; justify-content: center; text-align: left; padding-inline: 10px; max-width: 330px; margin-inline: auto;">
                     <div style="flex: 1">${String(item).split(',')[0]}</div> 
                     <div style="flex: 2; text-align: right">x${String(item).split(',')[1]} (${Number(Number(String(item).split(',')[1])*100/totalCatItems).toFixed(2)} %) - ${prodSumMoney[String(item).split(',')[0]].toLocaleString('en-US', {
                     style: 'currency',
