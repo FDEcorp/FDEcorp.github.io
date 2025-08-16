@@ -167,7 +167,9 @@ function getSales(){
     datatoload2 = []
     salesbyHour = {}
     prodCatSum = {}
+    prodSum = {}
     prodCatSumMoney = {}
+    prodSumMoney = {}
     salesbyDate = {}
     
     let [year,month,day] = String(fromDateInput.value).split("-")
