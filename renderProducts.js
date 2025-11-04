@@ -321,7 +321,7 @@ async function deductInventory(order) {
                             // Update the stock for the current item
                             await update(ref(db, `/businesses/${business}/Items/${itemName}`), {
                                 stock: currentItemStock>0?Number(currentItemStock) - Number(cantidad) * Number(qty):0,
-                                lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+                
                             }); 
                             await update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
                                 stock: currentItemStock>0?Number(currentItemStock) - Number(cantidad) * Number(qty):0,
