@@ -1,7 +1,10 @@
-import {set, get, update, remove, ref, child, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {get, ref, child} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
 
-if(Boolean(localStorage.getItem("admin"))==false){
-    location.href = 'menu.html'
+// ------------------------------------------------------------
+// Auth Gate
+// ------------------------------------------------------------
+if (!Boolean(localStorage.getItem("admin"))) {
+    location.href = "menu.html";
 }
 
 let fromDateInput = document.getElementById('from-date')
@@ -21,39 +24,30 @@ window.avgperhour = 0;
 window.avgperdate = 0;
 window.daysEval = 0;
 
-var now = new Date();
-var dayForInput1 = ("0" + now.getDate()).slice(-2);
-var dayForInput2 = ("0" + now.getDate()).slice(-2);
-var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
-var today = now.getFullYear()+"-"+(monthForInput)+"-"+(dayForInput2) ;
 
+
+//Set input to be today by default
+var now = new Date();
+var inputFieldDate = ("0" + now.getDate()).slice(-2);
+var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
+var today = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
 fromDateInput.value = today
 toDateInput.value = today
 
+//Search button Functionality
 let Search = document.getElementById('search')
 
 Search.addEventListener('click',()=>{
     getSales()
 })
 
-fromDateInput.addEventListener('change',()=>{
-    //getSales()
-})
-
-
-toDateInput.addEventListener('change',()=>{
-   //getSales()
-})
-
+//Where info will be stored
 window.salesbyHour = {}
 window.salesbyDate = {}
 
 
 function groupByHour(time,amount){
     let [hours,minutes,seconds] = String(time).split(":")
-    let years = 2024
-    let day = 2
-    let monthIndex = 10
 
     if(salesbyHour[hours]==undefined){
         salesbyHour[hours] = Number(amount)
@@ -61,7 +55,6 @@ function groupByHour(time,amount){
     else{
         salesbyHour[hours] = Number(salesbyHour[hours]) + amount
     }
-
 
     let averageArray = Object.values(salesbyHour)
     let avg = averageArray.reduce((acc, c) => acc + c, 0) / averageArray.length;
@@ -73,22 +66,7 @@ function groupByHour(time,amount){
     })
     
 }
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  
-    // These options can be used to round to whole numbers.
-    trailingZeroDisplay: 'stripIfInteger'   // This is probably what most people
-                                            // want. It will only stop printing
-                                            // the fraction when the input
-                                            // amount is a round number (int)
-                                            // already. If that's not what you
-                                            // need, have a look at the options
-                                            // below.
-    //minimumFractionDigits: 0, // This suffices for whole numbers, but will
-                                // print 2500.10 as $2,500.1
-    //maximumFractionDigits: 0, // Causes 2500.99 to be printed as $2,501
-});
+
 
 function groupByDate(day,month,year,amount){
     let date = `${day}/${month}/${year}`
@@ -320,14 +298,7 @@ function getSales(){
                         if(Number(saleYear+saleMonth+saleDay)>=Number(year+month+day) && Number(saleYear+saleMonth+saleDay)<=Number(year2+month2+day2)){
     
                             salesTotal += saleVal.Total
-    
-                            let years = saleID.substring(0,4)
-                            let monthIndex = Number(saleID.substring(4,6))-1
-                            let day = saleID.substring(6,8)
-                            let hours = saleVal.Time.substring(0,2)
-                            let minutes = saleVal.Time.substring(3,5)
-                            let seconds = saleVal.Time.substring(6,8)
-                        
+
                             groupByHour(saleVal.Time,saleVal.Total)
                             groupByDate(saleDay,saleMonth,saleYear,saleVal.Total)
                             
@@ -516,16 +487,7 @@ function drawChart() {
         var view3 = new google.visualization.DataView(data3);
 
         view3.setColumns([0, //The "descr column"
-            1, //Downlink column
-            /*{
-                calc: "stringify",
-                sourceColumn: 1, // Create an annotation column with source column "1"
-                type: "string",
-                role: "annotation",
-                alwaysOutside: false,
-                fontSize: "8px"
-            },*/
-            2,3,4]);   
+            1,2,3,4]);   
 
     chart.draw(view, horariosOptions);
     chart3.draw(view3, saleDatesOptions);
