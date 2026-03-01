@@ -97,9 +97,9 @@ getSales()
 
 function enableSaleEditable(saleID,year,month,day){
    
-    document.getElementById(saleID+"-cash").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-cash").innerText}' />`;
-    document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-card").innerText}' />`;
-     document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-diff").innerText}' />`;
+    document.getElementById(saleID+"-cash").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-cash").innerText}' />`;
+    document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-card").innerText}' />`;
+     document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${Number(document.getElementById(saleID+"-diff").innerText)}' />`;
      document.getElementById(saleID+"-edit").innerText = "Save"
      document.getElementById(saleID+"-edit").onclick = function(){
         savePostEdit(saleID,year,month,day)
