@@ -253,10 +253,10 @@ function getSales(){
                             </div>
 
                             <div style="display: flex; flex-direction: column; flex: 4;">
-                                <div style="flex: 2; text-align: right"><b>Total:</b> $ <span id="${corteRec[0]}-total">${corteRec[1].total}</span></div>
+                                <div style="flex: 2; text-align: right"><b>Total: </b> $ <span id="${corteRec[0]}-total">${corteRec[1].total}</span></div>
                                 <div style="flex: 1; text-align: right"><b>Card: </b> $ <span id="${corteRec[0]}-card">${corteRec[1].card}</span></div>
                                 <div style="flex: 1; text-align: right"><b>Cash: </b>$ <span id="${corteRec[0]}-cash">${corteRec[1].cash}</span></div>
-                                <div style="flex: 1; text-align: right; color: ${color}"><b><span id="${corteRec[0]}-diff">${diff}</span></b></div>
+                                <div style="flex: 1; text-align: right; "><b>Diff: <span style="color: ${color}" id="${corteRec[0]}-diff">${diff}</span></b></div>
                             </div>
             
                                 
