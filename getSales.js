@@ -95,6 +95,40 @@ function groupByDate(day,month,year,amount){
 }
 getSales()
 
+function enableSaleEditable(saleID,year,month,day){
+   
+    document.getElementById(saleID+"-cash").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-cash").innerText}' />`;
+    document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-card").innerText}' />`;
+     document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0;display:inline-block;" value='${document.getElementById(saleID+"-diff").innerText}' />`;
+     document.getElementById(saleID+"-edit").innerText = "Save"
+     document.getElementById(saleID+"-edit").onclick = function(){
+        savePostEdit(saleID,year,month,day)
+     }
+}
+function savePostEdit(saleID,year,month,day){
+    let result = confirm("Estas seguro de guardar los cambios? Asegurate de que los datos sean correctos, no se podran editar despues de esto.");
+        if(result){
+            update(ref(db, `/businesses/${business}/Cortes/${year}/${Number(month)}/${day}/${saleID}`), {
+                total: Number(document.getElementById(saleID+"-cash").firstChild.value)+Number(document.getElementById(saleID+"-card").firstChild.value),
+                cash: document.getElementById(saleID+"-cash").firstChild.value,
+                card: document.getElementById(saleID+"-card").firstChild.value,
+                diff: Number(document.getElementById(saleID+"-diff").firstChild.value),
+                cashReal: Number(document.getElementById(saleID+"-cash").firstChild.value)+Number(document.getElementById(saleID+"-diff").firstChild.value),
+            }); 
+        }
+    console.log('saving edit',saleID,year,month,day)
+    document.getElementById(saleID+"-total").innerHTML = `${Number(document.getElementById(saleID+"-cash").firstChild.value)+Number(document.getElementById(saleID+"-card").firstChild.value)}`;
+    document.getElementById(saleID+"-cash").innerHTML = `${document.getElementById(saleID+"-cash").firstChild.value}`;
+    document.getElementById(saleID+"-card").innerHTML = `${document.getElementById(saleID+"-card").firstChild.value}`;
+    document.getElementById(saleID+"-diff").innerHTML = `${document.getElementById(saleID+"-diff").firstChild.value}`;
+    document.getElementById(saleID+"-edit").innerText = "Edit"
+    document.getElementById(saleID+"-edit").onclick = function(){
+        enableSaleEditable(saleID,year,month,day)
+
+    
+     }
+}
+
 function deleteCorte(year,month,day,id){
     if(localStorage.getItem('admin')=='true'){
         if(confirm('Estas seguro de borrar este registro? No se podra recuperar, ten cuidado si es de algun dia previo.')){
@@ -150,6 +184,7 @@ function toggleMethod(year,month,day,id){
 }
 
 window.deleteCorte = deleteCorte;
+window.enableSaleEditable = enableSaleEditable;
 window.deleteSale = deleteSale;
 window.toggleMethod = toggleMethod;
 
@@ -211,14 +246,17 @@ function getSales(){
                                 <div style="text-align: left; font-weight: 800">${Day}/${month}/${year}</div>
                                 <div style="text-align: left; color: gray;">${corteRec[1].TimeStamp}</div>
                                 <br>
-                                <div style="text-align: left; color: rgb(252, 43, 43); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
+                                <div style="display: flex; flex-direction: row; gap: 10px;">
+                                    <div style="text-align: left; color: rgb(252, 43, 43); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
+                                    <div id="${corteRec[0]}-edit" style="text-align: left; color: rgb(43, 113, 252); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Edit</div>
+                                </div>
                             </div>
 
                             <div style="display: flex; flex-direction: column; flex: 4;">
-                                <div style="flex: 2; text-align: right"><b>Total:</b> $ ${corteRec[1].total}</div>
-                                <div style="flex: 1; text-align: right"><b>Card: </b> $ ${corteRec[1].card}</div>
-                                <div style="flex: 1; text-align: right"><b>Cash: </b>$ ${corteRec[1].cash}</div>
-                                <div style="flex: 1; text-align: right; color: ${color}"><b>${diff}</b></div>
+                                <div style="flex: 2; text-align: right"><b>Total:</b> $ <span id="${corteRec[0]}-total">${corteRec[1].total}</span></div>
+                                <div style="flex: 1; text-align: right"><b>Card: </b> $ <span id="${corteRec[0]}-card">${corteRec[1].card}</span></div>
+                                <div style="flex: 1; text-align: right"><b>Cash: </b>$ <span id="${corteRec[0]}-cash">${corteRec[1].cash}</span></div>
+                                <div style="flex: 1; text-align: right; color: ${color}"><b><span id="${corteRec[0]}-diff">${diff}</span></b></div>
                             </div>
             
                                 
