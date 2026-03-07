@@ -22,6 +22,7 @@ h2,h3,h4,h5,h6{
 html{
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
 *{
     touch-action: manipulation;
@@ -40,7 +41,7 @@ body{
     background-color: var(--primary-base);
     flex-direction: column;
     touch-action: manipulation;
-    height: 105vh;
+    height: 100vh;
 }
 
 header{
@@ -150,9 +151,6 @@ select{
         justify-content: right;
     }
 
-    #pos-cont{
-        height: 60vh;
-    }
     #table-cont{
         height: 60vh;
     }
@@ -506,7 +504,8 @@ li{
     }
 
     #pos-cont{
-        height: 80dvh;
+        height: 100%;
+        padding-bottom: 10px;
         align-content: flex-end;
         flex-direction: column-reverse;
         flex: 1;
