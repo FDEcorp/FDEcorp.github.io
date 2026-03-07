@@ -97,12 +97,14 @@ getSales()
 
 function enableSaleEditable(saleID,year,month,day){
    
-    document.getElementById(saleID+"-cash").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-cash").innerText}' />`;
-    document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-card").innerText}' />`;
-     document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${Number(document.getElementById(saleID+"-diff").innerText)}' />`;
+    document.getElementById(saleID+"-cash").innerHTML = `<input style="width:50px;padding:0; margin:0; height:16px; display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-cash").innerText}' />`;
+    document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0; margin:0; height:16px; display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-card").innerText}' />`;
+     document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0; margin:0; height:16px; display:inline-block;text-align:center;" value='${Number(document.getElementById(saleID+"-diff").innerText)}' />`;
      document.getElementById(saleID+"-edit").innerText = "Save"
-     document.getElementById(saleID+"-edit").style.color = "rgb(67, 252, 43)"
+     document.getElementById(saleID+"-edit").style.color = "rgb(30, 166, 12)"
+     document.getElementById(saleID+"-delete").style.display = "none"
      document.getElementById(saleID+"-delete").style.visibility = "hidden"
+      
      document.getElementById(saleID+"-edit").onclick = function(){
         savePostEdit(saleID,year,month,day)
      }
@@ -125,6 +127,8 @@ function savePostEdit(saleID,year,month,day){
     document.getElementById(saleID+"-diff").innerHTML = `${document.getElementById(saleID+"-diff").firstChild.value}`;
     document.getElementById(saleID+"-edit").innerText = "Edit"
     document.getElementById(saleID+"-edit").style.color = "rgb(43, 113, 252)"
+    document.getElementById(saleID+"-delete").style.display = "block"
+
     document.getElementById(saleID+"-delete").style.visibility = "visible"
     document.getElementById(saleID+"-edit").onclick = function(){
         enableSaleEditable(saleID,year,month,day)
