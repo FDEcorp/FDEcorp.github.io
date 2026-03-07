@@ -101,6 +101,8 @@ function enableSaleEditable(saleID,year,month,day){
     document.getElementById(saleID+"-card").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${document.getElementById(saleID+"-card").innerText}' />`;
      document.getElementById(saleID+"-diff").innerHTML = `<input style="width:50px;padding:0;display:inline-block;text-align:center;" value='${Number(document.getElementById(saleID+"-diff").innerText)}' />`;
      document.getElementById(saleID+"-edit").innerText = "Save"
+     document.getElementById(saleID+"-edit").style.color = "rgb(67, 252, 43)"
+     document.getElementById(saleID+"-delete").style.visibility = "hidden"
      document.getElementById(saleID+"-edit").onclick = function(){
         savePostEdit(saleID,year,month,day)
      }
@@ -122,6 +124,8 @@ function savePostEdit(saleID,year,month,day){
     document.getElementById(saleID+"-card").innerHTML = `${document.getElementById(saleID+"-card").firstChild.value}`;
     document.getElementById(saleID+"-diff").innerHTML = `${document.getElementById(saleID+"-diff").firstChild.value}`;
     document.getElementById(saleID+"-edit").innerText = "Edit"
+    document.getElementById(saleID+"-edit").style.color = "rgb(43, 113, 252)"
+    document.getElementById(saleID+"-delete").style.visibility = "visible"
     document.getElementById(saleID+"-edit").onclick = function(){
         enableSaleEditable(saleID,year,month,day)
 
@@ -247,7 +251,7 @@ function getSales(){
                                 <div style="text-align: left; color: gray;">${corteRec[1].TimeStamp}</div>
                                 <br>
                                 <div style="display: flex; flex-direction: row; gap: 10px;">
-                                    <div style="text-align: left; color: rgb(252, 43, 43); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
+                                    <div id="${corteRec[0]}-delete" style="text-align: left; color: rgb(252, 43, 43); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
                                     <div id="${corteRec[0]}-edit" style="text-align: left; color: rgb(43, 113, 252); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Edit</div>
                                 </div>
                             </div>
