@@ -55,7 +55,7 @@ header{
     margin-bottom: 40px;
     justify-content: left;
     border-radius: 10px;
-    background-color: var(--primary-base-light);
+    background-color: var(--primary-base-darkest);
     color: var(--primary-red) !important;
     position: fixed;
     top: 0px;
@@ -63,7 +63,7 @@ header{
 }
 
 #icon{
-    filter: invert();
+    
 }
 
 .wrapper{
@@ -201,7 +201,8 @@ button:hover{
 #logout{
     margin-left: auto;
     display: inline-block;
-    color: rgb(68, 68, 68);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
     width: 100px;
 }
 
