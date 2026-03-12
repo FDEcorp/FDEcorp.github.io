@@ -190,7 +190,7 @@ function savePostEdit(saleID,year,month,day){
 
 function deleteCorte(year,month,day,id){
     if(localStorage.getItem('admin')=='true'){
-        if(confirm('Estas seguro de borrar este registro? No se podra recuperar, ten cuidado si es de algun dia previo.')){
+        if(confirm('Estas seguro de borrar este registro? Se recomienda editar en lugar de borrar, ya que NO se podra recuperar, ten cuidado si es de algun dia previo.')){
             remove(child(ref(db),`/businesses/${business}/Cortes/${year}/${month}/${day}/${id}`)) 
             
             setTimeout(()=>{
@@ -306,8 +306,8 @@ function getSales(){
                                 <div style="text-align: left; color: gray;">${corteRec[1].TimeStamp}</div>
                                 <br>
                                 <div style="display: flex; flex-direction: row; gap: 10px;">
-                                    <div id="${corteRec[0]}-delete" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(182, 20, 20); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Delete</div>
-                                    <div id="${corteRec[0]}-edit" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(66, 115, 212); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Edit</div>
+                                    <div id="${corteRec[0]}-delete" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(182, 20, 20); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Borrar</div>
+                                    <div id="${corteRec[0]}-edit" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(82, 82, 82); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Editar</div>
                                 </div>
                             </div>
 
