@@ -61,12 +61,14 @@ nextDate.addEventListener('click',()=>{
     console.log('next date - 2222')
     console.log(addDays(1))
     fromDateInput.value = addDays(1)
+    getSales()
 })
 
 previousDate.addEventListener('click',()=>{
     console.log('previous date')
     console.log(addDays(-1))
     fromDateInput.value = addDays(-1)
+    getSales()
 })
 
 window.salesbyHour = {}
