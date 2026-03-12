@@ -10,6 +10,8 @@ let salestotalDispCash = document.getElementById('sales-total-cash')
 let salestotalDispCard = document.getElementById('sales-total-card')
 let business = localStorage.getItem('business')
 let search = document.getElementById('search')
+let nextDate = document.getElementById('next')
+let previousDate = document.getElementById('previous')
 
 window.datatoload = []
 window.datatoload2 = []
@@ -33,6 +35,12 @@ var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 
 fromDateInput.value = today
 
+function addDays(days){
+    let [year,month,day] = String(fromDateInput.value).split("-")
+    let newDay = Number(day)+days
+    console.log('new date',`${year}-${month}-${newDay}`)
+    return `${year}-${month}-${newDay}`;
+}
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     Products.forEach(
@@ -49,6 +57,17 @@ search.addEventListener('click',()=>{
     getSales()
 })
 
+nextDate.addEventListener('click',()=>{
+    console.log('next date - 2222')
+    console.log(addDays(1))
+    fromDateInput.value = addDays(1)
+})
+
+previousDate.addEventListener('click',()=>{
+    console.log('previous date')
+    console.log(addDays(-1))
+    fromDateInput.value = addDays(-1)
+})
 
 window.salesbyHour = {}
 window.salesbyDate = {}
@@ -409,6 +428,7 @@ function showSaleInfo(saleID,saleDay,saleMonth,saleYear){
 }
 
 window.showSaleInfo = showSaleInfo
+window.addDays = addDays
 
  // Load the Visualization API and the piechart package.
  google.charts.load('current', {'packages':['bar']});

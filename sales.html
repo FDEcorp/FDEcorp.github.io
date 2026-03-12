@@ -51,17 +51,22 @@
 
     <div class="main-cont">
     
-            <div style="display: flex; flex-direction: row; gap: 8px; margin: 0; margin-inline: 20px; padding: 0; justify-content: center; text-align: left;">
-                <div style="width: 220px;">                
-                    <input type="date" id="from-date" class="date-selector" style="width: 200px; height: 45px;">
+            <div style="display: flex; flex-direction: row; gap: 8px; margin: 0; margin-inline: auto; justify-content: center; text-align: center; max-width: 350px;">
+                <div style="flex: 2;">                
+                    <input type="date" id="from-date" class="date-selector" style="width: 200px;">
                 </div>
 
-                <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
-                        <button id="search" style="width: 100px; height: 48px;">Buscar</button>
+                <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
+                        <button id="search" style="width: 100%; height: 48px;">Buscar</button>
                 </div>
+                
+            </div>
+            <div style="display: flex; padding: 10px; justify-content: center; gap: 10px; max-width: 350px; margin-inline: auto;">
+                    <button id="previous">Dia Anterior</button>
+                    <button id="next">Dia Siguiente</button>
             </div>
        
-        <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px;">
+        <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px; max-width: 350px; margin-inline: auto;">
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
             <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>

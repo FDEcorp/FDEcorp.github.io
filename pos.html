@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="main.css">
     <script>
         if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
-            location.href = 'Index.html'
+            //location.href = 'Index.html'
+            localStorage.setItem('business', 'icfags')
+            localStorage.setItem('admin', 'true')
         }
     </script>
 
