@@ -36,10 +36,40 @@ var startofmonth = now.getFullYear()+"-"+(monthForInput)+"-01";
 fromDateInput.value = today
 
 function addDays(days){
+
     let [year,month,day] = String(fromDateInput.value).split("-")
-    let newDay = String(Number(day)+days).padStart(2,'0')
-    console.log('new date',`${year}-${month}-${newDay}`)
-    return `${year}-${month}-${newDay}`;
+
+    year = Number(year)
+    month = Number(month)
+    day = Number(day)
+
+    day += days
+
+    let daysInMonth = new Date(year, month, 0).getDate()
+
+    if(day > daysInMonth){
+        day = 1
+        month++
+        if(month > 12){
+            month = 1
+            year++
+        }
+    }
+
+    if(day < 1){
+        month--
+        if(month < 1){
+            month = 12
+            year--
+        }
+        day = new Date(year, month, 0).getDate()
+    }
+
+    let newDate = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`
+
+    console.log('new date', newDate)
+
+    return newDate
 }
 
 get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
