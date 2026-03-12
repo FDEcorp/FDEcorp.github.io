@@ -37,7 +37,7 @@ fromDateInput.value = today
 
 function addDays(days){
     let [year,month,day] = String(fromDateInput.value).split("-")
-    let newDay = Number(day)+days
+    let newDay = String(Number(day)+days).padStart(2,'0')
     console.log('new date',`${year}-${month}-${newDay}`)
     return `${year}-${month}-${newDay}`;
 }
