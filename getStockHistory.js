@@ -46,9 +46,18 @@ get(ref(db, `/businesses/${business}/Items`)).then(snapshot => {
 });
 
 // 🔹 Events
-DOM.selector.addEventListener('change', () => getData(DOM.selector.value));
-DOM.toDate.addEventListener('change', () => getData(DOM.selector.value));
-DOM.fromDate.addEventListener('change', () => getData(DOM.selector.value));
+DOM.selector.addEventListener('change', () => {
+    getData(DOM.selector.value);
+    renderItemDetails(DOM.selector.value);
+});
+DOM.toDate.addEventListener('change', () => {
+    getData(DOM.selector.value);
+    renderItemDetails(DOM.selector.value);
+});
+DOM.fromDate.addEventListener('change', () => {
+    getData(DOM.selector.value);
+    renderItemDetails(DOM.selector.value);
+});
 
 DOM.search.addEventListener('click', () => {
     if (DOM.selector.value == "") {
@@ -151,7 +160,7 @@ function renderItemDetails(itemName) {
                     <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}; font-weight: bold; font-size: 18x; padding-top: 0px;">↓</button> 
                 </div> 
             </div> 
-        </div>ß
+        </div>
         `;
 
         html += `
