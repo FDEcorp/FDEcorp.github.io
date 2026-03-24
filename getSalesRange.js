@@ -30,9 +30,11 @@ window.daysEval = 0;
 var now = new Date();
 var inputFieldDate = ("0" + now.getDate()).slice(-2);
 var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
-var today = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
+var today = now.getFullYear()+"-"+(monthForInput)+"-"+"01" ;
+var start = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
+console.log(start,today)
 fromDateInput.value = today
-toDateInput.value = today
+toDateInput.value = start
 
 //Search button Functionality
 let Search = document.getElementById('search')
