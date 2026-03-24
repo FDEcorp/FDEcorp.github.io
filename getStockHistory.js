@@ -39,6 +39,11 @@ Selector.addEventListener('change',()=>{
 })
 
 search.addEventListener('click',()=>{
+    if(Selector.value == ""){
+        prompt("Please select an item to view its history.")
+        return
+    }
+        
     getData(Selector.value)
     renderItemDetails(Selector.value)
 })
