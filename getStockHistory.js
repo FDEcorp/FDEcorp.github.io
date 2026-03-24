@@ -9,8 +9,11 @@ var item = url.searchParams.get("prod");
 let consRef = ref(db, `/businesses/${business}/Consumo/${item}`);
 let Consumos = [];
 let Selector = document.getElementById('item-select')
+let fromDate = document.getElementById('from-date')
+let toDate = document.getElementById('to-date')
+let search = document.getElementById('search')
 let CurrentStock = {}
-
+ 
 get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
     Items.forEach(item=>{
         Selector.innerHTML += `<option value="${item.key}">${String(item.key).replaceAll('_',' ')}</option>`
@@ -21,6 +24,11 @@ console.log('currentStock',CurrentStock)
 
 
 Selector.addEventListener('change',()=>{
+    //getData(Selector.value)
+    //renderItemDetails(Selector.value)
+})
+
+search.addEventListener('click',()=>{
     getData(Selector.value)
     renderItemDetails(Selector.value)
 })
@@ -36,12 +44,14 @@ function getData(item){
                 Consumos = []; // Clear the array to avoid duplicates
 
                 snapshot.forEach((record) => {
-                    Consumos.push([new Date(record.key), record.val().stock]); // Add each record
+                    if(new Date(record.key) >= new Date(fromDate.value) && new Date(record.key) <= new Date(toDate.value))
+                        Consumos.push([new Date(record.key), record.val().stock]); // Add each record
                 });
     
                 window.ConsumosSorted = Consumos.sort((a, b) => a[0] - b[0]);    
+                console.log('Sorted Consumos:', window.ConsumosSorted);
                 drawChart(ConsumosSorted);
-                
+
         })
     }
     )}
@@ -77,6 +87,7 @@ function drawChart(dataArray) {
 
 function renderItemDetails(itemName){
     document.getElementById('products-window').innerHTML = ""
+    
     get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
         document.getElementById('products-window').innerHTML += `
         <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
