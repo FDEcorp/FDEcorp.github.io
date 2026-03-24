@@ -13,6 +13,16 @@ let fromDate = document.getElementById('from-date')
 let toDate = document.getElementById('to-date')
 let search = document.getElementById('search')
 let CurrentStock = {}
+
+//Set input to be today by default
+var now = new Date();
+var inputFieldDate = ("0" + now.getDate()).slice(-2);
+var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
+var today = now.getFullYear()+"-"+(monthForInput)+"-"+"01" ;
+var start = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
+console.log(start,today)
+fromDate.value = today
+toDate.value = start
  
 get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
     Items.forEach(item=>{
@@ -46,6 +56,8 @@ function getData(item){
                 snapshot.forEach((record) => {
                     if(new Date(record.key) >= new Date(fromDate.value) && new Date(record.key) <= new Date(toDate.value))
                         Consumos.push([new Date(record.key), record.val().stock]); // Add each record
+                    if(new Date(fromDate.value) == 'Invalid Date' && new Date(toDate.value) == 'Invalid Date')
+                        Consumos.push([new Date(record.key), record.val().stock]); // Add each record if no date filters are set
                 });
     
                 window.ConsumosSorted = Consumos.sort((a, b) => a[0] - b[0]);    
