@@ -1,290 +1,249 @@
-import {set, get, update, remove, ref, child, getDatabase, onValue, query, orderByChild, equalTo} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"; 
+import {set, get, update, remove, ref, child, getDatabase }
+from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 
-let business = localStorage.getItem('business')
+let business = localStorage.getItem('business');
 
-var url = new URL(location);
-var item = url.searchParams.get("prod");
+const url = new URL(location);
+const itemParam = url.searchParams.get("prod");
 
-// Reference to the specific item under Consumos
-let consRef = ref(db, `/businesses/${business}/Consumo/${item}`);
+// 🔹 Cache DOM
+const DOM = {
+    selector: document.getElementById('item-select'),
+    fromDate: document.getElementById('from-date'),
+    toDate: document.getElementById('to-date'),
+    search: document.getElementById('search'),
+    productsWindow: document.getElementById('products-window'),
+    chart: document.getElementById('chart_div')
+};
+
 let Consumos = [];
-let Selector = document.getElementById('item-select')
-let fromDate = document.getElementById('from-date')
-let toDate = document.getElementById('to-date')
-let search = document.getElementById('search')
-let CurrentStock = {}
+let CurrentStock = {};
 
-//Set input to be today by default
-var now = new Date();
-var inputFieldDate = ("0" + now.getDate()).slice(-2);
-var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
-var today = now.getFullYear()+"-"+(monthForInput)+"-"+"01" ;
-var start = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
-console.log(start,today)
-fromDate.value = start
-toDate.value = start
- 
-get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
-    Items.forEach(item=>{
-        Selector.innerHTML += `<option value="${item.key}">${String(item.key).replaceAll('_',' ')}</option>`
-        CurrentStock[item.key] = item.val().stock
-    })
-})
-console.log('currentStock',CurrentStock)
+// 🔹 Default dates
+const now = new Date();
+const day = ("0" + now.getDate()).slice(-2);
+const month = ("0" + (now.getMonth() + 1)).slice(-2);
 
+const today = `${now.getFullYear()}-${month}-01`;
+const start = `${now.getFullYear()}-${month}-${day}`;
 
-Selector.addEventListener('change',()=>{
-    getData(Selector.value)
-    //renderItemDetails(Selector.value)
-})
+DOM.fromDate.value = start;
+DOM.toDate.value = start;
 
-toDate.addEventListener('change',()=>{
-    getData(Selector.value)
-    //renderItemDetails(Selector.value)
-})
+// 🔹 Load items
+get(ref(db, `/businesses/${business}/Items`)).then(snapshot => {
+    let optionsHTML = "";
 
-fromDate.addEventListener('change',()=>{
-    getData(Selector.value)
-    //renderItemDetails(Selector.value)
-})
+    snapshot.forEach(item => {
+        const key = item.key;
+        const label = key.replaceAll('_', ' ');
 
-search.addEventListener('click',()=>{
-    if(Selector.value == ""){
-        alert("Please select an item to view its history.")
-        return
+        optionsHTML += `<option value="${key}">${label}</option>`;
+        CurrentStock[key] = item.val().stock;
+    });
+
+    DOM.selector.innerHTML += optionsHTML;
+});
+
+// 🔹 Events
+DOM.selector.addEventListener('change', () => getData(DOM.selector.value));
+DOM.toDate.addEventListener('change', () => getData(DOM.selector.value));
+DOM.fromDate.addEventListener('change', () => getData(DOM.selector.value));
+
+DOM.search.addEventListener('click', () => {
+    if (DOM.selector.value == "") {
+        alert("Please select an item to view its history.");
+        return;
     }
-        
-//    getData(Selector.value)
-    renderItemDetails(Selector.value)
-})
+    renderItemDetails(DOM.selector.value);
+});
 
-window.ConsumosSorted
-function getData(item){
-    console.log(item)
-    get(ref(db,`/businesses/${business}/Consumo/${item}`)).then(snapshot=>{
-        update(ref(db, `/businesses/${business}/Consumo/${item}/${new Date()}`), 
-            {
-                stock: CurrentStock[item],
-            }).then(()=>{
-                Consumos = []; // Clear the array to avoid duplicates
+window.ConsumosSorted;
 
-                snapshot.forEach((record) => {
-                    if(new Date(record.key) >= new Date(fromDate.value) && new Date(record.key) <= new Date(toDate.value))
-                        Consumos.push([new Date(record.key), record.val().stock]); // Add each record
-                    if(new Date(fromDate.value) == 'Invalid Date' && new Date(toDate.value) == 'Invalid Date')
-                        Consumos.push([new Date(record.key), record.val().stock]); // Add each record if no date filters are set
-                });
-    
-                window.ConsumosSorted = Consumos.sort((a, b) => a[0] - b[0]);    
-                console.log('Sorted Consumos:', window.ConsumosSorted);
-                drawChart(ConsumosSorted);
+// 🔹 Optimized getData
+function getData(item) {
+    if (!item) return;
 
-        })
-    }
-    )}
+    get(ref(db, `/businesses/${business}/Consumo/${item}`)).then(snapshot => {
 
-// Load the Google Charts API
+        update(ref(db, `/businesses/${business}/Consumo/${item}/${Date.now()}`), {
+            stock: CurrentStock[item],
+        });
+
+        const from = new Date(DOM.fromDate.value);
+        const to = new Date(DOM.toDate.value);
+        const noFilter = isNaN(from) && isNaN(to);
+
+        const data = [];
+
+        snapshot.forEach(record => {
+            const date = new Date(record.key);
+
+            if (noFilter || (date >= from && date <= to)) {
+                data.push([date, record.val().stock]);
+            }
+        });
+
+        window.ConsumosSorted = data.sort((a, b) => a[0] - b[0]);
+        drawChart(window.ConsumosSorted);
+    });
+}
+
+// 🔹 Google Charts
 google.charts.load('current', { packages: ['corechart'] });
 
 function drawChart(dataArray) {
-    // Add a header row for Google Charts
-    const data = [['Date', 'Stock'], ...dataArray];
-
-    // Convert to DataTable format
+    const data = [
+        ['Date', 'Stock'], ...dataArray
+    ];
     const dataTable = google.visualization.arrayToDataTable(data);
 
-    // Chart options
     const options = {
         title: 'Item Stock Over Time',
-        chartArea:{left:70,top:50,width:'75%',height:'50%'},
+        chartArea: { left: 70, top: 50, width: '75%', height: '50%' },
         hAxis: { title: 'Date' },
         vAxis: { title: 'Stock' },
         legend: { position: 'bottom' },
-        colors: ['#e24848'], // Custom color for the area
+        colors: ['#e24848'],
         areaOpacity: 0.3,
         lineWidth: 2,
-        isStacked: true, // Enables step-like behavior
+        isStacked: true,
         interpolateNulls: false
     };
 
-    // Draw the chart
-    const chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    const chart = new google.visualization.AreaChart(DOM.chart);
     chart.draw(dataTable, options);
 }
 
-function renderItemDetails(itemName){
-    document.getElementById('products-window').innerHTML = ""
-    
-    get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
-        document.getElementById('products-window').innerHTML += `
-        <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
-                        <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
-                            
-                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
-                                    <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')">
-                                        ${String(item.key).replaceAll('_',' ')}
-                                    </div>
-                                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
-                                    <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
-                                </div>
-                            
-                                <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
-                                    <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p>
-                                    <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}">
-                                </div>
-                                
-                                <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
-                                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
-                                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
-                                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}; font-weight: bold; font-size: 18x; padding-top: 0px;">↓</button>
-                                </div>
-    
-                            
-                        </div>
-                       
-                    </div> 
-                    `
-                    document.getElementById('products-window').innerHTML += `
+// 🔹 Optimized render
+function renderItemDetails(itemName) {
+    DOM.productsWindow.innerHTML = "";
 
-                    <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};">
-                        <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
-                            
-                                <div class="wrap" style="flex:3; font-weight:600; font-size: 14px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start; padding-top: 2px;">
-                                    <div style="height:72px; overflow: hidden;" onclick="editItem('${item.key}')">
-                                        ${String(item.key).replaceAll('_',' ')}
-                                    </div>
-                                    <div style="font-size: 10px; color: var(--primary-base-dark)">
-                                        ${item.val().lastUpdate==undefined?'':item.val().lastUpdate}
-                                    </div>
-                                </div>
+    get(child(ref(db), `/businesses/${business}/Items/${itemName}`)).then(item => {
 
-                                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Pack<br>
-                                    <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().packQty}</b>
-                                </div>
+        const val = item.val();
+        const key = item.key;
+        const label = key.replaceAll('_', ' ');
 
-                                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Min<br>
-                                    <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().minStock}</b>
-                                </div>
-                            
-                                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1">
-                                    Order<br>
-                                    <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().orderQty}</b>
-                                </div>
-                                
-                                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; flex: 1; font-weight: bold;">
-                                    Stock<br>
-                                    <input onchange="updateStock('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 10px; width: 50px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().stock * 100) / 100).toFixed(2)}">
-                                </div>
-    
-                            
-                        </div>
-                       
-                    </div> 
-                    `
-    })
-}
+        const stockRounded = (Math.round(val.stock * 100) / 100).toFixed(0);
+        const stockPrecise = (Math.round(val.stock * 100) / 100).toFixed(2);
 
+        const bgColor = val.stock >= val.minStock ?
+            'var(--primary-base-light)' :
+            'rgb(255, 238, 163)';
 
-function checkQty(item){
-    console.log("checking qty")
-    if(Number(document.getElementById(item+"-order-qty").value) > 0){
-        document.getElementById(item+"-receive").style.backgroundColor = 'rgb(51, 153, 255)'
-    }
-    else{
-        document.getElementById(item+"-receive").style.backgroundColor = 'rgb(200,200,200)'
-    }
-}
+        let html = "";
 
-function receiveItem(itemOBJ){
-    //increase inventory by order qty*qtypack
-    let itemName = itemOBJ
-    //reset order qty to 0
-    get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
-        let currentOrder = item.val().orderQty
-        let currentStock = item.val().stock
-        let pack = item.val().packQty
+        html += `
+        <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};"> 
+            <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1"> 
+                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;"> 
+                    <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')"> ${String(item.key).replaceAll('_',' ')} </div> 
+                    <span style="font-size: 12px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span> 
+                    <span style="font-size: 12px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span> </div> <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
+                    <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p> 
+                    <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}"> 
+                </div> 
+                
+                <div style="flex: 4; display: flex; flex-direction: row; gap: 8px"> 
+                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button> 
+                    <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button> 
+                    <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}; font-weight: bold; font-size: 18x; padding-top: 0px;">↓</button> 
+                </div> 
+            </div> 
+        </div>ß
+        `;
 
-            update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                stock: Number(currentStock) + Number(currentOrder)*Number(pack),
-                orderQty: Number(0)
-            }).then(()=>{
-                renderItemDetails(itemName)
-            });
+        html += `
+        <div class="item" id="${item.key}-card" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};"> 
+            <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1"> 
+                <div class="wrap" style="flex:3; font-weight:600; font-size: 14px; color: Black; width: 100px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start; padding-top: 2px;"> 
+                    <div style="height:72px; overflow: hidden;" onclick="editItem('${item.key}')"> ${String(item.key).replaceAll('_',' ')} </div> 
+                    <div style="font-size: 10px; color: var(--primary-base-dark)"> ${item.val().lastUpdate==undefined?'':item.val().lastUpdate} </div> </div> 
+                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1"> Pack<br> <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().packQty}</b> </div> 
+                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1"> Min<br> <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().minStock}</b> </div> 
+                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; color: var(--primary-base-dark); flex: 1"> Order<br> <b style="heigh: 50px; font-size: 18px;" id="${item.key}-order-qty">${item.val().orderQty}</b> </div> 
+                <div style="height: 100px; text-align: center; justify-content: center; font-size: 14px; padding-right:4px; padding-top: 2px; flex: 1; font-weight: bold;"> Stock<br> 
+                    <input onchange="updateStock('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 10px; width: 50px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().stock * 100) / 100).toFixed(2)}"> 
+                </div> 
+            </div> 
+        </div>
+        `;
 
-            update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
-                stock: Number(currentStock) + Number(currentOrder)*Number(pack),
-                delta: Number(currentOrder)*Number(pack),
-            }); 
-
-            document.getElementById(itemName+"-order-qty").value = 0;
-            document.getElementById(itemName+"-stock-qty").innerHTML = `stock: ${Number(currentStock) + Number(currentOrder)*Number(pack)}`
-            checkQty(itemName)
-            
-        
-        }
-    )
-    
-}
-
-window.editItem = editItem;
-function editItem(item){
-    if(true){
-        location.href = `ItemDetails.html?prod=${item}`
-    }
-}
-
-function changeOrdQty(itemOBJ,increase){
-
-    let itemName = itemOBJ
-
-    get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
-        let current = item.val().orderQty
-
-        if(increase){
-            update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                orderQty: current+1
-            }).then(()=>{
-                renderItemDetails(itemName)
-            });
-            document.getElementById(itemName+"-order-qty").value++;
-            checkQty(itemName)
-        }
-        if(!increase && Number(document.getElementById(itemName+"-order-qty").value)>0){
-            update(ref(db,'businesses/'+business+'/Items/'+itemName),{
-                orderQty: current-1
-            }).then(()=>{
-                renderItemDetails(itemName)
-            });
-            document.getElementById(itemName+"-order-qty").value--;
-            checkQty(itemName)
-        }
-        }
-    )
-    
-}
-
-window.updateOrder = updateOrder;
-function updateOrder(item,qty){
-    update(ref(db,'businesses/'+business+'/Items/'+item),{
-        orderQty: Number(qty),
-        lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
+        DOM.productsWindow.innerHTML = html;
     });
-    alert('Updated')
 }
 
-window.updateStock = updateStock;
-function updateStock(item,qty){
-    update(ref(db,'businesses/'+business+'/Items/'+item),{
+// 🔹 Helpers
+function checkQty(item) {
+    const val = Number(document.getElementById(item + "-order-qty").value);
+    document.getElementById(item + "-receive").style.backgroundColor =
+        val > 0 ? 'rgb(51,153,255)' : 'rgb(200,200,200)';
+}
+
+function receiveItem(itemName) {
+    get(child(ref(db), `/businesses/${business}/Items/${itemName}`)).then(item => {
+
+        const v = item.val();
+        const newStock = Number(v.stock) + Number(v.orderQty) * Number(v.packQty);
+        const delta = Number(v.orderQty) * Number(v.packQty);
+
+        update(ref(db, 'businesses/' + business + '/Items/' + itemName), {
+            stock: newStock,
+            orderQty: 0
+        }).then(() => renderItemDetails(itemName));
+
+        update(ref(db, `/businesses/${business}/Consumo/${itemName}/${Date.now()}`), {
+            stock: newStock,
+            delta: delta,
+        });
+
+        document.getElementById(itemName + "-order-qty").value = 0;
+        document.getElementById(itemName + "-stock-qty").innerHTML = `stock: ${newStock}`;
+        checkQty(itemName);
+    });
+}
+
+function changeOrdQty(itemName, increase) {
+    const input = document.getElementById(itemName + "-order-qty");
+    let current = Number(input.value);
+
+    if (increase) current++;
+    else if (current > 0) current--;
+
+    update(ref(db, 'businesses/' + business + '/Items/' + itemName), {
+        orderQty: current
+    }).then(() => renderItemDetails(itemName));
+
+    input.value = current;
+    checkQty(itemName);
+}
+
+function updateOrder(item, qty) {
+    update(ref(db, 'businesses/' + business + '/Items/' + item), {
+        orderQty: Number(qty),
+        lastUpdate: new Date().toLocaleString()
+    });
+    alert('Updated');
+}
+
+function updateStock(item, qty) {
+    update(ref(db, 'businesses/' + business + '/Items/' + item), {
         stock: Number(qty),
-        lastUpdate: String(new Date()).substring(0,11)+String(new Date()).substring(16,21),
-    }).then(
-        renderItemDetails(item)
-    );
-    alert('Updated')
+        lastUpdate: new Date().toLocaleString()
+    }).then(() => renderItemDetails(item));
+
+    alert('Updated');
 }
 
+function editItem(item) {
+    location.href = `ItemDetails.html?prod=${item}`;
+}
+
+// 🔹 expose globals
 window.checkQty = checkQty;
 window.changeOrdQty = changeOrdQty;
 window.receiveItem = receiveItem;
+window.updateOrder = updateOrder;
+window.updateStock = updateStock;
+window.editItem = editItem;
