@@ -21,7 +21,7 @@ var monthForInput = ("0" + (now.getMonth() + 1)).slice(-2);
 var today = now.getFullYear()+"-"+(monthForInput)+"-"+"01" ;
 var start = now.getFullYear()+"-"+(monthForInput)+"-"+(inputFieldDate) ;
 console.log(start,today)
-fromDate.value = today
+fromDate.value = start
 toDate.value = start
  
 get(ref(db,`/businesses/${business}/Items`)).then(Items=>{
@@ -34,7 +34,17 @@ console.log('currentStock',CurrentStock)
 
 
 Selector.addEventListener('change',()=>{
-    //getData(Selector.value)
+    getData(Selector.value)
+    //renderItemDetails(Selector.value)
+})
+
+toDate.addEventListener('change',()=>{
+    getData(Selector.value)
+    //renderItemDetails(Selector.value)
+})
+
+fromDate.addEventListener('change',()=>{
+    getData(Selector.value)
     //renderItemDetails(Selector.value)
 })
 
@@ -44,7 +54,7 @@ search.addEventListener('click',()=>{
         return
     }
         
-    getData(Selector.value)
+//    getData(Selector.value)
     renderItemDetails(Selector.value)
 })
 
