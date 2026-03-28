@@ -95,6 +95,15 @@ function getData(item) {
 
         window.ConsumosSorted = data.sort((a, b) => a[0] - b[0]);
         drawChart(window.ConsumosSorted);
+
+        const totalConsumed = ConsumosSorted.reduce((acc, curr, i) => {
+            if (i === 0) return acc;
+
+            const prev = ConsumosSorted[i - 1][1];
+            return curr[1] < prev ? acc + (prev - curr[1]) : acc;
+        }, 0);
+
+        document.getElementById('delta').innerText = `${totalConsumed.toFixed(2)}`;
     });
 }
 
