@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FDE - Sales Records</title>
     <script type="module" src="dbconfig.js"></script>
     <script type="module" src="getTempKey.js"></script>
-    <script type="module" src="getSalesRange.js"></script>
+    <script type="module" src="getSalesRange2.js"></script>
     <script type="module" src="../headerRender.js"></script>
 
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript"></script>
     <script>
-        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+        if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
             location.href = 'Index.html'
         }
     </script>
     <style>
-        body{
+        body {
             height: 180vh;
             background-color: #fff;
         }
+
         @media (max-width: 600px) {
-            body{
+            body {
                 height: 105dvh;
             }
         }
-        html{
+
+        html {
             background-color: #fff;
         }
     </style>
 </head>
+
 <body>
     <header id="header">
         <h1>
             <img src="../fdeicon.png" height="24px" alt="">
-            FDE: <span id="business"></span></h1>
+            FDE: <span id="business"></span>
+        </h1>
         <script>
-                document.getElementById('business').innerText = localStorage.getItem('business')
+            document.getElementById('business').innerText = localStorage.getItem('business')
         </script>
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
-    </header> 
+    </header>
     <section class="subnav" style="display: flex; flex-direction: row;">
-        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;"
+            onclick="location.href='menu.html'">Back</div>
 
         <div style="margin-top: 10px; flex: 2;">
             <h3 style="margin: 0; text-align: center;">Rango de Fechas</h3>
@@ -51,54 +57,80 @@
 
         <div style="flex: 1">
         </div>
-        
+
     </section>
     <br>
 
     <div class="main-cont">
-    
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; padding-inline: 20px; max-width: 350px; margin-inline: auto;">
 
-            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: left; text-align: left; width: 140px;">
+        <div
+            style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; padding-inline: 20px; max-width: 350px; margin-inline: auto;">
+
+            <div
+                style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: left; text-align: left; width: 140px;">
                 <div style="flex: 1;  text-align: left; color: gray; font-size: 12px;"><span>Desde:</span></div>
-                <div>                
+                <div>
                     <input type="date" id="from-date" class="date-selector" style="width: 110px;">
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: left; width: 140px;">
+            <div
+                style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: left; width: 140px;">
                 <div style="text-align: left; color: gray; font-size: 12px;"><span>Hasta</span></div>
                 <div>
-                    <input type="date" id="to-date" class="date-selector"  style="width: 110px;">
+                    <input type="date" id="to-date" class="date-selector" style="width: 110px;">
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: right; width: 70px;">
-                    <button id="search" style="width: 80px; margin-top: 12px;">Buscar</button>
+            <div
+                style="display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: right; width: 70px;">
+                <button id="search" style="width: 80px; margin-top: 12px;">Buscar</button>
             </div>
         </div>
-       
-        <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px;">
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; justify-content: left; max-width: 400px; margin-inline: auto;">
-            <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Diario: <span id="average">0</span></div>
-            <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Hora: <span id="average-hour">0</span></div>
-            <div style="height: 12px; text-align: left; margin-inline: 20px; width: 300px;">Est. Mensual: <span id="est-mens">0</span></div><br>
-            <div style="height: 12px; text-align: left; margin-inline: 20px;">Sum de Superhabit: <span id="diff-mens">0</span></div>
 
-            <div style="height: 20px;">   </div>
+        <div
+            style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px;">
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta
+                Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo:
+                <span style="font-weight: 200;" id="sales-total-cash"></span>
+            </h4>
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta:
+                <span style="font-weight: 200;" id="sales-total-card"></span>
+            </h4>
+        </div>
+        <div
+            style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; justify-content: left; max-width: 400px; margin-inline: auto;">
+            <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Hora: <span
+                    id="average-hour">0</span></div>
+            <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Diario: <span id="average">0</span>
+            </div>
+            <div style="height: 12px; text-align: left; margin-inline: 20px;">Prom Diario (c/Excedente): <span
+                    id="average-excedent">0</span>
+            </div>
+
+            <div style="height: 12px; text-align: left; margin-inline: 20px; width: 300px;">Prom Mensual (c/Excedente):
+                <span id="est-mens">0</span>
+            </div><br>
+            <div style="height: 12px; text-align: left; margin-inline: 20px;">Sum de Superhabit: <span
+                    id="diff-mens">0</span></div>
+
+            <div style="height: 20px;"> </div>
         </div>
         <h3 style="margin-bottom: 0px; margin-top: 10px; padding: 0; z-index: -1;">Venta Promedio por horario</h2>
-        
-            <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; justify-content: center; row-gap: 0px; margin-top: 10px;">
-                <div id="chart_div" style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
-                <div id="chart_div2" style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
+
+            <div
+                style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; justify-content: center; row-gap: 0px; margin-top: 10px;">
+                <div id="chart_div"
+                    style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;">
+                </div>
+                <div id="chart_div2"
+                    style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;">
+                </div>
             </div>
 
     </div>
 
 </body>
+
 </html>
