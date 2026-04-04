@@ -131,3 +131,4 @@ function getSaleItemsCat(saleItems){
     //console.log("items in order:",item,qty)
 }
 
+ 

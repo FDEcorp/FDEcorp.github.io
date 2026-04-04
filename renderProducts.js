@@ -102,6 +102,8 @@ window.checkIfSalesWritten = checkIfSalesWritten;
 console.log('checking sales on load')
 checkIfSalesWritten(new Date().getFullYear(),String(new Date().getMonth()+1),day)
 
+window.renderItems = renderItems;
+
 function checkIfSalesWritten(year,month,day){
     registerSalesOnMemory = JSON.parse(localStorage.getItem(day))
     if(registerSalesOnMemory == null){
@@ -562,7 +564,7 @@ function renderItems(filter = 'all',productSearch=false){
                         
                         let image = Object.values(product.val())[2]
     
-                        if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
+                        if(filter == 'all' || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) ) || (productSearch == true && String(product.val().category).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) ) || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
                         try{
                             prodList.innerHTML += `
                         <div class="product" id="${product.key}-card">
@@ -761,3 +763,130 @@ function registerNewPendingOrder(){
 function calcPaymentSplit(){
 
 }
+
+let shortcutBar = document.getElementById('shortcuts-bar') 
+shortcutButtonRender()
+
+function shortcutButtonRender(){
+    shortcutBar.innerHTML = `
+            <button id="edit-shortcut" class="shortcut-edit-button" onclick="editShortcuts()">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" opacity="0.9" style="filter: invert(1);" width="20" height="20" viewBox="0 0 48 48">
+                <path d="M38.657 18.536l2.44-2.44c2.534-2.534 2.534-6.658 0-9.193-1.227-1.226-2.858-1.9-4.597-1.9s-3.371.675-4.597 1.901l-2.439 2.439L38.657 18.536zM27.343 11.464L9.274 29.533c-.385.385-.678.86-.848 1.375L5.076 41.029c-.179.538-.038 1.131.363 1.532C5.726 42.847 6.108 43 6.5 43c.158 0 .317-.025.472-.076l10.118-3.351c.517-.17.993-.463 1.378-.849l18.068-18.068L27.343 11.464z"></path>
+                </svg>
+            </button>
+            `
+    console.log('rendering shortcuts')
+
+    get(child(ref(db),`/users/${localStorage.getItem('USER')}/shortcuts/`)).then((ShortCuts) => {
+        console.log(ShortCuts.size)
+        ShortCuts.forEach((shortcut)=>{
+            shortcutBar.innerHTML += `
+            <button class="shortcut-button" id="shortcut-${shortcut.key}" onclick="document.getElementById('prod-search').value = '${shortcut.val()}'; renderItems('${shortcut.val()}',true);"> ${shortcut.val()} </button>
+            `
+            console.log(shortcut.val())
+        })
+        if(ShortCuts.size <= 3){
+            for(let i = 0; i < 3 - ShortCuts.size; i++){
+            shortcutBar.innerHTML += `
+                <button class="shortcut-unset-button" onclick="addShortcut()"> + Atajo </button>
+                `}
+        }
+    })
+   
+}
+
+function addShortcut(){
+    window.availableShortcuts = {
+        0: '',
+        1: '',
+        2: ''
+    }
+
+    get(child(ref(db),`/users/${localStorage.getItem('USER')}/shortcuts/`)).then((ShortCuts) => {
+            let newShortcutID = ShortCuts.size; // Use the current size as the new ID
+            if(ShortCuts.size >= 3){
+                alert('Has alcanzado el máximo de atajos (3). Elimina uno existente para agregar uno nuevo.')
+                return;
+            }
+
+            ShortCuts.forEach((shortcut)=>{
+                window.availableShortcuts[shortcut.key] = shortcut.val();
+            })
+
+            // Find the first available ID
+            for(let i = 0; i < 3; i++){
+                if(window.availableShortcuts[i] === ''){
+                    newShortcutID = i;
+                    break;
+                }
+            }
+
+            let shortcutName = prompt('Ingrese el nombre del producto o categoria a agregar como atajo. (Puede ser parcial para abarcar un mayor numero de articulos.)')
+            set(ref(db,`/users/${localStorage.getItem('USER')}/shortcuts/${newShortcutID}`), shortcutName).then(()=>{
+                console.log('shortcut added')
+                shortcutButtonRender()
+            })
+    });
+    
+    
+   
+}
+
+window.editShortcuts = editShortcuts;
+window.addShortcut = addShortcut;
+window.editShortcutsMode = false;
+
+function editShortcuts(){
+    window.editShortcutsMode = !window.editShortcutsMode;
+
+
+    if(window.editShortcutsMode){
+        shortcutBar.innerHTML = `
+            <button id="edit-shortcut" class="shortcut-edit-button" onclick="editShortcuts()">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" opacity="0.9" style="filter: invert(1);" width="20" height="20" viewBox="0 0 48 48">
+                <path d="M38.657 18.536l2.44-2.44c2.534-2.534 2.534-6.658 0-9.193-1.227-1.226-2.858-1.9-4.597-1.9s-3.371.675-4.597 1.901l-2.439 2.439L38.657 18.536zM27.343 11.464L9.274 29.533c-.385.385-.678.86-.848 1.375L5.076 41.029c-.179.538-.038 1.131.363 1.532C5.726 42.847 6.108 43 6.5 43c.158 0 .317-.025.472-.076l10.118-3.351c.517-.17.993-.463 1.378-.849l18.068-18.068L27.343 11.464z"></path>
+                </svg>
+            </button>
+            `
+    console.log('rendering shortcuts')
+
+    get(child(ref(db),`/users/${localStorage.getItem('USER')}/shortcuts/`)).then((ShortCuts) => {
+        console.log(ShortCuts.size)
+        ShortCuts.forEach((shortcut)=>{
+            shortcutBar.innerHTML += `
+            <button class="shortcut-edit-mode" id="shortcut-${shortcut.key}" onclick="editShortcut('${shortcut.key}')"> ${shortcut.val()} </button>
+            `
+            console.log(shortcut.val())
+        })
+        if(ShortCuts.size <= 3){
+            for(let i = 0; i < 3 - ShortCuts.size; i++){
+            shortcutBar.innerHTML += `
+                <button class="shortcut-unset-button" onclick="addShortcut()"> + Atajo </button>
+                `}
+        }
+    })
+    }
+    else{
+        shortcutButtonRender()
+    }
+    
+}
+
+function editShortcut(id){
+    let newValue = prompt('ingrese el nuevo valor del atajo. Deje vacio para eliminarlo')
+        
+        if(newValue == ''){
+            remove(ref(db,`/users/${localStorage.getItem('USER')}/shortcuts/${id}`)).then(()=>{
+                console.log('shortcut removed')
+                editShortcuts()
+            })
+        }else{
+            set(ref(db,`/users/${localStorage.getItem('USER')}/shortcuts/${id}`), newValue).then(()=>{
+                console.log('shortcut updated')
+                editShortcuts()
+            })
+        }
+    
+}
+
+window.editShortcut = editShortcut;

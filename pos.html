@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,33 +12,33 @@
     <script type="module" src="sell.js"></script>
     <link rel="stylesheet" href="main.css">
     <script>
-        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+        if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
             location.href = 'Index.html'
-        
+
         }
     </script>
 
     <style>
-       body{
-        padding-bottom: 20px;
-       }
-       
+        body {
+            padding-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
-    
+
     <header id="header">
         <h1>
-            <img src="../fdeicon.png" height="24px" alt="" style="filter: invert();">
-            FDE: <span id="business"></span></h1>
+            <img src="../fdeicon.png" height="24px" alt="" style="filter: invert();"> FDE: <span id="business"></span>
+        </h1>
         <script>
-                document.getElementById('business').innerText = localStorage.getItem('business')
+            document.getElementById('business').innerText = localStorage.getItem('business')
         </script>
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
-    </header> 
+    </header>
     <section class="subnav" id="subnav">
         <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Back</div>
-        
+
         <div style="display: flex; gap: 10px; flex: 4; justify-content: right;">
             <div class="subnav-button" onclick="setCorte()">
                 Corte
@@ -49,37 +50,35 @@
                 Añadir Producto
             </div>
         </div>
-        
+
     </section>
 
-    <div class="hidden-pane-container" >
-        <div id="change-calculator-pane" style="visibility: hidden; border-radius: 16px;height: 390px; text-align: center; justify-content: center;">
+    <div class="hidden-pane-container">
+        <div id="change-calculator-pane"
+            style="visibility: hidden; border-radius: 16px;height: 390px; text-align: center; justify-content: center;">
             <div style="text-align: right; height: 0px;">
                 <button class="close-button" onclick="hideChangeCalc()">X</button>
             </div>
             <h3 style="text-align: left; margin: 0; ">Confirmar</h3>
             <br>
-            <ul id="confirm-order-list" style="height: 100px; border: 1px solid rgb(216, 216, 216); border-radius: 4px; background-color: rgb(248, 248, 248); overflow: scroll; text-align: left; margin: 0; padding: 20px; padding-top: 14px;">
-                
+            <ul id="confirm-order-list"
+                style="height: 100px; border: 1px solid rgb(216, 216, 216); border-radius: 4px; background-color: rgb(248, 248, 248); overflow: scroll; text-align: left; margin: 0; padding: 20px; padding-top: 14px;">
+
             </ul>
             <div style="text-align: right; margin-top: 8px;">
                 Total: $ <span style="font-weight: bold;" id="total-change-pane"></span>
             </div>
             <br>
-            <div style="display: flex; align-items: center; justify-content: center; width: 330px; margin: 0; padding: 0;">
+            <div
+                style="display: flex; align-items: center; justify-content: center; width: 330px; margin: 0; padding: 0;">
                 <div style="display: flex; flex-direction: column; flex: 1;">
                     <b>Card</b>
                     <input type="number" id="card-to-pay" style="width: 50px;">
                 </div>
-                <div style="flex: 3; padding-top: 18px; align-items: center; padding-inline: 0px; text-align: center; justify-content: center; margin-inline: auto;">
-                    <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value="100" 
-                    class="slider" 
-                    id="cash-percentage" 
-                    style="flex-grow: 1; width: 160px;">
+                <div
+                    style="flex: 3; padding-top: 18px; align-items: center; padding-inline: 0px; text-align: center; justify-content: center; margin-inline: auto;">
+                    <input type="range" min="0" max="100" value="100" class="slider" id="cash-percentage"
+                        style="flex-grow: 1; width: 160px;">
                 </div>
                 <div style="display: flex; flex-direction: column; flex: 1;">
                     <b>Cash</b>
@@ -91,26 +90,32 @@
                 <div class="pay-bill" onclick="calcChange('100')">100</div>
                 <div class="pay-bill" onclick="calcChange('200')">200</div>
                 <div class="pay-bill" onclick="calcChange('500')">500</div>
-                <input type="number" placeholder="Otro" style="padding: 0; width: 100px; text-align: center; justify-content: center; background-color: rgb(245, 245, 245);" class="pay-bill-input" onfocus="calcChange(this.value)" onchange="calcChange(this.value)">
+                <input type="number" placeholder="Otro"
+                    style="padding: 0; width: 100px; text-align: center; justify-content: center; background-color: rgb(245, 245, 245);"
+                    class="pay-bill-input" onfocus="calcChange(this.value)" onchange="calcChange(this.value)">
             </div>
-         
-            <div style="display: flex; justify-content: right; align-items: center; align-content: center; margin-top: 4px;">
-                <div style="flex: 1; text-align: left; font-weight: bold;">Cambio: $ <span style="width: 100px; text-align: left; font-weight: normal;" id="change-ammount"></span></div>
+
+            <div
+                style="display: flex; justify-content: right; align-items: center; align-content: center; margin-top: 4px;">
+                <div style="flex: 1; text-align: left; font-weight: bold;">Cambio: $ <span
+                        style="width: 100px; text-align: left; font-weight: normal;" id="change-ammount"></span></div>
                 <div style="flex: 1; text-align: right;">
                     <button class="confirm-purchase" onclick="registerSaleMixed(); hideChangeCalc()">Cobrar</button>
                 </div>
             </div>
-           
+
         </div>
-        
+
     </div>
 
     <div class="hidden-pane-container">
-        <div id="pending-orders-pane" style="height: 390px; visibility: hidden; backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 6px; z-index: 1000; overflow: hidden; border-radius: 16px;">
+        <div id="pending-orders-pane"
+            style="height: 390px; visibility: hidden; backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 6px; z-index: 1000; overflow: hidden; border-radius: 16px;">
             <div style="width: 310px; font-weight: bold; text-align: left; display: flex;">
                 <div style="flex: 3; font-size: 20px; color: rgb(91, 91, 91);">Ordenes pendientes</div>
-                <div    onclick="closePendingPane()" 
-                        style="background-color: rgba(227, 227, 227, 0.154); border: 0px solid rgb(192, 192, 192); color: gray; border-radius: 4px; width: 40px; height: 30px; text-align: right; font-size: 20px; padding: 0px;">x</div>
+                <div onclick="closePendingPane()"
+                    style="background-color: rgba(227, 227, 227, 0.154); border: 0px solid rgb(192, 192, 192); color: gray; border-radius: 4px; width: 40px; height: 30px; text-align: right; font-size: 20px; padding: 0px;">
+                    x</div>
             </div>
 
             <div style="text-align: right; display: flex; justify-content: right; margin-bottom: 0px;">
@@ -118,17 +123,17 @@
                             padding: 0px; padding-top: 6px; background-color: rgb(72, 166, 242); 
                             border: 0px solid rgb(168, 168, 168); border-radius: 4px; 
                             color: rgb(255, 255, 255); width: 120px;
-                            font-weight: bold;"
-                    onclick="
-                    document.getElementById('new-pending-order-pane').style.transition = '1s';;newPendingOrder()"
-                >
+                            font-weight: bold;" onclick="
+                    document.getElementById('new-pending-order-pane').style.transition = '1s';;newPendingOrder()">
                     Nueva Orden
                 </div>
             </div>
-            <div id="new-pending-order-pane" style="visibility: hidden; height: 0; transition: 1s; width: 100%; background-color: rgba(0, 0, 0, 0);">
+            <div id="new-pending-order-pane"
+                style="visibility: hidden; height: 0; transition: 1s; width: 100%; background-color: rgba(0, 0, 0, 0);">
                 <div style="text-align: right;">
                     <div style="width: 100%;">
-                        <input type="text" name="" id="new-pending-order-label" placeholder="Identificador, (e.g. Mesa 1)" style="width: 290px; height: 20px; border: 0;">
+                        <input type="text" name="" id="new-pending-order-label"
+                            placeholder="Identificador, (e.g. Mesa 1)" style="width: 290px; height: 20px; border: 0;">
                     </div>
                     <div style="display: flex; flex-direction: row; justify-content: right;">
                         <div onclick="
@@ -137,86 +142,108 @@
                         document.getElementById('new-pending-order-pane').style.transition = '1s';
                         document.getElementById('new-pending-order-pane').style.height = '0px';
                             
-                        " style="height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
+                        "
+                            style="height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
                                 margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: rgba(255, 92, 92, 0); color: rgb(119, 119, 119); font-weight: bold;">
-                                Cancelar</div>
-                        
+                            Cancelar</div>
+
                         <div onclick="
                         registerNewPendingOrder()
-                        " 
-                        style=" height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
+                        "
+                            style=" height: 30px; width: 90px; margin-top: 10px; text-align: center; padding: 0px;
                                 margin-bottom: 20px; padding-top: 10px; border-radius: 4px; background-color: var(--primary-red-soft); color: white; font-weight: bold;">
-                                Guardar
+                            Guardar
                         </div>
                     </div>
-                    
-                
-                    
-                    
+
+
+
+
                 </div>
             </div>
             <div>
-                <ul id="open-orders" style="overflow: scroll; border: 0px solid rgb(224, 224, 224); background-color: rgb(255, 255, 255); height: 300px; border-radius: 12px; padding: 4px;">
-                    
+                <ul id="open-orders"
+                    style="overflow: scroll; border: 0px solid rgb(224, 224, 224); background-color: rgb(255, 255, 255); height: 300px; border-radius: 12px; padding: 4px;">
 
-    
+
+
                 </ul>
             </div>
 
         </div>
-    </div> 
-    
     </div>
 
-    <div id="filter-bar" style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 0px;">
+    </div>
+
+    <div id="filter-bar"
+        style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 0px;">
         <div style="width: 10px;"></div>
-        <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198);; background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;" id="filter-reset">X</button>
-        <select name="" id="cat-filter" style="margin: 0; border-radius: 0px 10px 10px 0px; border-left: 0; width: 120px;">
+        <button
+            style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198);; background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;"
+            id="filter-reset">X</button>
+        <select name="" id="cat-filter"
+            style="margin: 0; border-radius: 0px 10px 10px 0px; border-left: 0; width: 120px;">
             <option value="all">Categoria</option>
         </select>
-        <input type="text" class="search-prod" style="margin: 0; margin-left: 10px; border-radius: 10px 0px 0px 10px; border-right: 0; height: 22px; width: 130px;" name="" id="prod-search" placeholder="Buscar producto">
-        <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 0px 10px 10px 0px; padding-top: 9px;" id="search-reset">X</button>
+        <input type="text" class="search-prod"
+            style="margin: 0; margin-left: 10px; border-radius: 10px 0px 0px 10px; border-right: 0; height: 22px; width: 130px;"
+            name="" id="prod-search" placeholder="Buscar producto">
+        <button
+            style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 0px 10px 10px 0px; padding-top: 9px;"
+            id="search-reset">X</button>
 
+    </div>
+
+    <div id="shortcuts-bar"
+        style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 4px;">
+        <button style="flex: 1" class="shortcut-unset-button">Shortcut 1</button>
+        <button style="flex: 1" class="shortcut-button">Shortcut 1</button>
+        <button style="flex: 1" class="shortcut-button">Shortcut 1</button>
     </div>
 
     <div id="pos-cont">
-     
-            <div id="products-window">
-            
-            
-            </div>
+
+        <div id="products-window">
+
+
+        </div>
 
 
         <div class="sidebar">
             <div id="order-details" style="flex: 4;">
-                <div id="subtotal">Total:<span id="subtotal-qty" > $ 0</span></div>
+                <div id="subtotal">Total:<span id="subtotal-qty"> $ 0</span></div>
                 <br>
-                
-                <div id="items-ordered"> 
+
+                <div id="items-ordered">
                     <ul id="items-ordered-ul">
-                        
+
                     </ul>
                 </div>
-                
-         
+
+
             </div>
             <div id="payment">
-                <div onclick="clearOrder()" class="pay-option" style="background-color: var(--primary-red-soft); color: white;">Clear</div>
+                <div onclick="clearOrder()" class="pay-option"
+                    style="background-color: var(--primary-red-soft); color: white;">Clear</div>
                 <div onclick="undoAdd()" class="pay-option" style="background-color: rgb(244, 216, 33);">Undo</div>
-                <div onclick="pendingOrders()" class="pay-option" style="background-color: rgb(57, 57, 57); color: white;">Pend</div>
-                <div class="pay-option" style="background-color: var(--primary-base-dark); color: white;" onclick="showChangeCalc('card')">Card</div>
-                <div class="pay-option" style="background-color: rgb(110, 204, 98); color: white;" onclick="showChangeCalc('cash')">Cash</div>
+                <div onclick="pendingOrders()" class="pay-option"
+                    style="background-color: rgb(57, 57, 57); color: white;">Pend</div>
+                <div class="pay-option" style="background-color: var(--primary-base-dark); color: white;"
+                    onclick="showChangeCalc('card')">Card</div>
+                <div class="pay-option" style="background-color: rgb(110, 204, 98); color: white;"
+                    onclick="showChangeCalc('cash')">Cash</div>
             </div>
 
         </div>
 
 
-        
 
-       
+
+
     </div>
 
-    
+
 
 </body>
+
 </html>
