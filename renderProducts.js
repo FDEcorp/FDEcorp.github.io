@@ -822,6 +822,10 @@ function addShortcut(){
             }
 
             let shortcutName = prompt('Ingrese el nombre del producto o categoria a agregar como atajo. (Puede ser parcial para abarcar un mayor numero de articulos.)')
+            if(shortcutName == null || shortcutName.trim() === ''){
+                alert('Nombre de atajo inválido. Por favor, inténtalo de nuevo.')
+                return;
+            }
             set(ref(db,`/users/${localStorage.getItem('USER')}/shortcuts/${newShortcutID}`), shortcutName).then(()=>{
                 console.log('shortcut added')
                 shortcutButtonRender()
