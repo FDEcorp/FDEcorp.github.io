@@ -702,9 +702,9 @@ li {
 .shortcut-edit-mode {
     border-radius: 8px;
     background-color: var(--primary-base-lighter);
-    border: 1px dashed #0184dc;
+    border: 2px dashed rgb(31, 166, 255);
     font-size: 16px;
-    font-weight: 200;
+    font-weight: 400;
     font-style: italic;
     padding: 12px;
     width: 220px;
@@ -715,8 +715,8 @@ li {
 
 .shortcut-edit-button {
     border-radius: 8px;
-    background-color: var(--primary-base-darkest);
-    border: 1px solid var(--primary-base-mid);
+    background-color: rgb(31, 166, 255);
+    border: 0px solid var(--primary-base-mid);
     font-size: 16px;
     font-weight: 600;
     width: 220px;

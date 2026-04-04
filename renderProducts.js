@@ -795,6 +795,18 @@ function shortcutButtonRender(){
    
 }
 
+function createBusiness(business){
+    if(business == null || business.trim() === '') {
+        alert('Nombre de negocio inválido. Por favor, inténtalo de nuevo.')
+        return;
+    }
+    set(ref(db,'businesses/'+business),{'sales':''}).then(()=>{
+        console.log('business created')
+    })
+}
+
+window.createBusiness = createBusiness;
+
 function addShortcut(){
     window.availableShortcuts = {
         0: '',
