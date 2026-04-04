@@ -176,7 +176,7 @@ function savePostEdit(saleID,year,month,day){
     document.getElementById(saleID+"-cash").innerHTML = `${document.getElementById(saleID+"-cash").firstChild.value}`;
     document.getElementById(saleID+"-card").innerHTML = `${document.getElementById(saleID+"-card").firstChild.value}`;
     document.getElementById(saleID+"-diff").innerHTML = `${document.getElementById(saleID+"-diff").firstChild.value}`;
-    document.getElementById(saleID+"-edit").innerText = "Edit"
+    document.getElementById(saleID+"-edit").innerText = "Editar"
     document.getElementById(saleID+"-edit").style.background = "rgb(66, 115, 212)"
     document.getElementById(saleID+"-delete").style.display = "block"
 
@@ -307,7 +307,7 @@ function getSales(){
                                 <br>
                                 <div style="display: flex; flex-direction: row; gap: 10px;">
                                     <div id="${corteRec[0]}-delete" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(182, 20, 20); font-weight: bold" onclick="deleteCorte(${year},${month},${Day},${corteRec[0]})">Borrar</div>
-                                    <div id="${corteRec[0]}-edit" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(82, 82, 82); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Editar</div>
+                                    <div id="${corteRec[0]}-edit" style="text-align: left; color:white; border-radius: 5px; padding: 5px; padding-inline: 10px; background: rgb(66, 115, 212); font-weight: bold" onclick="enableSaleEditable('${corteRec[0]}','${year}','${month}','${Day}')">Editar</div>
                                 </div>
                             </div>
 
