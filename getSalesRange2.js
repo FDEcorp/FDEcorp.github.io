@@ -20,8 +20,8 @@ let business = localStorage.getItem('business')
 fromDateInput.value = new Date().toISOString().split('T')[0]
 toDateInput.value = new Date().toISOString().split('T')[0]
 
-const start = new Date(fromDateInput.value);
-const end = new Date(toDateInput.value);
+const start = new Date(fromDateInput.value+"T00:00:00");
+const end = new Date(toDateInput.value+"T23:59:59");
 
 // Normalize time (avoid timezone hacks like +6h / +29h)
 start.setHours(0, 0, 0, 0);
@@ -39,6 +39,17 @@ Search.addEventListener('click',()=>{
     window.datatoloaddays = buildDataToLoadDays(window.dailyMetrics, fromDateInput.value, toDateInput.value);
     window.datatoloadhours = buildHourlyAverages(window.salesData, fromDateInput.value, toDateInput.value); 
     console.log("Filtered Metrics:", filteredMetrics);
+
+    window.simpleData = datatoloaddays.map(row => [
+            row[0],               // date
+            row[3]                // total + excedent (recommended)
+    ]); 
+
+    
+    console.log("Simple Data for Forecasting:", window.simpleData);
+    //window.forecastData = buildForecastDataset(window.simpleData, 15);
+    //    console.log("Forecast Data:", forecastData);
+
     salestotalDisp.textContent = `${(Number(filteredMetrics.totalCash) + Number(filteredMetrics.totalCard)).toFixed(2)}`;
     salestotalDispCash.textContent = `${filteredMetrics.totalCash.toFixed(2)}`;
     salestotalDispCard.textContent = `${filteredMetrics.totalCard.toFixed(2)}`;
@@ -99,7 +110,7 @@ get(child(ref(db), `businesses/${business}/Cortes`)).then((snapshot) => {
         let cortes = snapshot.val();
         window.excedent = buildExcedentArray(cortes);   //get excedent array for chart
         window.dailyMetrics = buildDailyMetrics(cortes); //get daily metrics array for table
-
+        
         console.log("Total Excedent:", excedent);
         console.log("Total Metrics:", dailyMetrics);
     } else {
@@ -109,6 +120,7 @@ get(child(ref(db), `businesses/${business}/Cortes`)).then((snapshot) => {
 get(child(ref(db), `businesses/${business}/sales`)).then((snapshot) => {
     if (snapshot.exists()) {
         window.salesData = snapshot.val();
+        
 
         console.log("Total Sales Data:", snapshot.val());
     } else {
@@ -322,8 +334,8 @@ function computeMetrics(data, fromDate, toDate) {
 //chart functionality
 
 function buildDataToLoadDays(data, fromDate, toDate) {
-    const start = new Date(fromDate);
-    const end = new Date(toDate);
+    const start = new Date(fromDate+"T00:00:00");
+    const end = new Date(toDate+"T23:59:59");
 
     start.setHours(0,0,0,0);
     end.setHours(23,59,59,999);
@@ -338,7 +350,7 @@ function buildDataToLoadDays(data, fromDate, toDate) {
     for (const row of data) {
         const [date, total, excedent, totalPlusExcedent] = row;
 
-        const current = new Date(date);
+        const current = new Date(date+"T00:00:00");
         if (current < start || current > end) continue;
 
         totalSales += total;
@@ -357,7 +369,7 @@ function buildDataToLoadDays(data, fromDate, toDate) {
     // Second pass: build final array
     const result = filtered.map(([date, total, excedent, totalPlusExcedent]) => {
         return [
-            new Date(date),
+            new Date(date+"T00:00:00"), // Ensure it's treated as local date
             total,
             avgSalesPerDay,
             totalPlusExcedent,
@@ -455,7 +467,16 @@ function drawChart() {
                         gridlineColor: '#ddd',
                     }, 
                     chartArea:{left:70,top:10,width:'75%',height:'60%'},
-                    
+                    trendlines: {
+                        0: { // 👈 applies to first data series (Avg Sale)
+                            type: 'polynomial',   // 'linear', 'polynomial', 'exponential'
+                            degree: 3,            // For polynomial only
+                            color: 'green',
+                            lineWidth: 2,
+                            opacity: 1,
+                            showR2: true      // optional (shows correlation strength)
+                        }
+                    },
                     series: {
                         0: { type: 'area' }, // First series as AreaChart
                         1: { type: 'line' }, // First series as AreaChart
@@ -501,3 +522,94 @@ function daysInMonth (month, year) {
 }
 
 window.daysInMonth = daysInMonth
+
+//forecasting NOT WORKING WELL, IGNORE FOR NOW
+
+function weightedMovingAverage(values, weights) {
+    let sum = 0;
+    let weightSum = 0;
+
+    for (let i = 0; i < values.length; i++) {
+        sum += values[i] * weights[i];
+        weightSum += weights[i];
+    }
+
+    return weightSum ? sum / weightSum : 0;
+}
+
+function groupByWeekday(data) {
+    const map = {}; // {0: [], 1: [], ...}
+
+    for (const [date, value] of data) {
+        const d = new Date(date);
+        const weekday = d.getDay(); // 0 = Sunday
+
+        if (!map[weekday]) map[weekday] = [];
+        map[weekday].push([date, value]);
+    }
+    console.log("map:", map);
+    return map;
+}
+
+function forecastWithWMAAndWeekdays(data, daysForward = 7) {
+    const weights = [0.6, 0.3, 0.1]; // recent → older
+
+    const weekdayMap = groupByWeekday(data);
+
+    const result = [...data];
+
+    for (let i = 1; i <= daysForward; i++) {
+        const lastDate = new Date(result[result.length - 1][0]);
+        lastDate.setDate(lastDate.getDate() + 1);
+
+        const weekday = lastDate.getDay();
+        const history = weekdayMap[weekday] || [];
+
+        // Take last N values from same weekday
+        const recentValues = history
+            .slice(-weights.length)
+            .map(([, v]) => v)
+            .reverse(); // most recent first
+
+        let forecastValue = 0;
+
+        if (recentValues.length) {
+            // Adjust weights dynamically if not enough data
+            const adjustedWeights = weights.slice(0, recentValues.length);
+
+            forecastValue = weightedMovingAverage(recentValues, adjustedWeights);
+        } else {
+            // fallback: global recent trend
+            const fallback = result
+                .slice(-weights.length)
+                .map(([, v]) => v)
+                .reverse();
+
+            const adjustedWeights = weights.slice(0, fallback.length);
+
+            forecastValue = weightedMovingAverage(fallback, adjustedWeights);
+        }
+
+        const newDate = lastDate.toISOString().split('T')[0];
+
+        result.push([newDate, forecastValue]);
+
+        // also push into weekday map (so future predictions influence next ones)
+        if (!weekdayMap[weekday]) weekdayMap[weekday] = [];
+        weekdayMap[weekday].push([newDate, forecastValue]);
+    }
+
+    return result;
+}
+
+function buildForecastDataset(data, daysForward = 7) {
+    const forecast = forecastWithWMAAndWeekdays(data, daysForward);
+
+    return forecast.map(([date, value], index) => {
+        if (index < data.length) {
+            return [new Date(date), value, null]; // actual
+        } else {
+            return [new Date(date), null, value]; // forecast
+        }
+    });
+}
