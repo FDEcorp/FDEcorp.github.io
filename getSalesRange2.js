@@ -448,7 +448,7 @@ function drawChart() {
 
     var saleDatesOptions = {
                     'height':'260',
-                    'colors': ['#f0b400','#f0b400','#e24848','#e24848'],
+                    'colors': ['#ff5f67','#ff5f67','#e24848','#e24848'],
                     'width': Number(document.documentElement.clientWidth) < 430 ? '380':document.documentElement.clientWidth*0.5,
                     'legend': { position: "none" },
                     'bar': {groupWidth: "20"},
@@ -471,17 +471,17 @@ function drawChart() {
                         0: { // 👈 applies to first data series (Avg Sale)
                             type: 'polynomial',   // 'linear', 'polynomial', 'exponential'
                             degree: 3,            // For polynomial only
-                            color: 'green',
+                            color: 'rgb(31, 166, 255)',
                             lineWidth: 2,
                             opacity: 1,
                             showR2: true      // optional (shows correlation strength)
                         }
                     },
                     series: {
-                        0: { type: 'area' }, // First series as AreaChart
-                        1: { type: 'line' }, // First series as AreaChart
-                        2: { type: 'area' },  // Second series as LineChart
-                        3: { type: 'line' }  // Second series as LineChart
+                        0: { type: 'line', lineDashStyle: [4, 4]}, // First series as AreaChart
+                        1: { type: 'line', lineDashStyle: [4, 4]}, // First series as AreaChart
+                        2: { type: 'line' },  // Second series as LineChart
+                        3: { type: 'area' }  // Second series as LineChart
                     },
                     animation:{
                         duration: 1000,
