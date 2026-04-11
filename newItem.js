@@ -4,6 +4,7 @@ let item = document.getElementById('new-item-name')
 let itemCat = document.getElementById('new-item-cat')
 let itemVend = document.getElementById('new-item-vendor')
 let itemPack = document.getElementById('new-item-pack')
+let itemPackPrice = document.getElementById('new-item-pack-price')
 let itemMin = document.getElementById('new-item-min')
 let submitButton = document.getElementById('add-item-button')
 
@@ -16,6 +17,7 @@ function uploadItem(){
             vendor: String(itemVend.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
             category: String(itemCat.value).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,""),
             packQty:  Number(itemPack.value)>0 ? Number(itemPack.value):1,
+            packPrice: Number(itemPackPrice.value)>0 ? Number(itemPackPrice.value):0,
             minStock: Number(itemMin.value)>0 ? Number(itemMin.value):1,
             orderQty: 0,
             stock: 0,
