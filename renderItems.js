@@ -126,9 +126,17 @@ function renderItems(filter = 'all',productSearch=false){
                                 </div>
                             
                                 <div style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
-                                    <div id="${item.key}-menu" style="font-size: 14px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')" >
-                                            <p style="margin: 0; padding: 10px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; box-shadow: 0px 2px 4px rgba(124, 124, 124, 0.2);" onclick="editItem('${item.key}')">Editar Articulo</p>
-                                            <p style="margin: 0; padding: 10px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 8px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${item.key}')">Ver Consumo</p>
+                                    <div id="${item.key}-menu" style="font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')" >
+                                            <p style="margin: 0; display:flex; padding: 10px; padding-inline: 8px; text-align: left; align-content: center; gap: 8px; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; box-shadow: 0px 2px 4px rgba(124, 124, 124, 0.2);" onclick="editItem('${item.key}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 72 72">
+<path d="M38.406 22.234l11.36 11.36L28.784 54.576l-12.876 4.307c-1.725.577-3.367-1.065-2.791-2.79l4.307-12.876L38.406 22.234zM41.234 19.406l5.234-5.234c1.562-1.562 4.095-1.562 5.657 0l5.703 5.703c1.562 1.562 1.562 4.095 0 5.657l-5.234 5.234L41.234 19.406z"></path>
+</svg>
+                                            Editar Articulo</p>
+                                            <p style="margin: 0; padding: 10px; display:flex; gap: 8px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 8px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${item.key}')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="M22 7L14.1314 14.8686C13.7354 15.2646 13.5373 15.4627 13.309 15.5368C13.1082 15.6021 12.8918 15.6021 12.691 15.5368C12.4627 15.4627 12.2646 15.2646 11.8686 14.8686L9.13137 12.1314C8.73535 11.7354 8.53735 11.5373 8.30902 11.4632C8.10817 11.3979 7.89183 11.3979 7.69098 11.4632C7.46265 11.5373 7.26465 11.7354 6.86863 12.1314L2 17M22 7H15M22 7V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+                                            Ver Consumo</p>
                                         </div>
                                 </div>
 
