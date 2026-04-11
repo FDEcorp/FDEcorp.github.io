@@ -737,3 +737,13 @@ li {
     transition: .3s;
     flex: 1;
 }
+
+.item_menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--primary-base-light);
+    transition: 0.2s;
+}

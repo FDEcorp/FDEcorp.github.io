@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,37 +12,42 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript"></script>
     <script>
-        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+        if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
             location.href = 'Index.html'
         }
     </script>
     <style>
-        body{
+        body {
             height: 180vh;
             background-color: #fff;
         }
+
         @media (max-width: 600px) {
-            body{
+            body {
                 height: 105dvh;
             }
         }
-        html{
+
+        html {
             background-color: #fff;
         }
     </style>
 </head>
+
 <body>
     <header id="header">
         <h1>
             <img src="../fdeicon.png" height="24px" alt="">
-            FDE: <span id="business"></span></h1>
+            FDE: <span id="business"></span>
+        </h1>
         <script>
-                document.getElementById('business').innerText = localStorage.getItem('business')
+            document.getElementById('business').innerText = localStorage.getItem('business')
         </script>
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
-    </header> 
+    </header>
     <section class="subnav">
-        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;"
+            onclick="location.href='menu.html'">Menu</div>
 
         <div style="margin-top: 10px; flex: 2;">
             <h3 style="margin: 0; text-align: center;">Recetas</h3>
@@ -50,21 +56,22 @@
         <div style="flex: 1">
         </div>
     </section>
-<br>
+    <br>
     <div class="main-cont" style="max-width: 400px;">
         <select name="" id="product-select" style="width: 69%; border-radius: 10px; height: 45px;">
             <option value="">Selecciona un producto</option>
-            
+
         </select>
         <button id="save" style="width: 90px; margin-right: 4px;">Save</button>
         <div style="text-align: left; margin-top: 20px; padding-inline: 20px;">
             <b>Seleccion de variantes</b>
         </div>
         <div id="avail-skus" style="height: 50px; display: flex; flex-direction: row; gap: 4px; padding: 10px;">
-            
+
         </div>
         <div style="height: 0px;"></div>
-        <div style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: end;">
+        <div
+            style="text-align: left; padding-inline: 20px; display: flex; flex-direction: row; gap: 4px; align-items: end;">
             <div style="width: 300px;">
                 Receta de: <span id="selected-item" style="font-weight: bold;"></span><br>
                 Precio: <span id="prod-price" style="font-weight: bold;"></span>
@@ -72,35 +79,49 @@
                 Margen: <span id="prod-margin" style="font-weight: bold;"></span>
 
             </div>
-            <button onclick="copyToMemory()" style="width: 60px; padding: 8px; text-align: center; background-color: var(--primary-blue);">Copy</button>
+            <button onclick="copyToMemory()"
+                style="width: 60px; padding: 8px; text-align: center; background-color: var(--primary-blue);">Copy</button>
             <button onclick="pasteFromMemory()" style="width: 60px; padding: 8px; text-align: center;">Paste</button>
         </div>
-        <div style="border-radius: 14px; background-color: var(--primary-base-light); height: 50vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
-            <ul id="current-recipe" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
-                
+        <div
+            style="border-radius: 14px; background-color: var(--primary-base-light); height: 50vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+            <ul id="current-recipe"
+                style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0px;">
+
             </ul>
         </div>
 
-        <div style="text-align: left; padding-inline: 20px; margin-top: 10px;">    
+        <div style="text-align: left; padding-inline: 20px; margin-top: 10px;">
             <b>Insumos disponibles:</b>
         </div>
-        <div id="filter-bar" style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 0px;">
+        <div id="filter-bar"
+            style="display: flex; padding-top: 8px; padding-inline: 20px; text-align: right; align-items: center; gap: 0px;">
             <div style="width: 10px;"></div>
-            <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;" id="filter-reset">X</button>
-            <select name="" id="cat-filter" style="margin: 0; border-radius: 0px 10px 10px 0px; border-left: 0; width: 140px;">
+            <button
+                style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 10px 0px 0px 10px; padding-top: 9px;"
+                id="filter-reset">X</button>
+            <select name="" id="cat-filter"
+                style="margin: 0; border-radius: 0px 10px 10px 0px; border-left: 0; width: 140px;">
                 <option value="all">Categoria</option>
             </select>
-            <input type="text" class="search-prod" style="margin: 0; margin-left: 10px; border-radius: 10px 0px 0px 10px; border-right: 0; height: 22px; width: 130px;" name="" id="prod-search" placeholder="Buscar producto">
-            <button style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 0px 10px 10px 0px; padding-top: 9px;" id="search-reset">X</button>
-    
+            <input type="text" class="search-prod"
+                style="margin: 0; margin-left: 10px; border-radius: 10px 0px 0px 10px; border-right: 0; height: 22px; width: 130px;"
+                name="" id="prod-search" placeholder="Buscar producto">
+            <button
+                style="height: 40px; width: 40px; border: 1px solid rgb(198, 198, 198); background-color: rgb(243, 243, 243); color: rgb(116, 116, 116); margin: 0; border-radius: 0px 10px 10px 0px; padding-top: 9px;"
+                id="search-reset">X</button>
+
         </div>
-        <div style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: var(--primary-base-light); height: 40vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
-            <ul id="avail-items" style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px;">
-            
+        <div
+            style="border-radius: 14px; border: 0px solid rgb(220, 220, 220); background-color: var(--primary-base-light); height: 40vh; margin-top: 8px; margin-inline: 10px; overflow: scroll;">
+            <ul id="avail-items"
+                style="margin: 8px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px;">
+
             </ul>
         </div>
         <div style="height: 10px;"></div>
     </div>
 
 </body>
+
 </html>

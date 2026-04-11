@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,73 +10,84 @@
     <script type="module" src="../dbconfig.js"></script>
     <script type="module" src="getProdDetails.js"></script>
     <script>
-        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+        if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
             location.href = 'Index.html'
         }
     </script>
 </head>
+
 <body>
     <header id="header"></header>
-    
+
     <section class="subnav">
-        <div style="flex: 1; max-width: 150px; padding: 10px; border-radius: 8px; text-align: left;" onclick="location.href='menu.html'">Back</div>
+        <div style="flex: 1; max-width: 150px; padding: 10px; border-radius: 8px; text-align: left;"
+            onclick="location.href='menu.html'">Menu</div>
         <div style="flex-grow:  1; justify-content: center;">
             <h3 style="margin: 0px; padding: 8px;">Editar Producto</h3>
         </div>
-        <div style="flex: 1; max-width: 150px; padding: 8px; border-radius: 8px; border: 1px solid rgb(185, 185, 185);" onclick="location.href = 'newProduct.html'">Nuevo</div>
+        <div style="flex: 1; max-width: 150px; padding: 8px; border-radius: 8px; border: 1px solid rgb(185, 185, 185);"
+            onclick="location.href = 'newProduct.html'">Nuevo</div>
     </section>
-    
-    <div style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
-       <div style="display: flex; flex-direction: row; align-items: center;">
-        <select name="product-select" id="product-select" style="width:320px">
-            <option value="">Seleccionar</option>
-        </select>
 
-       </div>
-       <br>
-       <div style="display: flex; flex-wrap: wrap; align-items: center; align-content: center; text-align: center; justify-content: center;">
-        <input type="text" id="prod-cat" placeholder="category" style="width: 300px;">
-        <input type="text" id="prod-img" placeholder="image URL" style="width: 300px;">
-       </div>
-       
-      
+    <div
+        style="display: flex; padding: 20px; text-align: center; justify-content: center; flex-direction: column; align-items: center;">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <select name="product-select" id="product-select" style="width:320px">
+                <option value="">Seleccionar</option>
+            </select>
 
-       <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
-        <h4>Variantes:</h4>
-        <input type="number" id="prod-skus" placeholder="Numero de tamaños" style="width: 80px;">
-        
-        <div id="dec-skus" onclick="if((document.getElementById('prod-skus').value > 1)){document.getElementById('prod-skus').value--};" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
-            <div style="height: 10px; margin-top: 8px;">-</div>
         </div>
-        <div id="inc-skus" onclick="if(document.getElementById('prod-skus').value < 4){document.getElementById('prod-skus').value ++};" style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
-            <div style="height: 10px; margin-top: 8px;">+</div>
+        <br>
+        <div
+            style="display: flex; flex-wrap: wrap; align-items: center; align-content: center; text-align: center; justify-content: center;">
+            <input type="text" id="prod-cat" placeholder="category" style="width: 300px;">
+            <input type="text" id="prod-img" placeholder="image URL" style="width: 300px;">
         </div>
-    </div>
-       
 
-       <div id="sku-list" style="height: 25vh;">
 
-       </div>
-      
 
-       <button id="save-button">SAVE</button>
-       <br>
-       <button style="background-color: white; color: rgb(104, 104, 104);" id="delete-product">Eliminar Producto</button>
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+            <h4>Variantes:</h4>
+            <input type="number" id="prod-skus" placeholder="Numero de tamaños" style="width: 80px;">
+
+            <div id="dec-skus"
+                onclick="if((document.getElementById('prod-skus').value > 1)){document.getElementById('prod-skus').value--};"
+                style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+                <div style="height: 10px; margin-top: 8px;">-</div>
+            </div>
+            <div id="inc-skus"
+                onclick="if(document.getElementById('prod-skus').value < 4){document.getElementById('prod-skus').value ++};"
+                style="width: 35px; height: 35px; display: flex; align-content: center; justify-content: center; border: 1px solid rgb(180,180,180); border-radius: 20px;">
+                <div style="height: 10px; margin-top: 8px;">+</div>
+            </div>
+        </div>
+
+
+        <div id="sku-list" style="height: 25vh;">
+
+        </div>
+
+
+        <button id="save-button">SAVE</button>
+        <br>
+        <button style="background-color: white; color: rgb(104, 104, 104);" id="delete-product">Eliminar
+            Producto</button>
     </div>
 
     <script>
-        setTimeout(()=>{
+        setTimeout(() => {
             var url = new URL(location);
             var prod = url.searchParams.get("prod");
             console.log(prod)
-            if(prod!=undefined && prod!=""){
+            if (prod != undefined && prod != "") {
                 document.getElementById('product-select').value = prod
                 getDetails(document.getElementById('product-select').value)
             }
-            
-        },'1000')
-        
-        
+
+        }, '1000')
+
+
     </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,32 +13,36 @@
     <script type="text/javascript"></script>
     <script type="module" src="../headerRender.js"></script>
     <script>
-        if(localStorage.getItem('business')==null || localStorage.getItem('business')==undefined){
+        if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
             location.href = 'Index.html'
         }
     </script>
     <style>
-        body{
+        body {
             height: 180vh;
             background-color: #fff;
         }
-        html{
+
+        html {
             background-color: #fff;
         }
     </style>
 </head>
+
 <body>
     <header id="header">
         <h1>
             <img src="../fdeicon.png" height="24px" alt="">
-            FDE: <span id="business"></span></h1>
+            FDE: <span id="business"></span>
+        </h1>
         <script>
-                document.getElementById('business').innerText = localStorage.getItem('business')
+            document.getElementById('business').innerText = localStorage.getItem('business')
         </script>
         <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
-    </header> 
+    </header>
     <section class="subnav" style="display: flex; flex-direction: row;">
-        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;" onclick="location.href='menu.html'">Atras</div>
+        <div style="flex: 1; padding-top: 10px; border-radius: 8px; text-align: left;"
+            onclick="location.href='menu.html'">Menu</div>
 
         <div style="margin-top: 10px; flex: 2;">
             <h3 style="margin: 0; text-align: center;">Venta por Día</h3>
@@ -45,88 +50,118 @@
 
         <div style="flex: 1">
         </div>
-        
+
     </section>
     <br>
 
     <div class="main-cont">
-    
-            <div style="display: flex; flex-direction: row; gap: 8px; margin: 0; margin-inline: auto; justify-content: center; text-align: center; max-width: 350px;">
-                <div style="flex: 2;">                
-                    <input type="date" id="from-date" class="date-selector" style="width: 200px;">
-                </div>
 
-                <div style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
-                        <button id="search" style="width: 100%; height: 48px;">Buscar</button>
-                </div>
-                
+        <div
+            style="display: flex; flex-direction: row; gap: 8px; margin: 0; margin-inline: auto; justify-content: center; text-align: center; max-width: 350px;">
+            <div style="flex: 2;">
+                <input type="date" id="from-date" class="date-selector" style="width: 200px;">
             </div>
-            <div style="display: flex; padding: 10px; justify-content: center; gap: 10px; max-width: 350px; margin-inline: auto;">
-                    <button id="previous">Dia Anterior</button>
-                    <button id="next">Dia Siguiente</button>
+
+            <div
+                style="flex: 1; display: flex; flex-direction: column; margin: 0; padding: 0; justify-content: right; text-align: center;">
+                <button id="search" style="width: 100%; height: 48px;">Buscar</button>
             </div>
-       
-        <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px; max-width: 350px; margin-inline: auto;">
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo: <span style="font-weight: 200;" id="sales-total-cash"></span></h4>
-            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta: <span style="font-weight: 200;" id="sales-total-card"></span></h4>
+
         </div>
-       
+        <div
+            style="display: flex; padding: 10px; justify-content: center; gap: 10px; max-width: 350px; margin-inline: auto;">
+            <button id="previous">Dia Anterior</button>
+            <button id="next">Dia Siguiente</button>
+        </div>
+
+        <div
+            style="display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: center; padding-inline: 8px; max-width: 350px; margin-inline: auto;">
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Venta
+                Total: <span style="font-weight: 200;" id="sales-total"></span></h4>
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Efectivo:
+                <span style="font-weight: 200;" id="sales-total-cash"></span>
+            </h4>
+            <h4 style="border: 1 gray; background-color: rgb(240,240,240); border-radius: 8px; padding: 8px;">Tarjeta:
+                <span style="font-weight: 200;" id="sales-total-card"></span>
+            </h4>
+        </div>
+
         <h3 style="margin-bottom: 0px; margin-top: 10px; padding: 0; z-index: -1;">Venta por horario</h2>
-        
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; justify-content: center; row-gap: 0px;">
-            <div id="chart_div" style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;"></div>
-            <div id="donutchart" style="height: 180px; overflow: hidden; padding-top: 10px; padding-bottom: 0px; z-index: 2;"></div>
-            <div id="donutchart2" style="height: 180px; overflow: hidden; padding-top: 10px; padding-bottom: 0px; z-index: 0;"></div>
-        </div>
-        <div style="transform: translateY(0px);">
-            <h3>Venta por Categoria</h3>
-            <ul class="salesList" id="cat-list" style="height: 150px;overflow: scroll;padding-top: 10px; padding-bottom: 10px;">
 
-            </ul>
-            <h3>Venta por Item</h3>
-            <ul class="salesList" id="prod-list" style="height: 150px;overflow: scroll; padding-top: 10px; padding-bottom: 10px;">
+            <div
+                style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: start; justify-content: center; row-gap: 0px;">
+                <div id="chart_div"
+                    style="height:250px; overflow: hidden; z-index: 10; margin: 0; padding: 0; text-align: center; align-content: center;">
+                </div>
+                <div id="donutchart"
+                    style="height: 180px; overflow: hidden; padding-top: 10px; padding-bottom: 0px; z-index: 2;"></div>
+                <div id="donutchart2"
+                    style="height: 180px; overflow: hidden; padding-top: 10px; padding-bottom: 0px; z-index: 0;"></div>
+            </div>
+            <div style="transform: translateY(0px);">
+                <h3>Venta por Categoria</h3>
+                <ul class="salesList" id="cat-list"
+                    style="height: 150px;overflow: scroll;padding-top: 10px; padding-bottom: 10px;">
 
-            </ul>
-            <h3>Cortes</h3>
-            <ul class="salesList" id="cortes-list" style="height: 200px;">
+                </ul>
+                <h3>Venta por Item</h3>
+                <ul class="salesList" id="prod-list"
+                    style="height: 150px;overflow: scroll; padding-top: 10px; padding-bottom: 10px;">
 
-            </ul>
-            <h3>Transacciones</h3>
-            <div style="height: 0px; display: flex; justify-content: center;">
-                <div id="sale-details" style="visibility: hidden; z-index: 2; width: 90vw; height: 45vh; border-radius: 10px; background-color: rgb(249, 249, 249); display: flex; flex-direction: column; box-shadow: 1px 1px 25px 4px rgba(0,0,0,0.15);
+                </ul>
+                <h3>Cortes</h3>
+                <ul class="salesList" id="cortes-list" style="height: 200px;">
+
+                </ul>
+                <h3>Transacciones</h3>
+                <div style="height: 0px; display: flex; justify-content: center;">
+                    <div id="sale-details" style="visibility: hidden; z-index: 2; width: 90vw; height: 45vh; border-radius: 10px; background-color: rgb(249, 249, 249); display: flex; flex-direction: column; box-shadow: 1px 1px 25px 4px rgba(0,0,0,0.15);
 -webkit-box-shadow: 1px 1px 25px 4px rgba(0,0,0,0.15);
 -moz-box-shadow: 1px 1px 25px 4px rgba(0,0,0,0.15);">
-                    
-                    <div style="text-align: right; justify-content: right;"><button onclick="document.getElementById('sale-details').style.visibility = 'hidden'" style="width: 30px; height: 30px; padding: 0px; padding-bottom: 4px; background-color: transparent; color: gray;">x</button></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Sale ID:</b> <span id="saleDetails-id"></span></div><br>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Hora: </b><span id="saleDetails-time"></span></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b></b><span id="saleDetails-seller"></span></div><br>
 
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Monto:</b> <span id="saleDetails-monto"></span></div>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Metodo</b>: <span id="saleDetails-method"></span></div>
-                    <br>
-                    <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Contenido:</b> <span id="saleDetails-items"></span><br>
-                        <ul id="saleDetails-list">
+                        <div style="text-align: right; justify-content: right;"><button
+                                onclick="document.getElementById('sale-details').style.visibility = 'hidden'"
+                                style="width: 30px; height: 30px; padding: 0px; padding-bottom: 4px; background-color: transparent; color: gray;">x</button>
+                        </div>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Sale ID:</b> <span
+                                id="saleDetails-id"></span></div><br>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Hora: </b><span
+                                id="saleDetails-time"></span></div>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b></b><span
+                                id="saleDetails-seller"></span></div><br>
 
-                        </ul>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Monto:</b> <span
+                                id="saleDetails-monto"></span></div>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Metodo</b>: <span
+                                id="saleDetails-method"></span></div>
+                        <br>
+                        <div style="text-align: left; justify-content: left; padding-left: 20px;"><b>Contenido:</b>
+                            <span id="saleDetails-items"></span><br>
+                            <ul id="saleDetails-list">
+
+                            </ul>
+                        </div>
+                        <br>
+                        <div style="display: flex; flex-direction: row; gap: 10px; margin: 20px;">
+                            <div id="toggleMethod"
+                                style="text-align: left; justify-content: left; padding-left: 20px; align-self: right; padding: 10px; border-radius: 6px; background-color: rgb(135, 135, 135); color: white; font-weight: bold; flex: 3;">
+                                Cambiar Metodo</div>
+                            <div id="deleteSale"
+                                style="text-align: left; justify-content: left; padding-left: 20px; align-self: right; padding: 10px; border-radius: 6px; background-color: var(--primary-red-soft); color: white; font-weight: bold; flex: 2;">
+                                Borrar Venta</div>
+
+                        </div>
+
                     </div>
-                    <br>
-                    <div style="display: flex; flex-direction: row; gap: 10px; margin: 20px;">
-                    <div id="toggleMethod" style="text-align: left; justify-content: left; padding-left: 20px; align-self: right; padding: 10px; border-radius: 6px; background-color: rgb(135, 135, 135); color: white; font-weight: bold; flex: 3;">Cambiar Metodo</div>
-                    <div id="deleteSale" style="text-align: left; justify-content: left; padding-left: 20px; align-self: right; padding: 10px; border-radius: 6px; background-color: var(--primary-red-soft); color: white; font-weight: bold; flex: 2;">Borrar Venta</div>
-
-                    </div>
-                    
                 </div>
+                <ul id="sales-list" class="salesList" style="height: 300px;">
+
+                </ul>
             </div>
-            <ul id="sales-list" class="salesList" style="height: 300px;">
-                
-            </ul>
-        </div>
-       
+
 
     </div>
 
 </body>
+
 </html>

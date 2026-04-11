@@ -114,7 +114,7 @@ function renderItems(filter = 'all',productSearch=false){
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; height: 60px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;">
-                                    <div style="height:20px; overflow: hidden" onclick="editItem('${item.key}')">
+                                    <div style="height:20px; overflow: hidden" onclick="displayItemMenu('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
                                     <did style="display: flex; flex-direction: row; gap: 4px; margin-botton: 10px;">
@@ -125,9 +125,18 @@ function renderItems(filter = 'all',productSearch=false){
                                     <span style="font-size: 12px; color: gray; font-weight: 100;">${item.val().lastUpdate}</span>
                                 </div>
                             
+
+
                                 <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
                                     <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p>
                                     <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}">
+                                </div>
+
+                                <div style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
+                                    <div id="${item.key}-menu" style="font-size: 14px; background-color: #fdfdfd; font-weight: 400; color: black; padding: 10px; cursor: pointer; width: 120px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')">
+                                            <p style="margin: 0; padding: 10px; padding-inline:4px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; box-shadow: 0px 2px 4px rgba(124, 124, 124, 0.2);" onclick="editItem('${item.key}')">Editar Articulo</p>
+                                            <p style="margin: 0; padding: 10px; padding-inline:4px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 4px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${item.key}')">Ver Consumo</p>
+                                        </div>
                                 </div>
                                 
                                 <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
@@ -202,6 +211,23 @@ function editItem(item){
     if(true){
         location.href = `ItemDetails.html?prod=${item}`
     }
+}
+
+window.itemHistory = itemHistory;
+function itemHistory(item){
+    if(true){
+        location.href = `stockhistory.html?prod=${item}`
+    }
+}
+
+window.displayItemMenu = displayItemMenu;
+function displayItemMenu(item){
+    let menu = document.getElementById(item+"-menu")
+    console.log("displaying menu for ",item)
+    menu.style.transition = '0.5s'
+    menu.style.visibility = 'visible';
+
+
 }
 
 function changeOrdQty(itemOBJ,increase){

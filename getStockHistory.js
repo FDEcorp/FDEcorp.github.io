@@ -3,8 +3,7 @@ from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 
 let business = localStorage.getItem('business');
 
-const url = new URL(location);
-const itemParam = url.searchParams.get("prod");
+
 
 // 🔹 Cache DOM
 const DOM = {
@@ -15,6 +14,12 @@ const DOM = {
     productsWindow: document.getElementById('products-window'),
     chart: document.getElementById('chart_div')
 };
+
+const url = new URL(location);
+const itemParam = url.searchParams.get("prod");
+console.log("Item param:", itemParam);
+
+
 
 let Consumos = [];
 let CurrentStock = {};
@@ -27,7 +32,7 @@ const month = ("0" + (now.getMonth() + 1)).slice(-2);
 const today = `${now.getFullYear()}-${month}-01`;
 const start = `${now.getFullYear()}-${month}-${day}`;
 
-DOM.fromDate.value = start;
+DOM.fromDate.value = today;
 DOM.toDate.value = start;
 
 // 🔹 Load items
@@ -43,6 +48,14 @@ get(ref(db, `/businesses/${business}/Items`)).then(snapshot => {
     });
 
     DOM.selector.innerHTML += optionsHTML;
+
+    if (!itemParam) {
+        console.log("No item specified. Redirecting to main page.");
+    } else {
+        DOM.selector.value = itemParam;
+        getData(DOM.selector.value);
+        renderItemDetails(DOM.selector.value);
+    }
 });
 
 // 🔹 Events
@@ -68,6 +81,9 @@ DOM.search.addEventListener('click', () => {
 });
 
 window.ConsumosSorted;
+
+
+
 
 // 🔹 Optimized getData
 function getData(item) {
