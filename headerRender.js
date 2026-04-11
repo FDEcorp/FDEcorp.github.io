@@ -1,10 +1,15 @@
 document.getElementById('header').innerHTML = `
-    <h1>
+    <h1 id="header-title" tabindex="-1" onlcick="location.href='menu.html';console.log('clicked header')">
         <img src="fdeicon.png" height="24px" alt="" id="icon" onlcick="location.href='menu.html'">
         FDE: <span id="business" onlcick="location.href='menu.html'" style="overflow: hidden;">${localStorage.getItem('business')}</span></h1>
     
     <div id="logout" onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'">Cerrar Sesión</div>
 `
+
+document.getElementById('header-title').addEventListener('click',()=>{
+    location.href='menu.html'
+})
+
 let header = document.getElementById("header");
 header.style.width = `${window.innerWidth - 80}px`
 if(window.innerWidth<=600){
