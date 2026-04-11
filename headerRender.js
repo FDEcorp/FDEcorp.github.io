@@ -1,7 +1,7 @@
 document.getElementById('header').innerHTML = `
     <h1>
-        <img src="fdeicon.png" height="24px" alt="" id="icon">
-        FDE: <span id="business" style="overflow: hidden;">${localStorage.getItem('business')}</span></h1>
+        <img src="fdeicon.png" height="24px" alt="" id="icon" onlcick="location.href='menu.html'">
+        FDE: <span id="business" onlcick="location.href='menu.html'" style="overflow: hidden;">${localStorage.getItem('business')}</span></h1>
     
     <div id="logout" onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'">Cerrar Sesión</div>
 `
