@@ -151,7 +151,7 @@ function renderItems(filter = 'all',productSearch=false){
                                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 72 72">
                                                 <path d="M38.406 22.234l11.36 11.36L28.784 54.576l-12.876 4.307c-1.725.577-3.367-1.065-2.791-2.79l4.307-12.876L38.406 22.234zM41.234 19.406l5.234-5.234c1.562-1.562 4.095-1.562 5.657 0l5.703 5.703c1.562 1.562 1.562 4.095 0 5.657l-5.234 5.234L41.234 19.406z"></path>
                                             </svg>
-                                            Editar Articulo</p>
+                                            Editar Artículo</p>
 
                                             <p style="margin: 0; padding: 10px; display:flex; gap: 8px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 8px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${item.key}')">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
