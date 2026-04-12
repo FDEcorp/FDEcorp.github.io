@@ -567,11 +567,36 @@ function renderItems(filter = 'all',productSearch=false){
                         if(filter == 'all' || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) ) || (productSearch == true && String(product.val().category).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) ) || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
                         try{
                             prodList.innerHTML += `
-                        <div class="product" id="${product.key}-card">
-                            <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
+                        <div tabindex="-1" class="product" id="${product.key}-card" onblur="hideItemMenu('${product.key}')">
+                            <div  onclick="displayItemMenu('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
                                 <div style="background-color:var(--primary-base-mid); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
+                                
+                                <div  style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
+                                        <div id="${product.key}-menu" style="position: absolute; left: 25%; right: 0; font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${product.key}')" >
+                                            <div style="text-align: left; font-size: 16px; flex:1; font-weight: bold; padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 12px;">
+                                                <b>${String(product.key).replaceAll('_',' ')}</b>
+                                            </div>
+                                            <div style="height: 20px;"></div>
+                                         
+
+                                            <p style="margin: 0; display:flex; padding: 10px; padding-inline: 8px; text-align: left; align-content: center; gap: 8px; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; box-shadow: 0px 2px 4px rgba(124, 124, 124, 0.2);" onclick="editProd('${product.key}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 72 72">
+                                                <path d="M38.406 22.234l11.36 11.36L28.784 54.576l-12.876 4.307c-1.725.577-3.367-1.065-2.791-2.79l4.307-12.876L38.406 22.234zM41.234 19.406l5.234-5.234c1.562-1.562 4.095-1.562 5.657 0l5.703 5.703c1.562 1.562 1.562 4.095 0 5.657l-5.234 5.234L41.234 19.406z"></path>
+                                            </svg>
+                                            Editar Producto</p>
+
+                                            <p style="margin: 0; padding: 10px; display:flex; gap: 8px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 8px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${product.key}')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 7L14.1314 14.8686C13.7354 15.2646 13.5373 15.4627 13.309 15.5368C13.1082 15.6021 12.8918 15.6021 12.691 15.5368C12.4627 15.4627 12.2646 15.2646 11.8686 14.8686L9.13137 12.1314C8.73535 11.7354 8.53735 11.5373 8.30902 11.4632C8.10817 11.3979 7.89183 11.3979 7.69098 11.4632C7.46265 11.5373 7.26465 11.7354 6.86863 12.1314L2 17M22 7H15M22 7V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Ver Ventas</p>
+
+                                        </div>
+                                </div>
+                                
                                 <div class="wrap" style="font-weight:600; font-size: 16px; color: var(--primary-black); width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
-                                <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
+                                
+                                <div style="height:50px; overflow: hidden" onclick="displayItemMenu('${product.key}')">
                                 ${String(product.key).replaceAll('_',' ')}
                                 </div>
                             
@@ -906,3 +931,42 @@ function editShortcut(id){
 }
 
 window.editShortcut = editShortcut;
+
+window.displayItemMenu = displayItemMenu;
+function displayItemMenu(item){
+    let menu = document.getElementById(item+"-menu")
+    console.log("displaying menu for ",item)
+    menu.style.transition = '0.5s'
+    menu.style.visibility = 'visible';
+
+}
+
+
+window.hideItemMenu = hideItemMenu;
+function hideItemMenu(item){
+    let menu = document.getElementById(item+"-menu")
+    console.log("hiding menu for ",item)
+    menu.style.transition = '0s'
+    menu.style.visibility = 'hidden';
+}
+
+window.itemHistory = itemHistory;
+
+function itemHistory(item){
+    let business = localStorage.getItem('business')
+    let historyList = 0
+    get(child(ref(db),`/businesses/${business}/sales/`)).then((year) => {
+        year.forEach((month)=>{
+            month.forEach((day)=>{
+                day.forEach((sale)=>{   
+                    Object.entries(sale.val().Items).forEach((saleItem)=>{
+                        if(String(saleItem[0]).split(' ')[0] == item){
+                            historyList += Number(saleItem[0]).split(' ')[1]
+                        }
+                    })
+                })    
+            })
+        })
+        alert(`En total se han vendido ${historyList} unidades de ${String(item).split(' ')[0].replaceAll('_',' ')}`)
+    })
+}                                                     
