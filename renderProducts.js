@@ -572,7 +572,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 <div style="background-color:var(--primary-base-mid); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
                                 
                                 <div  style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
-                                        <div id="${product.key}-menu" style="position: absolute; left: 25%; right: 0; font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${product.key}')" >
+                                        <div id="${product.key}-menu" style="transform: translateX(-74px); font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${product.key}')" >
                                             <div style="text-align: left; font-size: 16px; flex:1; font-weight: bold; padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 12px;">
                                                 <b>${String(product.key).replaceAll('_',' ')}</b>
                                             </div>
