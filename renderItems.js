@@ -114,8 +114,8 @@ function renderItems(filter = 'all',productSearch=false){
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; flex-grow: 1; text-align: left; width: 60%; padding-left: 6px; display: flex; flex-direction: column; align-items: center; align-content: center;"  >
-                                    <div style=" width: 30vw; overflow: wrap; align-self: center; height: 20px; padding-top: 14px;" onclick="displayItemMenu('${item.key}')">
-                                        ${String(item.key).replaceAll('_',' ')}
+                                    <div style=" width: 30vw; overflow: wrap; align-self: center; display:flex; align-items: center; flex: 1;" onclick="displayItemMenu('${item.key}')">
+                                        <div>${String(item.key).replaceAll('_',' ')}</div>
                                     </div>
                                     
                                 </div>
@@ -132,11 +132,15 @@ function renderItems(filter = 'all',productSearch=false){
                                                 <did style="display: flex; flex-direction: column; gap: 4px; margin-botton: 4px; align-items: center; text-align: center; justify-content: left; align-content: left; alignt-items: left;">
                                                     <span style="font-size: 14px; color: gray; font-weight: 200; flex:1; padding: 4px; padding-inline: 4px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
                                                     <span style="font-size: 14px; color: gray; font-weight: 200; flex:1; padding: 4px; padding-inline: 4px;">pack: ${item.val().packQty}</span>
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; flex:1; padding: 4px; padding-inline: 4px;">$ ${(Math.round(item.val().packPrice * 100) / 100).toFixed(2)}</span>
+
                                                 </did>
                         
                                                 <div style="display: flex; flex-direction: column; gap: 4px; margin-botton: 4px; align-items: center; text-align: center; align-content: center; border-left: 1px solid #eee; padding-left: 8px;">
                                                     <span style="font-size: 14px; color: gray; font-weight: 200; padding: 4px;">${item.val().lastUpdate.split(' ')[0] + ' ' + item.val().lastUpdate.split(' ')[1] + ' ' + item.val().lastUpdate.split(' ')[2]}</span>
                                                     <span style="font-size: 14px; color: gray; font-weight: 200; padding: 4px;">${item.val().lastUpdate.split(' ')[3]}</span>
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; padding: 4px;">Hace ${Math.floor((Date.now() - (new Date(item.val().lastUpdate.split(' ')[0] + ' ' + item.val().lastUpdate.split(' ')[1] + ' ' + item.val().lastUpdate.split(' ')[2]+ ' ' + new Date().getFullYear()))) / (1000 * 60 * 60 * 24))} días</span>
+                                                    
                                                 </div>
                                 
                                             </div>
@@ -159,7 +163,7 @@ function renderItems(filter = 'all',productSearch=false){
                                 </div>
 
                                 <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; width: 50px">
-                                    <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p>
+                                    <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">En Orden:</p>
                                     <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}">
                                 </div>
 
@@ -204,6 +208,11 @@ function checkQty(item){
 function receiveItem(itemOBJ){
     //increase inventory by order qty*qtypack
     let itemName = itemOBJ
+    let month = String(new Date().getMonth()+1).padStart(2, '0')
+    let date = String(new Date()).split(" ")
+    let day = String(new Date().getDate()).padStart(2,'0')
+    let year = new Date().getFullYear()
+    let id = year+month+day+new Date().toTimeString().replace(/\D/g,''); 
     //reset order qty to 0
     get(child(ref(db),`/businesses/${business}/Items/${itemName}`)).then((item) => {
         let currentOrder = item.val().orderQty
@@ -219,6 +228,12 @@ function receiveItem(itemOBJ){
             update(ref(db, `/businesses/${business}/Consumo/${itemName}/${new Date()}`), {
                 stock: Number(currentStock) + Number(currentOrder)*Number(pack),
                 delta: Number(currentOrder)*Number(pack),
+            }); 
+
+            update(ref(db, `/businesses/${business}/CostoOperativo/${year}/${month}/${day}/${id}`), {
+                item: itemName,
+                qty: Number(currentOrder)*Number(pack),
+                money: Number(currentOrder)*Number(item.val().packPrice),
             }); 
 
             document.getElementById(itemName+"-order-qty").value = 0;
