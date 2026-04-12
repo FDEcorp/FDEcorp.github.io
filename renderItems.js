@@ -113,41 +113,57 @@ function renderItems(filter = 'all',productSearch=false){
                     <div class="item" id="${item.key}-card" tabindex="-1" style="background-color: ${item.val().stock>=item.val().minStock?'var(--primary-base-light)':'rgb(255, 238, 163);'};" onblur="hideItemMenu('${item.key}')">
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
-                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; height: 60px; text-align: left; width: 60%; padding-left: 4px; display: flex; flex-direction: column; align-items: start;"  >
-                                    <div style="height:20px; overflow: hidden" onclick="displayItemMenu('${item.key}')">
+                                <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; flex-grow: 1; text-align: left; width: 60%; padding-left: 6px; display: flex; flex-direction: column; align-items: center; align-content: center;"  >
+                                    <div style=" width: 30vw; overflow: wrap; align-self: center; height: 20px; padding-top: 14px;" onclick="displayItemMenu('${item.key}')">
                                         ${String(item.key).replaceAll('_',' ')}
                                     </div>
-                                    <did style="display: flex; flex-direction: row; gap: 4px; margin-botton: 10px;">
-                                        <span style="font-size: 10px; color: gray; font-weight: 100; magin-top: 2px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
-                                        <span style="font-size: 10px; color: gray; font-weight: 100">pack: ${item.val().packQty}</span>
-                                    </did>
-            
-                                    <span style="font-size: 12px; color: gray; font-weight: 100;">${item.val().lastUpdate}</span>
+                                    
                                 </div>
                             
                                 <div style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
-                                    <div id="${item.key}-menu" style="font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')" >
+                                    
+                                        <div id="${item.key}-menu" style="font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')" >
+                                            
+                                            <div style="text-align: left; font-size: 18px; flex:1; font-weight: bold; padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 12px;">
+                                                <b>${String(item.key).replaceAll('_',' ')}</b>
+                                            </div>
+                                                
+                                            <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; justify-content: center; text-align: center;">
+                                                <did style="display: flex; flex-direction: column; gap: 4px; margin-botton: 4px; align-items: center; text-align: center; justify-content: left; align-content: left; alignt-items: left;">
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; flex:1; padding: 4px; padding-inline: 4px;" id="${item.key}-stock-qty">stock: ${(Math.round(item.val().stock * 100) / 100).toFixed(0)}</span>
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; flex:1; padding: 4px; padding-inline: 4px;">pack: ${item.val().packQty}</span>
+                                                </did>
+                        
+                                                <div style="display: flex; flex-direction: column; gap: 4px; margin-botton: 4px; align-items: center; text-align: center; align-content: center; border-left: 1px solid #eee; padding-left: 8px;">
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; padding: 4px;">${item.val().lastUpdate.split(' ')[0] + ' ' + item.val().lastUpdate.split(' ')[1] + ' ' + item.val().lastUpdate.split(' ')[2]}</span>
+                                                    <span style="font-size: 14px; color: gray; font-weight: 200; padding: 4px;">${item.val().lastUpdate.split(' ')[3]}</span>
+                                                </div>
+                                
+                                            </div>
+                                            <div style="height: 20px;"></div>
+                                         
+
                                             <p style="margin: 0; display:flex; padding: 10px; padding-inline: 8px; text-align: left; align-content: center; gap: 8px; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; box-shadow: 0px 2px 4px rgba(124, 124, 124, 0.2);" onclick="editItem('${item.key}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 72 72">
-<path d="M38.406 22.234l11.36 11.36L28.784 54.576l-12.876 4.307c-1.725.577-3.367-1.065-2.791-2.79l4.307-12.876L38.406 22.234zM41.234 19.406l5.234-5.234c1.562-1.562 4.095-1.562 5.657 0l5.703 5.703c1.562 1.562 1.562 4.095 0 5.657l-5.234 5.234L41.234 19.406z"></path>
-</svg>
+                                                <path d="M38.406 22.234l11.36 11.36L28.784 54.576l-12.876 4.307c-1.725.577-3.367-1.065-2.791-2.79l4.307-12.876L38.406 22.234zM41.234 19.406l5.234-5.234c1.562-1.562 4.095-1.562 5.657 0l5.703 5.703c1.562 1.562 1.562 4.095 0 5.657l-5.234 5.234L41.234 19.406z"></path>
+                                            </svg>
                                             Editar Articulo</p>
+
                                             <p style="margin: 0; padding: 10px; display:flex; gap: 8px; padding-inline:8px; text-align: left; border-radius: 4px; background-color: #f8f8f8; border: 0px solid #bbb; margin-top: 8px; box-shadow: 0px 2px 4px rgba(124,124,124,0.2);" onclick="itemHistory('${item.key}')">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
- <path d="M22 7L14.1314 14.8686C13.7354 15.2646 13.5373 15.4627 13.309 15.5368C13.1082 15.6021 12.8918 15.6021 12.691 15.5368C12.4627 15.4627 12.2646 15.2646 11.8686 14.8686L9.13137 12.1314C8.73535 11.7354 8.53735 11.5373 8.30902 11.4632C8.10817 11.3979 7.89183 11.3979 7.69098 11.4632C7.46265 11.5373 7.26465 11.7354 6.86863 12.1314L2 17M22 7H15M22 7V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
- </svg>
+                                                <path d="M22 7L14.1314 14.8686C13.7354 15.2646 13.5373 15.4627 13.309 15.5368C13.1082 15.6021 12.8918 15.6021 12.691 15.5368C12.4627 15.4627 12.2646 15.2646 11.8686 14.8686L9.13137 12.1314C8.73535 11.7354 8.53735 11.5373 8.30902 11.4632C8.10817 11.3979 7.89183 11.3979 7.69098 11.4632C7.46265 11.5373 7.26465 11.7354 6.86863 12.1314L2 17M22 7H15M22 7V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
                                             Ver Consumo</p>
+
                                         </div>
                                 </div>
 
-                                <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; flex: 1">
+                                <div style="height: 20px; font-size: 16px; text-align: left; padding-right:0px; padding-top: 2px; width: 50px">
                                     <p style="padding: 0; margin:0; font-size: 10px; font-weight: bold;">Order:</p>
                                     <input onchange="updateOrder('${item.key}',this.value)" type="number" id="${item.key}-order-qty" style="margin: 0px; height: 14px; width: 30px; text-align: center; color: black; font-weight: bold;" value="${(Math.round(item.val().orderQty * 100) / 100).toFixed(0)}">
                                 </div>
 
-                                
-                                
-                                <div style="flex: 4; display: flex; flex-direction: row; gap: 8px">
+                                <div style="flex: 2; display: flex; flex-direction: row; gap: 8px; width: 100px; justify-content: flex-end; padding-right: 4px;">
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',false);checkQty('${item.key}')">-</button>
                                     <button class="order-qty-control" onclick="changeOrdQty('${item.key}',true);">+</button>
                                     <button class="order-qty-control" id="${item.key}-receive" onclick="receiveItem('${item.key}')" style="background-color: ${item.val().orderQty > 0 ? 'var(--primary-blue)':'var(--primary-base-mid)'}; font-weight: bold; font-size: 18x; padding-top: 0px;">↓</button>
