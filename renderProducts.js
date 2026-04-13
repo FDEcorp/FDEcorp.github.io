@@ -952,21 +952,45 @@ function hideItemMenu(item){
 
 window.itemHistory = itemHistory;
 
+//logica se usara en pagina dedicada a mostrar el historial de ventas de un producto, con filtros por fecha y posibilidad de mostrar graficos de ventas por dia/semana/mes/ano
 function itemHistory(item){
     let business = localStorage.getItem('business')
     let historyList = 0
-    get(child(ref(db),`/businesses/${business}/sales/`)).then((year) => {
-        year.forEach((month)=>{
-            month.forEach((day)=>{
-                day.forEach((sale)=>{   
-                    Object.entries(sale.val().Items).forEach((saleItem)=>{
+    let itemsalesbydate = {}
+
+    get(child(ref(db),`/businesses/${business}/sales/`)).then((sales) => {
+        sales.forEach((year)=>{
+            year.forEach((month)=>{
+                month.forEach((day)=>{   
+                     day.forEach((sale)=>{  
+
+                    console.log('checking sale',sale.key,sale.val().Items)
+                    if(sale.val().Items != null && sale.val().Items != undefined){
+                        Object.entries(sale.val().Items).forEach((saleItem)=>{
+                        console.log(saleItem[0],saleItem[1][0])
+
                         if(String(saleItem[0]).split(' ')[0] == item){
-                            historyList += Number(saleItem[0]).split(' ')[1]
+                            historyList += Number(saleItem[1][0])
+                            if(itemsalesbydate[sale.key.substring(0, 4)+"/"+sale.key.substring(4, 6)+"/"+sale.key.substring(6, 8)] != null){
+                                itemsalesbydate[sale.key.substring(0, 4)+"/"+sale.key.substring(4, 6)+"/"+sale.key.substring(6, 8)] += Number(saleItem[1][0])
+                            }
+                            else{       
+                            itemsalesbydate[sale.key.substring(0, 4)+"/"+sale.key.substring(4, 6)+"/"+sale.key.substring(6, 8)] = saleItem[1][0]
+                            }
                         }
+
                     })
-                })    
+                    }
+                    
+                    
+                    })    
+                }) 
             })
         })
-        alert(`En total se han vendido ${historyList} unidades de ${String(item).split(' ')[0].replaceAll('_',' ')}`)
+        console.log(item.split(' ')[0],itemsalesbydate)
+        alert(`En total se han vendido ${historyList} unidades de ${String(item).split(' ')[0].replaceAll('_',' ')} \n\nVentas por dia:\n ${String(Object.entries(itemsalesbydate).reverse().map((entry)=>`${entry[0]}: ${entry[1]} unidades`).join('\n'))}      `)
     })
+
+
+    
 }                                                     
