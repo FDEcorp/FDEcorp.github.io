@@ -64,11 +64,11 @@ DOM.selector.addEventListener('change', () => {
     //renderItemDetails(DOM.selector.value);
 });
 DOM.toDate.addEventListener('change', () => {
-    getData(DOM.selector.value);
+    //getData(DOM.selector.value);
     //renderItemDetails(DOM.selector.value);
 });
 DOM.fromDate.addEventListener('change', () => {
-    getData(DOM.selector.value);
+    //getData(DOM.selector.value);
     //renderItemDetails(DOM.selector.value);
 });
 
@@ -157,6 +157,7 @@ function drawChart(dataArray) {
         hAxis: { title: 'Date' },
         vAxis: { title: 'Sales' },
         legend: { position: 'bottom' },
+        trendlines: { 0: { type: 'polynomial',degree: 3, color: '#00baf2', lineWidth: 2, opacity: 0.7 } },
         colors: ['#e24848'],
         areaOpacity: 0.3,
         lineWidth: 2,
