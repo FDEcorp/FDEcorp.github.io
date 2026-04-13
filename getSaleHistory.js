@@ -134,6 +134,9 @@ function getData(item) {
             
         })
         let data = fillMissingDates(Object.entries(itemsalesbydate).map((entry)=>[entry[0],entry[1]]))
+     
+        document.getElementById('total').innerText = ` ${historyList} unidades`
+        document.getElementById('avg').innerText = ` ${(historyList / Object.entries(data).length).toFixed(2)} unidades/día`
         drawChart(data)
         console.log(item.split(' ')[0],itemsalesbydate)
         //alert(`En total se han vendido ${historyList} unidades de ${String(item).split(' ')[0].replaceAll('_',' ')} \n\nVentas por dia:\n ${String(Object.entries(itemsalesbydate).reverse().map((entry)=>`${entry[0]}: ${entry[1]} unidades`).join('\n'))}      `)
