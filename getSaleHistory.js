@@ -98,12 +98,10 @@ function getData(item) {
         sales.forEach((year)=>{
             console.log('checking year',new Date(DOM.fromDate.value+ "T00:00:00").getFullYear(),new Date(DOM.toDate.value+"T23:59:59").getFullYear(),year.key)
             
-            if(Number(year.key) >= Number(new Date(DOM.fromDate.value+ "T00:00:00").getFullYear()) && Number(year.key) <= Number(new Date(DOM.toDate.value+"T23:59:59").getFullYear()) ){
+            if(Number(year.key) >= Number(new Date(DOM.fromDate.value+ "T00:00:00").getFullYear()) ){
                 console.log('checking this year',year.key)
                 year.forEach((month)=>{
-                    if(Number(month.key) >= Number(new Date(DOM.fromDate.value+ "T00:00:00").getMonth())+1 ){
-                month.forEach((day)=>{   
-                    
+                month.forEach((day)=>{     
                 day.forEach((sale)=>{  
 
                     //console.log('checking sale',sale.key,sale.val().Items)
@@ -112,7 +110,7 @@ function getData(item) {
                         Object.entries(sale.val().Items).forEach((saleItem)=>{
                         console.log(saleItem[0],saleItem[1][0])
 
-                        if(new Date(sale.key.substring(0, 4)+"-"+sale.key.substring(4, 6)+"-"+sale.key.substring(6, 8)) >= new Date(DOM.fromDate.value) && new Date(sale.key.substring(0, 4)+"-"+sale.key.substring(4, 6)+"-"+sale.key.substring(6, 8)) <= new Date(DOM.toDate.value)){    
+                        if(new Date(sale.key.substring(0, 4)+"-"+sale.key.substring(4, 6)+"-"+sale.key.substring(6, 8)) >= new Date(DOM.fromDate.value+ "T00:00:00") && new Date(sale.key.substring(0, 4)+"-"+sale.key.substring(4, 6)+"-"+sale.key.substring(6, 8)) <= new Date(DOM.toDate.value+"T23:59:59")){    
                             if(String(saleItem[0]).split(' ')[0] == item){
                                 historyList += Number(saleItem[1][0])
                                 if(itemsalesbydate[sale.key.substring(0, 4)+"/"+sale.key.substring(4, 6)+"/"+sale.key.substring(6, 8)] != null){
@@ -129,7 +127,7 @@ function getData(item) {
                     
                     }) 
                 }) 
-                    }
+                    
                 
             })
             }
