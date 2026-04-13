@@ -96,17 +96,17 @@ function getData(item) {
 
     get(child(ref(db),`/businesses/${business}/sales/`)).then((sales) => {
         sales.forEach((year)=>{
-            console.log('checking year',new Date(DOM.fromDate.value).getFullYear(),new Date(DOM.toDate.value).getFullYear(),year.key)
+            console.log('checking year',new Date(DOM.fromDate.value+ "T00:00:00").getFullYear(),new Date(DOM.toDate.value+"T23:59:59").getFullYear(),year.key)
             
-            if(Number(year.key) >= Number(new Date(DOM.fromDate.value).getFullYear()) && Number(year.key) <= Number(new Date(DOM.toDate.value).getFullYear()) ){
+            if(Number(year.key) >= Number(new Date(DOM.fromDate.value+ "T00:00:00").getFullYear()) && Number(year.key) <= Number(new Date(DOM.toDate.value+"T23:59:59").getFullYear()) ){
                 console.log('checking this year',year.key)
                 year.forEach((month)=>{
-                    if(Number(month.key) >= Number(new Date(DOM.fromDate.value).getMonth())+1 && Number(month.key) <= Number(new Date(DOM.toDate.value).getMonth())+1){
+                    if(Number(month.key) >= Number(new Date(DOM.fromDate.value+ "T00:00:00").getMonth())+1 ){
                 month.forEach((day)=>{   
                     
                 day.forEach((sale)=>{  
 
-                    console.log('checking sale',sale.key,sale.val().Items)
+                    //console.log('checking sale',sale.key,sale.val().Items)
 
                     if(sale.val().Items != null && sale.val().Items != undefined){
                         Object.entries(sale.val().Items).forEach((saleItem)=>{
@@ -133,7 +133,7 @@ function getData(item) {
                 
             })
             }
-
+            else{console.log('skipping year',year.key)}
 
             
         })
@@ -165,7 +165,7 @@ function drawChart(dataArray) {
         hAxis: { title: 'Date' },
         vAxis: { title: 'Sales' },
         legend: { position: 'none' },
-        trendlines: { 0: { type: 'polynomial',degree: 3, color: '#00baf2', lineWidth: 2, opacity: 0.7 } },
+        trendlines: { 0: { type: 'polynomial',degree: 5, color: '#00baf2', lineWidth: 2, opacity: 0.7 } },
         colors: ['#e24848'],
         areaOpacity: 0.3,
         lineWidth: 2,
