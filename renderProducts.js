@@ -934,6 +934,9 @@ window.editShortcut = editShortcut;
 
 window.displayItemMenu = displayItemMenu;
 function displayItemMenu(item){
+    if(localStorage.getItem('admin') == null || localStorage.getItem('admin') == 'false'){
+        return
+    }
     let menu = document.getElementById(item+"-menu")
     console.log("displaying menu for ",item)
     menu.style.transition = '0.5s'
@@ -954,6 +957,9 @@ window.itemHistory = itemHistory;
 
 window.viewSalesHistory = viewSalesHistory;
 function viewSalesHistory(prod){
+    if(localStorage.getItem('admin') == null || localStorage.getItem('admin') == 'false'){
+        return alert('No tienes permisos para acceder al historial de ventas')
+    }
     location.href = 'salesHistory.html?prod=' + prod;
 }
 

@@ -101,7 +101,9 @@ function getData(item) {
             if(Number(year.key) >= Number(new Date(DOM.fromDate.value).getFullYear()) && Number(year.key) <= Number(new Date(DOM.toDate.value).getFullYear()) ){
                 console.log('checking this year',year.key)
                 year.forEach((month)=>{
+                    if(Number(month.key) >= Number(new Date(DOM.fromDate.value).getMonth())+1 && Number(month.key) <= Number(new Date(DOM.toDate.value).getMonth())+1){
                 month.forEach((day)=>{   
+                    
                 day.forEach((sale)=>{  
 
                     console.log('checking sale',sale.key,sale.val().Items)
@@ -127,13 +129,15 @@ function getData(item) {
                     
                     }) 
                 }) 
+                    }
+                
             })
             }
 
 
             
         })
-        let data = fillMissingDates(Object.entries(itemsalesbydate).map((entry)=>[entry[0],entry[1]]))
+        let data = fillMissingDatesInRange(Object.entries(itemsalesbydate).map((entry)=>[entry[0],entry[1]]), DOM.fromDate.value+"T00:00:00", DOM.toDate.value+"T23:59:59")
        
         const sum = data.reduce((acc, curr) => acc + curr[1], 0);
         document.getElementById('total').innerText = ` ${sum} unidades`
@@ -160,7 +164,7 @@ function drawChart(dataArray) {
         chartArea: { left: 70, top: 50, width: '75%', height: '50%' },
         hAxis: { title: 'Date' },
         vAxis: { title: 'Sales' },
-        legend: { position: 'bottom' },
+        legend: { position: 'none' },
         trendlines: { 0: { type: 'polynomial',degree: 3, color: '#00baf2', lineWidth: 2, opacity: 0.7 } },
         colors: ['#e24848'],
         areaOpacity: 0.3,
@@ -169,10 +173,42 @@ function drawChart(dataArray) {
         interpolateNulls: false
     };
 
-    const chart = new google.visualization.AreaChart(DOM.chart);
+    const chart = new google.visualization.ColumnChart(DOM.chart);
     chart.draw(dataTable, options);
 }
 
+window.fillMissingDatesInRange = fillMissingDatesInRange;
+function fillMissingDatesInRange(data, fromDate, toDate) {
+    const map = new Map();
+
+    // Store existing data (grouped by day)
+    data.forEach(([date, value]) => {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        map.set(d.getTime(), value);
+    });
+
+    const result = [];
+
+    const current = new Date(fromDate);
+    current.setHours(0, 0, 0, 0);
+
+    const end = new Date(toDate);
+    end.setHours(0, 0, 0, 0);
+
+    while (current <= end) {
+        const time = current.getTime();
+
+        result.push([
+            new Date(current),
+            map.get(time) ?? 0 // 👈 fill missing days with 0
+        ]);
+
+        current.setDate(current.getDate() + 1);
+    }
+
+    return result;
+}
 
 function fillMissingDates(data) {
     if (!data.length) return [];

@@ -44,8 +44,10 @@
                 Corte
             </div>
 
-            <div class="subnav-button blue-bg" style="color: white; flex: 2;" onclick="location.href='newProduct.html'">
+            <div class="subnav-button blue-bg" style="color: white; flex: 2;"
+                onclick="if(localStorage.getItem('admin') === 'true'){location.href='newProduct.html '}else{alert('No tienes permisos para añadir productos')} ">
                 Producto Nuevo
+
             </div>
         </div>
 
