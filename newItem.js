@@ -19,6 +19,7 @@ function uploadItem(){
             packQty:  Number(itemPack.value)>0 ? Number(itemPack.value):1,
             packPrice: Number(itemPackPrice.value)>0 ? Number(itemPackPrice.value):0,
             minStock: Number(itemMin.value)>0 ? Number(itemMin.value):1,
+            lastUpdate: new Date(),
             orderQty: 0,
             stock: 0,
          });
