@@ -114,7 +114,7 @@ function renderItems(filter = 'all',productSearch=false){
                         <div ondblclick="editProd('${item.key}')" style="margin: 6px; border-radius: 6px; display: flex; flex-direction: row; gap: 8px; flex: 1">
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; flex-grow: 1; text-align: left; width: 60%; padding-left: 6px; display: flex; flex-direction: column; align-items: center; align-content: center;"  >
-                                    <div style=" width: 30vw; overflow: wrap; align-self: center; display:flex; align-items: center; flex: 1;" onclick="displayItemMenu('${item.key}')">
+                                    <div style=" width: 30vw; max-width:200px; overflow: wrap; align-self: center; display:flex; align-items: center; flex: 1;" onclick="displayItemMenu('${item.key}')">
                                         <div>${String(item.key).replaceAll('_',' ')}</div>
                                     </div>
                                     
