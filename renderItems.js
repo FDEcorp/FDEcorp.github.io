@@ -115,17 +115,20 @@ function renderItems(filter = 'all',productSearch=false){
                             
                                 <div class="wrap" style="flex:5; font-weight:600; font-size: 16px; color: Black; width: 100px; flex-grow: 1; text-align: left; width: 60%; padding-left: 6px; display: flex; flex-direction: column; align-items: center; align-content: center;"  >
                                     <div style=" width: 30vw; max-width:200px; overflow: wrap; align-self: center; display:flex; align-items: center; flex: 1;" onclick="displayItemMenu('${item.key}')">
-                                        <div>${String(item.key).replaceAll('_',' ')}</div>
+                                        <div onclick="displayItemMenu('${item.key}')">${String(item.key).replaceAll('_',' ')}</div>
                                     </div>
                                     
                                 </div>
                             
                                 <div style="width: 0px; background-color: white; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border-radius: 0px; padding: 0px; z-index: 100;">
                                     
-                                        <div id="${item.key}-menu" style="font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);" onclick="displayItemMenu('${item.key}')" >
+                                        <div id="${item.key}-menu" style="font-size: 16px; background-color: #fdfdfd; font-weight: 500; color: black; padding: 10px; cursor: pointer; width: 180px; border-radius: 8px; visibility: hidden; box-shadow: 0px 2px 4px rgba(0,0,0,0.2);"  >
                                             
-                                            <div style="text-align: left; font-size: 18px; flex:1; font-weight: bold; padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 12px;">
+                                            <div style="text-align: left; font-size: 18px; flex:1; font-weight: bold; padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 12px; display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: left;">
+
                                                 <b>${String(item.key).replaceAll('_',' ')}</b>
+                                                <div onclick="hideItemMenu('${item.key}')" style="display: flex; flex:1; flex-grow: 1; flex-direction: row; gap: 8px; align-items: center; justify-content: right; text-align: right; color: gray; font-weight: 100;">X</div>
+
                                             </div>
                                                 
                                             <div style="display: flex; flex-direction: row; gap: 12px; align-items: center; justify-content: center; text-align: center;">
