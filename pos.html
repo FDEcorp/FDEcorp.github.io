@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="main.css">
     <script>
         if (localStorage.getItem('business') == null || localStorage.getItem('business') == undefined) {
-            location.href = 'Index.html'
+            location.href = 'https://checkout-three-ruddy.vercel.app/login'
 
         }
     </script>
@@ -34,7 +34,7 @@
         <script>
             document.getElementById('business').innerText = localStorage.getItem('business')
         </script>
-        <div id="logout" onclick="location.href = 'index.html'">Cerrar Sesión</div>
+        <div id="logout" onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'">Cerrar Sesión</div>
     </header>
     <section class="subnav" id="subnav">
         <div style="max-width: 100px; padding: 10px; border-radius: 8px;" onclick="location.href='menu.html'">Menu</div>
