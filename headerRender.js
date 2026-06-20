@@ -2,6 +2,16 @@ function updateHeader() {
     const header = document.getElementById("header");
 }
 
+let meta = document.querySelector('meta[name="theme-color"]');
+
+if (!meta) {
+    meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    document.head.appendChild(meta);
+}
+
+meta.content = '#1c1c1c';
+
 function renderHeader() {
     document.getElementById("header").innerHTML = `
         <h1 id="header-title" tabindex="-1" style="display: flex; align-items: center; gap: 10px; cursor: pointer; flex:1; margin: 0; padding: 0;">
