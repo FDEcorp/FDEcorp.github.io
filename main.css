@@ -39,7 +39,6 @@ html {
 
 body {
     margin: 0;
-    margin-top: 120px;
     text-align: center;
     font-family: helvetica;
     max-width: 100svw;
@@ -50,20 +49,21 @@ body {
 }
 
 header {
+    flex: 1;
     display: flex;
     flex: 1;
     flex-grow: 1;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
     padding: 10px;
     padding-inline: 20px;
-    margin: 20px;
-    margin-bottom: 40px;
+    margin: 0px;
+    margin-bottom: 10px;
     justify-content: left;
-    border-radius: 10px;
+    border-radius: 0px;
     background-color: var(--primary-base-darkest);
     color: var(--primary-red) !important;
-    position: fixed;
+    height: 80px;
     top: 0px;
 }
 
@@ -142,7 +142,7 @@ select {
         padding-left: 24px;
         flex: 1;
         flex-grow: 1;
-        height: 60px;
+        height: 80px;
     }
 
     #filter-bar {
@@ -206,6 +206,7 @@ button:hover {
     color: rgb(255, 255, 255);
     font-weight: bold;
     width: 100px;
+    padding-right: 10px;
 }
 
 h5 {

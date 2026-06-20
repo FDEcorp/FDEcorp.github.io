@@ -1,43 +1,60 @@
-document.getElementById('header').innerHTML = `
-    <h1 id="header-title" tabindex="-1" onlcick="location.href='menu.html';console.log('clicked header')">
-        <img src="fdeicon.png" height="24px" alt="" id="icon" onlcick="location.href='menu.html'">
-        FDE: <span id="business" onlcick="location.href='menu.html'" style="overflow: hidden;">${localStorage.getItem('business')}</span></h1>
-    
-    <div id="logout" onclick="location.href = 'https://checkout-three-ruddy.vercel.app/login'">Cerrar Sesión</div>
-`
-
-document.getElementById('header-title').addEventListener('click',()=>{
-    location.href='menu.html'
-})
-
-let header = document.getElementById("header");
-header.style.width = `${window.innerWidth - 80}px`
-if(window.innerWidth<=600){
-header.style.width = `${window.innerWidth - 70}px`
+function updateHeader() {
+    const header = document.getElementById("header");
 }
 
-    window.addEventListener("scroll", function () {
-    let header = document.getElementById("header");
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+function renderHeader() {
+    document.getElementById("header").innerHTML = `
+        <h1 id="header-title" tabindex="-1" style="display: flex; align-items: center; gap: 10px; cursor: pointer; flex:1; margin: 0; padding: 0;">
+            <img src="fdeicon.png" height="24px" alt="" id="icon">
+            FDE: <span id="business" style="overflow: hidden;">
+                ${localStorage.getItem("business") || ""}
+            </span>
+        </h1>
 
-    header.style.opacity = `${1 - Math.min(scrollTop / 50,1)}`
-    console.log(scrollTop)
-    if(scrollTop>=50){
-        header.style.visibility = 'hidden'
+        <div id="logout" style="flex: 1; text-align: right;">
+            Cerrar Sesión
+        </div>
+    `;
+
+    document.getElementById("header-title").addEventListener("click", () => {
+        location.href = "menu.html";
+    });
+
+    document.getElementById("icon").addEventListener("click", () => {
+        location.href = "menu.html";
+    });
+
+    document.getElementById("logout").addEventListener("click", () => {
+        location.href = "https://checkout-three-ruddy.vercel.app/login";
+    });
+
+    updateHeader();
+}
+
+// Initial render
+renderHeader();
+
+// Adjust width whenever viewport size changes
+window.addEventListener("resize", updateHeader);
+
+// Existing scroll behavior
+window.addEventListener("scroll", () => {
+    const header = document.getElementById("header");
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    header.style.opacity = `${1 - Math.min(scrollTop / 50, 1)}`;
+
+    if (scrollTop >= 50) {
+        header.style.visibility = "hidden";
+    } else {
+        header.style.visibility = "visible";
     }
-    else{
-        header.style.visibility = 'visible'
+
+    const prodWindow = document.getElementById("products-window");
+
+    if (prodWindow) {
+        prodWindow.style.height = `${
+            (1 + Math.min(scrollTop / 20, 1)) * 70
+        }dvh`;
     }
-
-        try{
-            
-            let prodWindow = document.getElementById("products-window");
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            prodWindow.style.height = `${(1 + Math.min(scrollTop / 20,1))*70}dvh`
-            console.log("trying to adjust to 70*1+",Math.min(scrollTop / 20,1))
-        }
-        catch(e){
-
-        }
- });
+});
