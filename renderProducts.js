@@ -387,15 +387,43 @@ function showChangeCalc(method){
     let Options = orderListArr.map((item)=>
         `
         <li style="display: flex; margin-top: 8px;">
+            
             <div style="flex:2;">${item[0].split(' ')[0].replaceAll('_',' ')}</div>
-            <input id="${item[0]}-sku-input" list="sku-options-${item[0].split(' ')[0]}" style="width:40px; text-align: center; margin:0; margin-left: 10px; margin-top:-4px; padding:0px;"  value="${item[0].split(' ')[1]}">
-            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; text-align: center; margin:0; margin-left: 4px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
-            <div style="width: 50px;text-align: right">$ ${item[1][1]}</div>
-            <datalist id="sku-options-${item[0].split(' ')[0]}">
-                ${Object.values(window.sizes[item[0].split(' ')[0]] || {})
-                    .map(size => `<option value="${size}">`)
-                    .join('')}
-            </datalist>
+            <select 
+            onchange="
+    const oldKey = '${item[0]}';
+    const product = oldKey.split(' ')[0];
+    const newSize = this.value;
+    const newKey = product + ' ' + newSize;
+
+    console.log(newKey);
+
+    if (order[newKey]) {
+        order[newKey][0] += order[oldKey][0];
+        delete order[oldKey];
+    } else {
+        order[newKey] = order[oldKey];
+        delete order[oldKey];
+    }
+
+    order[newKey][1] = Number(window.skuPrices[product + '_' + newSize]);
+
+    const sku = '${item[0].split(' ')[0].replaceAll(' ', '_')}_' + this.value;
+    document.getElementById('${item[0]}-price').innerText = '$ ' + Number(window.skuPrices[sku]);
+
+
+    calcTotal();
+    renderOrder();
+    hideChangeCalc();
+"
+            style="padding: 4px; height: 27px; margin: 0px; margin-top:-4px; text-align: center; width: 50px;">
+                ${Object.values(window.sizes[item[0].split(' ')[0]] || {}).map(size => `
+                    <option value="${size}" ${size === item[0].split(' ')[1] ? 'selected' : ''}>${size}</option>`).join('')}
+            </select>
+            
+            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; height: 27px; text-align: center; margin:0; margin-left: 4px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
+            <div id="${item[0]}-price" style="width: 50px;text-align: right">$ ${item[1][1]}</div>
+            
         </li>
         `
     )
