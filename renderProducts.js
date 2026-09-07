@@ -13,6 +13,14 @@ orderTotalDisp.addEventListener('change',()=>{
     cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
 })
 
+function cashToPaySplitCalc(){
+    cashToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1])
+}
+window.cashToPaySplitCalc = cashToPaySplitCalc;
+
+//TODO, user can change qtys in confirmation pane, need to update oder variable, total on change of value.
+
+
 cashPercentage.addEventListener('change',()=>{
     cashToPay.value = Math.round( Number(String(orderTotalDisp.innerText).split(' ')[1])*Number(cashPercentage.value)/100 )
     cardToPay.value = Number(String(orderTotalDisp.innerText).split(' ')[1]) - Number(cashToPay.value)
@@ -377,15 +385,20 @@ function showChangeCalc(method){
 
     let Options = orderListArr.map((item)=>
         `
-        <li style="display: flex;">
+        <li style="display: flex; margin-top: 8px;">
             <div style="flex:2">${item[0]}</div>
-            <div style="flex:1; text-align: right">${item[1][0]}x</div>
+            <input id="item[${item[0]}]-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; text-align: center; margin:0; margin-left: 10px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
+            
             <div style="flex:1; text-align: right">$ ${item[1][1]}</div>
         </li>
         `
     )
 
     listUl.innerHTML = String(Options).replaceAll(',','')
+}
+
+function printOrder(){
+    console.log(order)
 }
 
 function calcChange(receivedBill){
@@ -449,7 +462,7 @@ function renderOrder(){
 }
 
 function calcTotal(){
-    hideChangeCalc()
+    //hideChangeCalc()
     let sum = 0
     Object.values(order).forEach((prod)=>{
         let qty = prod[0]
@@ -457,6 +470,7 @@ function calcTotal(){
         sum += qty*price
     })   
     total = sum
+    document.getElementById('total-change-pane').innerText = `${total}`
     renderOrder()
 }
 
@@ -1005,3 +1019,6 @@ function itemHistory(item){
 
     
 }                                                     
+
+window.calcTotal = calcTotal;
+window.renderOrder = renderOrder;
