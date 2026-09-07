@@ -76,6 +76,7 @@ get(child(ref(db),`/businesses/${business}/Products`)).then((Products) => {
     catList = catList.reverse()
 })
 
+
 let filterSelect = document.getElementById('cat-filter') 
 let filterReset = document.getElementById('filter-reset') 
 let prodSearch = document.getElementById('prod-search') 
@@ -386,10 +387,15 @@ function showChangeCalc(method){
     let Options = orderListArr.map((item)=>
         `
         <li style="display: flex; margin-top: 8px;">
-            <div style="flex:2">${item[0]}</div>
-            <input id="item[${item[0]}]-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; text-align: center; margin:0; margin-left: 10px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
-            
-            <div style="flex:1; text-align: right">$ ${item[1][1]}</div>
+            <div style="flex:2;">${item[0].split(' ')[0].replaceAll('_',' ')}</div>
+            <input id="${item[0]}-sku-input" list="sku-options-${item[0].split(' ')[0]}" style="width:40px; text-align: center; margin:0; margin-left: 10px; margin-top:-4px; padding:0px;"  value="${item[0].split(' ')[1]}">
+            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; text-align: center; margin:0; margin-left: 4px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
+            <div style="width: 50px;text-align: right">$ ${item[1][1]}</div>
+            <datalist id="sku-options-${item[0].split(' ')[0]}">
+                ${Object.values(window.sizes[item[0].split(' ')[0]] || {})
+                    .map(size => `<option value="${size}">`)
+                    .join('')}
+            </datalist>
         </li>
         `
     )
@@ -491,6 +497,35 @@ function addToOrder(itemsizeprice){
     calcTotal()
 }
 
+function getProdSkus(){
+window.skuPrices = {}
+window.sizes = {}
+
+get(child(ref(db), `/businesses/${business}/Products`)).then((Products) => {
+    if (Products.exists()) {
+        const products = Products.val()
+        for (const productName in products) {
+            const product = products[productName]
+            if (!product.Sizes) continue
+            window.sizes[productName] = {}
+            for (const sizeOption in product.Sizes) {
+                const size = product.Sizes[sizeOption]
+                // SKU -> Price
+                const sku = `${productName}_${size.sizeLabel}`
+                window.skuPrices[sku] = size.price
+                // Product -> Available sizes
+                window.sizes[productName][sizeOption] = size.sizeLabel
+            }
+        }
+    }
+
+})
+}
+
+window.getProdSkus = getProdSkus;
+getProdSkus()
+
+
 function getSizes(product){
     let Size = product.val().Sizes
     
@@ -527,42 +562,6 @@ const ProdRef = ref(db, `/businesses/${business}/Products`);
 let myQuery = query(ProdRef, orderByChild("category"));
 
 onValue(ref(db, `/businesses/${business}/Products`),()=>renderItems())
-
-function renderItemsTEST(filter = 'all',productSearch=false){
-    prodList.innerHTML = ''
-    get(myQuery).then((Products) => {
-        Products.forEach((product)=>{
-            let image = Object.values(product.val())[2]
-
-            if(filter == 'all' || (filter == product.val().category && productSearch==false) || (productSearch == true && String(product.key).toLowerCase().includes(String(prodSearch.value).trim().replaceAll(' ','_').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") ) )){
-                prodList.innerHTML += `
-                        <div class="product" id="${product.key}-card">
-                            <div ondblclick="editProd('${product.key}')" style="height:70px; margin: 6px; border-radius: 6px; display: flex; flex-direction: row;" class="doubletap">
-                                <div style="background-color:var(--primary-base-mid); background-image: url('${image}'); background-size: cover;background-position: center; width: 40%; border-radius: 8px"></div>
-                                <div class="wrap" style="font-weight:600; font-size: 16px; color: var(--primary-black); width: 100px; text-align: left; width: 60%; padding-left: 8px; display: flex; flex-direction: column; align-items: start;">
-                                <div style="height:50px; overflow: hidden" onclick="editProd('${product.key}')">
-                                ${String(product.key).replaceAll('_',' ')}
-                                </div>
-                            
-                                <span style="font-size: 10px; color: var(--primary-base-mid); font-weight: 800">Precios:</span>
-                                <span style="font-size: 14px; color: var(--primary-base-mid); font-weight: 800" id="${product.key}-prices">${getPrices(product)}</span>
-                                
-                                </div>
-                                
-                            </div>
-                        
-                            <div style="display: flex; gap: 4px; padding: 6px; padding-top:0;" id="${product.key}">`+ 
-                            getSizes(product)+
-                                `
-                            </div>
-                        </div> 
-                        `
-            }
-
-        })
-
-    })
-}
 
 function renderItems(filter = 'all',productSearch=false){
     //console.log("filtrando por",filter)
