@@ -421,7 +421,15 @@ function showChangeCalc(method){
                     <option value="${size}" ${size === item[0].split(' ')[1] ? 'selected' : ''}>${size}</option>`).join('')}
             </select>
             
-            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; height: 27px; text-align: center; margin:0; margin-left: 4px; margin-top:0px; padding:0px; background-color: var(--primary-base-light); border-radius: 4px; border: 0px solid var(--primary-base-dark); font-size: 14px; font-weight: 600; color: var(--primary-black);" value="${String(item[1][0]).replace("x","")}">
+            <input id="${item[0]}-qty-input" onchange="
+                                                        order['${item[0]}'][0] = Number(this.value); 
+                                                        renderOrder();         
+                                                        calcTotal(); 
+                                                        cashToPaySplitCalc();
+                                                        showChangeCalc();
+                                                        calcChange(localStorage.getItem('selectedBill'));"
+                                                        type="number" 
+                                                        style="width:40px; height: 27px; text-align: center; margin:0; margin-left: 4px; margin-top:0px; padding:0px; background-color: var(--primary-base-light); border-radius: 4px; border: 0px solid var(--primary-base-dark); font-size: 14px; font-weight: 600; color: var(--primary-black);" value="${String(item[1][0]).replace("x","")}">
             <div id="${item[0]}-price" style="width: 50px;text-align: right">$ ${item[1][1]}</div>
             
         </li>
@@ -434,13 +442,13 @@ function showChangeCalc(method){
 function printOrder(){
     console.log(order)
 }
-
 function calcChange(receivedBill){
-    
+    localStorage.setItem("selectedBill",receivedBill)
+
     if(receivedBill > Number(cashToPay.value)){
     document.getElementById('change-ammount').innerText = Number(receivedBill) - Number(cashToPay.value) }
     else{
-    document.getElementById('change-ammount').innerText =  "not enough"
+    document.getElementById('change-ammount').innerText =  "Falta " + -1*(Number(receivedBill) - Number(cashToPay.value))
 
     }
 }
@@ -451,6 +459,7 @@ function clearOrder(){
     total = 0
     calcTotal()
     orderList.innerHTML = ''
+    localStorage.setItem("selectedBill",0)
 }
 
 function undoAdd(){
