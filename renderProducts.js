@@ -386,7 +386,7 @@ function showChangeCalc(method){
 
     let Options = orderListArr.map((item)=>
         `
-        <li style="display: flex; margin-top: 8px;">
+        <li style="display: flex; margin-top: 8px; align-items: center; padding:4px; background-color: white; border-radius: 8px; padding: 4px; padding-inline:12px; gap: 4px; font-size: 16px; font-weight: 600; color: var(--primary-black); box-shadow: 0 8px -6px 6px rgba(0, 0, 0, 1);">
             
             <div style="flex:2;">${item[0].split(' ')[0].replaceAll('_',' ')}</div>
             <select 
@@ -416,12 +416,12 @@ function showChangeCalc(method){
     renderOrder();
     hideChangeCalc();
 "
-            style="padding: 4px; height: 27px; margin: 0px; margin-top:-4px; text-align: center; width: 50px;">
+            style="padding: 4px; height: 29px; margin: 0px; margin-top:0px; text-align: center; width: 50px; background-color: var(--primary-base-light); border-radius: 4px; border: 0px solid var(--primary-base-dark); font-size: 14px; font-weight: 600; color: var(--primary-black);">
                 ${Object.values(window.sizes[item[0].split(' ')[0]] || {}).map(size => `
                     <option value="${size}" ${size === item[0].split(' ')[1] ? 'selected' : ''}>${size}</option>`).join('')}
             </select>
             
-            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; height: 27px; text-align: center; margin:0; margin-left: 4px; margin-top:-4px; padding:0px;" value="${String(item[1][0]).replace("x","")}">
+            <input id="${item[0]}-qty-input" onchange="order['${item[0]}'][0] = Number(this.value); calcTotal(); cashToPaySplitCalc(); renderOrder();" type="number" style="width:40px; height: 27px; text-align: center; margin:0; margin-left: 4px; margin-top:0px; padding:0px; background-color: var(--primary-base-light); border-radius: 4px; border: 0px solid var(--primary-base-dark); font-size: 14px; font-weight: 600; color: var(--primary-black);" value="${String(item[1][0]).replace("x","")}">
             <div id="${item[0]}-price" style="width: 50px;text-align: right">$ ${item[1][1]}</div>
             
         </li>
