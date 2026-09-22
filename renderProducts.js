@@ -20,6 +20,12 @@ window.cashToPaySplitCalc = cashToPaySplitCalc;
 
 //TODO, user can change qtys in confirmation pane, need to update oder variable, total on change of value.
 
+window.ticketPrint = ticketPrint;
+
+function ticketPrint() {
+    localStorage.setItem('print',JSON.stringify(order))
+    window.open('ticket.html');
+}
 
 cashPercentage.addEventListener('change',()=>{
     cashToPay.value = Math.round( Number(String(orderTotalDisp.innerText).split(' ')[1])*Number(cashPercentage.value)/100 )
