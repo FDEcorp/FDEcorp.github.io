@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="width: 580px; border: 1px solid; height: fit-content;">
+<html lang="en" style="width: 200px; border: 0px solid; height: fit-content;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +7,19 @@
     <script type="module" src="print.js"></script>
     <link rel="stylesheet" href="main.css">
 </head>
-<body style="margin: 0; padding: 20px; height: min-content;">
-    <h1 id="business" style="font-size: 40px;"></h1>
-    <div id="datetime" style="margin-top: 20px; font-size: 20px;"></div>
-    <div id="order" style="margin-top: 80px;"></div>
+<body style="margin: 0; padding: 10px; height: min-content;">
+    <h1 id="business" style="font-size: 20px;"></h1>
+    <div style="font-size: 8px;">Sistema de POS: fdesales.com</div>
+    <div style="font-size: 8px;">Es un gusto atenderte!</div>
+    <div id="datetime" style="margin-top: 10px; font-size: 8px;"></div>
+
+    <div id="order" style="margin-top: 40px; font-size: 8px;"></div>
     
-    <div style="margin-top: 50px; font-size: 24px; text-align: right;">
+    <div style="margin-top: 50px; margin-bottom: 20px; font-size: 14px; text-align: right;">
         <span><b>Total:</b> $<span id="total"></span></span>
     </div>
+    
+    <div style="font-size: 8px; text-align: left; " id="msg-print">Para servicio de cafe en eventos, envia WhatsApp al 449 606 1487.</div>
+
 </body>
 </html>

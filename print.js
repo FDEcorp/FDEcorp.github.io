@@ -7,10 +7,11 @@ let total = 0;
 
 let ordermap = order.map((prod)=>{
 document.getElementById('order').innerHTML += 
-`<div style="display: flex; flex-direction: row; gap: 10px; font-size: 22px;">
+`<div style="display: flex; flex-direction: row; gap: 10px;">
     <div style="flex:5; text-align:left;">${prod[0].replaceAll('_',' ')}</div>
-    <div style="flex:1">x${prod[1][0]}</div>
-    <div style="flex:1; text-align: right;">$ ${prod[1][1]}</div>
+    <div style="flex:2; text-align: right;">$ ${prod[1][1]}</div>
+    <div style="flex:1; text-align: right;">x${prod[1][0]}</div>
+
 </div>`
 total+=Number(prod[1][0])*Number(prod[1][1])
 

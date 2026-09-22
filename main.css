@@ -252,7 +252,7 @@ a {
 }
 
 .sidebar {
-    flex: 2;
+    flex: 1;
     flex-grow: 2;
     padding: 0;
     margin: 0;
@@ -364,6 +364,7 @@ a {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    max-height: 300px;
 }
 
 @media (max-width: 600px) {
@@ -404,7 +405,7 @@ li {
 }
 
 .sidebar {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
