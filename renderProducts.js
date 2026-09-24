@@ -25,6 +25,7 @@ window.ticketPrint = ticketPrint;
 function ticketPrint() {
     localStorage.setItem('print',JSON.stringify(order))
     window.open('ticket.html');
+    window.focus();
 }
 
 cashPercentage.addEventListener('change',()=>{
