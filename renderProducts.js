@@ -867,11 +867,11 @@ function shortcutButtonRender(){
             `
             console.log(shortcut.val())
         })
-        if(ShortCuts.size <= 3){
-            for(let i = 0; i < 3 - ShortCuts.size; i++){
+        if(ShortCuts.size <= 10){
+            
             shortcutBar.innerHTML += `
                 <button class="shortcut-unset-button" onclick="addShortcut()"> + Atajo </button>
-                `}
+                `
         }
     })
    
@@ -893,13 +893,21 @@ function addShortcut(){
     window.availableShortcuts = {
         0: '',
         1: '',
-        2: ''
+        2: '',
+        3: '',
+        4: '',
+        5: '',
+        6: '',
+        7: '',
+        8: '',
+        9: '',
+        10: '',
     }
 
     get(child(ref(db),`/users/${localStorage.getItem('USER')}/shortcuts/`)).then((ShortCuts) => {
             let newShortcutID = ShortCuts.size; // Use the current size as the new ID
-            if(ShortCuts.size >= 3){
-                alert('Has alcanzado el máximo de atajos (3). Elimina uno existente para agregar uno nuevo.')
+            if(ShortCuts.size >= 10){
+                alert('Has alcanzado el máximo de atajos (10). Elimina uno existente para agregar uno nuevo.')
                 return;
             }
 
@@ -908,7 +916,7 @@ function addShortcut(){
             })
 
             // Find the first available ID
-            for(let i = 0; i < 3; i++){
+            for(let i = 0; i < 11; i++){
                 if(window.availableShortcuts[i] === ''){
                     newShortcutID = i;
                     break;
@@ -956,8 +964,8 @@ function editShortcuts(){
             `
             console.log(shortcut.val())
         })
-        if(ShortCuts.size <= 3){
-            for(let i = 0; i < 3 - ShortCuts.size; i++){
+        if(ShortCuts.size <= 10){
+            for(let i = 0; i < 11 - ShortCuts.size; i++){
             shortcutBar.innerHTML += `
                 <button class="shortcut-unset-button" onclick="addShortcut()"> + Atajo </button>
                 `}

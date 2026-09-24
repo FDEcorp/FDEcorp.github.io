@@ -693,10 +693,11 @@ li {
     font-size: 16px;
     font-weight: 600;
     padding: 12px;
-    width: 220px;
     color: var(--primary-base-darkest);
     transition: .3s;
     flex: 1;
+    min-width: 90px;
+    height: 42.5px;
 }
 
 .shortcut-edit-mode {
@@ -707,7 +708,8 @@ li {
     font-weight: 400;
     font-style: italic;
     padding: 12px;
-    width: 220px;
+    min-width: 90px;
+    height: 42.5px;
     color: #0184dc;
     transition: .3s;
     flex: 1;
@@ -719,7 +721,6 @@ li {
     border: 0px solid var(--primary-base-mid);
     font-size: 16px;
     font-weight: 600;
-    width: 220px;
     width: 40px;
     height: 42.5px;
     padding-left: 10px;
@@ -732,7 +733,8 @@ li {
     font-size: 16px;
     font-weight: 300;
     padding: 12px;
-    width: 220px;
+    min-width: 90px;
+    height: 42.5px;
     color: var(--primary-base-dark);
     transition: .3s;
     flex: 1;
