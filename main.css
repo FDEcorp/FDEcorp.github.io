@@ -700,6 +700,13 @@ li {
     height: 42.5px;
 }
 
+.shortcut-button:hover {
+    background-color: var(--primary-base-mid);
+    color: var(--primary-base-darkest);
+    transform: scale(1);
+    box-shadow: 0px 0px 0px 0px var(--shadow);
+}
+
 .shortcut-edit-mode {
     border-radius: 8px;
     background-color: var(--primary-base-lighter);
